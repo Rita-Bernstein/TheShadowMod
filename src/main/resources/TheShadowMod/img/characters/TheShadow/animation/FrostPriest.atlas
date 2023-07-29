@@ -1,0 +1,153 @@
+
+FrostPriest.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FrostPriest25/Shadow
+  rotate: false
+  xy: 282, 1
+  size: 418, 131
+  orig: 418, 131
+  offset: 0, 0
+  index: -1
+FrostPriest25/CrystalGlow
+  rotate: false
+  xy: 282, 134
+  size: 179, 178
+  orig: 187, 187
+  offset: 4, 4
+  index: -1
+FrostPriest25/ArmL1
+  rotate: false
+  xy: 463, 274
+  size: 81, 171
+  orig: 81, 171
+  offset: 0, 0
+  index: -1
+FrostPriest25/ArmL2
+  rotate: false
+  xy: 328, 894
+  size: 107, 104
+  orig: 107, 104
+  offset: 0, 0
+  index: -1
+FrostPriest25/BodyLow3
+  rotate: false
+  xy: 282, 314
+  size: 163, 50
+  orig: 163, 50
+  offset: 0, 0
+  index: -1
+FrostPriest25/BodyLow1
+  rotate: false
+  xy: 1, 1
+  size: 279, 372
+  orig: 279, 372
+  offset: 0, 0
+  index: -1
+FrostPriest25/StaffGlow
+  rotate: false
+  xy: 1, 766
+  size: 193, 194
+  orig: 205, 205
+  offset: 6, 5
+  index: -1
+FrostPriest25/Body
+  rotate: false
+  xy: 853, 272
+  size: 136, 174
+  orig: 136, 174
+  offset: 0, 0
+  index: -1
+FrostPriest25/ArmL0
+  rotate: false
+  xy: 962, 206
+  size: 36, 42
+  orig: 36, 42
+  offset: 0, 0
+  index: -1
+FrostPriest25/ArmR3
+  rotate: false
+  xy: 328, 366
+  size: 68, 81
+  orig: 68, 81
+  offset: 0, 0
+  index: -1
+FrostPriest25/ArmR2
+  rotate: false
+  xy: 853, 448
+  size: 80, 250
+  orig: 80, 250
+  offset: 0, 0
+  index: -1
+FrostPriest25/ArmR1
+  rotate: false
+  xy: 602, 134
+  size: 96, 183
+  orig: 96, 183
+  offset: 0, 0
+  index: -1
+FrostPriest25/BodyLow2
+  rotate: false
+  xy: 1, 375
+  size: 213, 389
+  orig: 213, 389
+  offset: 0, 0
+  index: -1
+FrostPriest25/Flag
+  rotate: false
+  xy: 853, 1
+  size: 107, 269
+  orig: 107, 269
+  offset: 0, 0
+  index: -1
+FrostPriest25/Waistband
+  rotate: false
+  xy: 702, 1
+  size: 149, 274
+  orig: 149, 283
+  offset: 0, 0
+  index: -1
+FrostPriest25/Staff
+  rotate: false
+  xy: 216, 375
+  size: 110, 635
+  orig: 110, 635
+  offset: 0, 0
+  index: -1
+FrostPriest25/Tassel
+  rotate: false
+  xy: 935, 678
+  size: 68, 214
+  orig: 68, 214
+  offset: 0, 0
+  index: -1
+FrostPriest25/ArmR4
+  rotate: false
+  xy: 962, 139
+  size: 31, 65
+  orig: 32, 65
+  offset: 1, 0
+  index: -1
+FrostPriest25/Topaz
+  rotate: false
+  xy: 962, 1
+  size: 60, 136
+  orig: 60, 136
+  offset: 0, 0
+  index: -1
+FrostPriest25/Pendant
+  rotate: false
+  xy: 935, 448
+  size: 74, 228
+  orig: 74, 228
+  offset: 0, 0
+  index: -1
+FrostPriest25/Head
+  rotate: false
+  xy: 463, 134
+  size: 137, 138
+  orig: 137, 138
+  offset: 0, 0
+  index: -1

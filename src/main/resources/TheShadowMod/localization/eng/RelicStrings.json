@@ -1,0 +1,79 @@
+{
+  "TheShadowMod:MistyMirror": {
+    "NAME": "朦胧之镜",
+    "FLAVOR": "上面的水汽怎么擦也擦不掉。",
+    "DESCRIPTIONS": [
+      "在自己的回合死亡时，免死并回复到最大生命值的一半。"
+    ]
+  },
+  "TheShadowMod:BrokenMirror": {
+    "NAME": "破碎之镜",
+    "FLAVOR": "觉悟的凭证，你再也无法回头。",
+    "DESCRIPTIONS": [
+      "#r替换朦胧之镜。 NL 在每场战斗内前两次或在战斗外死亡时，免死并回复到最大生命值的一半。"
+    ]
+  },
+  "TheShadowMod:BloodyGauze": {
+    "NAME": "染血纱布",
+    "FLAVOR": "伤口处的血反而会加速向外渗出。",
+    "DESCRIPTIONS": [
+      "每场战斗的首回合少抽 #b1 张牌。 NL 每回合开始时，获得 [E] 。"
+    ]
+  },
+  "TheShadowMod:Knell": {
+    "NAME": "丧钟",
+    "FLAVOR": "丧钟为谁而鸣？",
+    "DESCRIPTIONS": [
+      "给予 #y鸣响 时，抽 #b3 张牌。"
+    ]
+  },
+  "TheShadowMod:PyramidHead": {
+    "NAME": "三角铁头",
+    "FLAVOR": "锋利，血腥又沉重。",
+    "DESCRIPTIONS": [
+      "每场战斗开始时，获得 #b1 层 #y沉重 ， #b1 层 #y金属化 和 #b1 层 #y多层护甲 。"
+    ]
+  },
+  "TheShadowMod:Waterphone": {
+    "NAME": "水琴",
+    "FLAVOR": "会发出很恐怖的声响。",
+    "DESCRIPTIONS": [
+      "额外给予 #b3 层 #y鸣响 。"
+    ]
+  },
+  "TheShadowMod:Empties": {
+    "NAME": "空瓶",
+    "FLAVOR": "只是个空瓶……而已吗？",
+    "DESCRIPTIONS": [
+      "拾起时，移除卡组的1张牌并用它的背面覆盖另一张牌的背面。"
+    ]
+  },
+  "TheShadowMod:Othello": {
+    "NAME": "黑白棋",
+    "FLAVOR": "一半是黑的，一半是白的，在棋盘之上会自动变换颜色。",
+    "DESCRIPTIONS": [
+      "每回合开始时，获得 #b1 层 #y颠倒 。"
+    ]
+  },
+  "TheShadowMod:DarkCore": {
+    "NAME": "黑暗核心",
+    "FLAVOR": "被你的仇恨所包裹。",
+    "DESCRIPTIONS": [
+      "每场战斗开始时，获得 #b1 层 #y无实体 。"
+    ]
+  },
+  "TheShadowMod:HeavyWeight": {
+    "NAME": "沉重砝码",
+    "FLAVOR": "生命不能承受之重。",
+    "DESCRIPTIONS": [
+      "每回合开始时，所有人中生命最高的造成 #b10 点伤害。"
+    ]
+  },
+  "TheShadowMod:VocalCords": {
+    "NAME": "声带",
+    "FLAVOR": "还很新鲜。",
+    "DESCRIPTIONS": [
+      "每场战斗首次给予的 #y鸣响 层数翻倍。"
+    ]
+  }
+}

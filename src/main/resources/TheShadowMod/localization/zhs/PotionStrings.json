@@ -1,0 +1,20 @@
+{
+  "TheShadowMod:PealPotion": {
+    "NAME": "鸣响药水",
+    "DESCRIPTIONS": [
+      "给予 #b%d 层 #y鸣响 。"
+    ]
+  },
+  "TheShadowMod:FlipPotion": {
+    "NAME": "颠倒药水",
+    "DESCRIPTIONS": [
+      "获得 #b%d 层 #y颠倒 。"
+    ]
+  },
+  "TheShadowMod:TreePotion": {
+    "NAME": "瓶中树",
+    "DESCRIPTIONS": [
+      "回复所有生命。"
+    ]
+  }
+}

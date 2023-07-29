@@ -1,0 +1,8 @@
+{
+  "TheShadowMod:StypticPotion": {
+    "NAME": "止血剂",
+    "DESCRIPTIONS": [
+      "下 #b%d 次你受到的未被 #y格挡 的伤害减少 #b%d%% 。"
+    ]
+  }
+}

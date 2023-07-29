@@ -1,0 +1,12 @@
+{
+  "TheShadowMod:ViewingFlip":{
+    "TEXT": [
+      "还在浏览翻转"
+    ]
+  },
+  "TheShadowMod:TempIncreaseMaxHPAction":{
+    "TEXT": [
+      "临时最大生命+"
+    ]
+  }
+}

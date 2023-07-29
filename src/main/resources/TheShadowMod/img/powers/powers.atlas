@@ -1,0 +1,54 @@
+
+powers.png
+size: 512,256
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+128/FlipPower
+  rotate: false
+  xy: 2, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+128/HeavyPower
+  rotate: false
+  xy: 132, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+128/PealPower
+  rotate: false
+  xy: 262, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+
+powers2.png
+size: 256,64
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+48/FlipPower
+  rotate: false
+  xy: 2, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+48/HeavyPower
+  rotate: false
+  xy: 52, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+48/PealPower
+  rotate: false
+  xy: 102, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1

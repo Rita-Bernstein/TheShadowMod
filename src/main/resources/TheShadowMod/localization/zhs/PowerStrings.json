@@ -1,0 +1,150 @@
+{
+  "TheShadowMod:FlipPower": {
+    "NAME": "颠倒",
+    "DESCRIPTIONS": [
+      "获得时翻转所有牌并重新计算层数。 NL 每打出 #b1 张牌，减少 #b1 层。 NL 失去本效果时，翻转所有牌。"
+    ]
+  },
+  "TheShadowMod:PealPower": {
+    "NAME": "鸣响",
+    "DESCRIPTIONS": [
+      "每回合其仅可获得 #b1 次 #y鸣响 。 获得效果前，造成其已有 #y鸣响 层数的伤害。"
+    ]
+  },
+  "TheShadowMod:HeavyPower": {
+    "NAME": "沉重",
+    "DESCRIPTIONS": [
+      "所有人失去生命时额外失去 #b%d 点。 NL 仅在表世界生效。"
+    ]
+  },
+  "TheShadowMod:BackStrikePower": {
+    "NAME": "背后打击",
+    "DESCRIPTIONS": [
+      "本回合内，其下次额外受到 #b50% 的攻击伤害。"
+    ]
+  },
+  "TheShadowMod:AnnihilatePower": {
+    "NAME": "湮灭",
+    "DESCRIPTIONS": [
+      "本回合你打出的下张牌会同时生效它的另一面。",
+      "本回合你打出的下 #b%d 张牌会同时生效它的另一面。"
+    ]
+  },
+  "TheShadowMod:EternalPunishmentPower": {
+    "NAME": "永恒惩罚",
+    "DESCRIPTIONS": [
+      "每回合开始时，其受到 #b%d 点伤害 #b%d 次。"
+    ]
+  },
+  "TheShadowMod:EternalPunishmentPower2": {
+    "NAME": "永恒惩罚+",
+    "DESCRIPTIONS": [
+      "每回合开始时，其受到 #b%d 点伤害 #b%d 次。"
+    ]
+  },
+  "TheShadowMod:UltrasonicPower": {
+    "NAME": "超声波",
+    "DESCRIPTIONS": [
+      "给予 #y鸣响 时，额外给予 #b%d 层。"
+    ]
+  },
+  "TheShadowMod:NextTurnPealPower": {
+    "NAME": "下回合鸣响",
+    "DESCRIPTIONS": [
+      "下回合开始时，其获得 #b%d 层 #y鸣响 。"
+    ]
+  },
+  "TheShadowMod:TwinsPower": {
+    "NAME": "残像",
+    "DESCRIPTIONS": [
+      "每回合结束时，给予所有敌人 #b%d 层 #y鸣响 。"
+    ]
+  },
+  "TheShadowMod:BloodyPathPower": {
+    "NAME": "血路",
+    "DESCRIPTIONS": [
+      "本回合结束前，每打出一张攻击牌，失去 #b%d 点生命。"
+    ]
+  },
+  "TheShadowMod:FloodTidePower": {
+    "NAME": "涨潮",
+    "DESCRIPTIONS": [
+      "下回合开始时抽满手牌。",
+      "下 #b%d 个回合开始时抽满手牌。"
+    ]
+  },
+  "TheShadowMod:SeparationPower": {
+    "NAME": "分身",
+    "DESCRIPTIONS": [
+      "本回合你获得的 格挡 翻倍。",
+      "下 #b%d 个回合你获得的 格挡 翻倍"
+    ]
+  },
+  "TheShadowMod:EchoPower": {
+    "NAME": "回声",
+    "DESCRIPTIONS": [
+      "每回合可额外对每一目标给予 #b%d 次 the_shadow_mod:鸣响 。"
+    ]
+  },
+  "TheShadowMod:LoseMaxHpPower": {
+    "NAME": "失去最大生命",
+    "DESCRIPTIONS": [
+      "在战斗结束时，失去 #b%d 最大生命。"
+    ]
+  },
+  "TheShadowMod:JumpOutPower": {
+    "NAME": "跳出",
+    "DESCRIPTIONS": [
+      "每次失去生命时，获得 #b%d 层 #y颠倒 。"
+    ]
+  },
+  "TheShadowMod:DejaVuPower": {
+    "NAME": "既视感",
+    "DESCRIPTIONS": [
+      "每回合开始时，获得 #b%d 层 #y沉重 和 #y颠倒 。"
+    ]
+  },
+  "TheShadowMod:RebornPower": {
+    "NAME": "重生",
+    "DESCRIPTIONS": [
+      "免死时，获得 #b%d [E] 。"
+    ]
+  },
+  "TheShadowMod:TimingPower": {
+    "NAME": "时机",
+    "DESCRIPTIONS": [
+      "每回合开始时获得 #b%d [E] 。 NL 免死时失去这个效果。"
+    ]
+  },
+  "TheShadowMod:RootSystemPower": {
+    "NAME": "根系",
+    "DESCRIPTIONS": [
+      "在 #y沉重 生效时，从卡牌中获得的 #y格挡 也提高 %b%d 倍的 #y沉重 。"
+    ]
+  },
+  "TheShadowMod:RealityFormPower": {
+    "NAME": "真实形态",
+    "DESCRIPTIONS": [
+      "每回合你打出的前 #b%d 张牌会额外触发另一面。"
+    ]
+  },
+  "TheShadowMod:MourningPower": {
+    "NAME": "哀恸",
+    "DESCRIPTIONS": [
+      "里世界时的 #y沉重 亦生效。"
+    ]
+  },
+  "TheShadowMod:PeelPower": {
+    "NAME": "剥离",
+    "DESCRIPTIONS": [
+      "每次获得 #y颠倒 时，对所有敌人造成等同其层数的伤害。",
+      "每次获得 #y颠倒 时，对所有敌人造成等同其层数 #b%d 倍的伤害。"
+    ]
+  },
+  "TheShadowMod:GatheringDarknessPower": {
+    "NAME": "夜幕",
+    "DESCRIPTIONS": [
+      "成功给予 #y鸣响 后，获得给予层数 #b%d%% 的 #y格挡 。"
+    ]
+  }
+}
