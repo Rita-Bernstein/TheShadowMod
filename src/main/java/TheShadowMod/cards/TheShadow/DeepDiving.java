@@ -2,6 +2,7 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.TheShadow.ApplyPealPowerAction;
+import TheShadowMod.actions.TheShadow.GainFlipPowerAction;
 import TheShadowMod.powers.TheShadow.PealPower;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
@@ -26,7 +27,7 @@ public class DeepDiving extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DrawCardAction(this.magicNumber));
-        addToBot(new ApplyPealPowerAction(p,this.secondaryM));
+        addToBot(new GainFlipPowerAction(this.secondaryM));
 
     }
 

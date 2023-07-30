@@ -17,7 +17,7 @@ public class LingeringDeath extends AbstractTSCard {
     public LingeringDeath() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 2;
-
+        this.tags.add(AbstractCard.CardTags.HEALING);
     }
 
 
