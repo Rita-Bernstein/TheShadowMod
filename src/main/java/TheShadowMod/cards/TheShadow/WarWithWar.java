@@ -20,8 +20,8 @@ public class WarWithWar extends AbstractTSCard {
 
     public WarWithWar() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseDamage = 9;
-        this.magicNumber = this.baseMagicNumber = 9;
+        this.baseDamage = 8;
+        this.magicNumber = this.baseMagicNumber = 8;
         this.tags.add(CardTags.HEALING);
     }
 
