@@ -3,6 +3,7 @@ package TheShadowMod.cards.TheShadow;
 import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -28,6 +29,7 @@ public class TestWater extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        addToBot(new DrawCardAction(this.magicNumber));
     }
 
     public void upgrade() {

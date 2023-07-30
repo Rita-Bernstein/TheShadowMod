@@ -1,8 +1,11 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.actions.Common.GainMaxHPAction;
+import TheShadowMod.actions.TheShadow.TempIncreaseMaxHPAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.LoseHPAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -23,7 +26,9 @@ public class WarWithWar extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new LoseHPAction(p,p,this.magicNumber));
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        addToBot(new TempIncreaseMaxHPAction(p,this.magicNumber));
     }
 
     public void upgrade() {

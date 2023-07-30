@@ -9,7 +9,7 @@
   },
   "TheShadowMod:CrossExamine": {
     "NAME": "诘问",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
+    "DESCRIPTION": "对你和所有敌人造成 !D! 点伤害。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
   },
   "TheShadowMod:Merge": {
     "NAME": "融入",
@@ -119,7 +119,7 @@
   },
   "TheShadowMod:Phoenix": {
     "NAME": "不死鸟",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中每免死过一次，伤害翻倍。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中每免死，伤害翻倍。"
   },
   "TheShadowMod:DarkStrike": {
     "NAME": "黑暗打击",

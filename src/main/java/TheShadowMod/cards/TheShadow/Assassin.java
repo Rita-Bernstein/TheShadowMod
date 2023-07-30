@@ -2,9 +2,12 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.LoseHPAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 public class Assassin extends AbstractTSCard {
@@ -23,7 +26,38 @@ public class Assassin extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new LoseHPAction(p, p, p.currentHealth / 2));
+
+        this.baseDamage = p.currentHealth / 2;
+
+        calculateCardDamage(m);
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+
+        this.rawDescription = DESCRIPTION;
+        initializeDescription();
+    }
+
+    @Override
+    public void applyPowers() {
+        this.baseDamage = AbstractDungeon.player.currentHealth / 2;
+        super.applyPowers();
+        this.rawDescription = DESCRIPTION;
+        this.rawDescription += EXTENDED_DESCRIPTION[0];
+        initializeDescription();
+    }
+
+    @Override
+    public void onMoveToDiscard() {
+        this.rawDescription = DESCRIPTION;
+        initializeDescription();
+    }
+
+    @Override
+    public void calculateCardDamage(AbstractMonster mo) {
+        super.calculateCardDamage(mo);
+        this.rawDescription = DESCRIPTION;
+        this.rawDescription += EXTENDED_DESCRIPTION[0];
+        initializeDescription();
     }
 
     public void upgrade() {

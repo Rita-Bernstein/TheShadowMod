@@ -58,6 +58,7 @@ public class AbstractPowerPatches {
                     ((AbstractShadowModPower) p).onNotDeath();
                 }
             }
+            GameStatsPatch.notDeathCombatCounter++;
             return SpireReturn.Continue();
         }
     }
@@ -74,6 +75,7 @@ public class AbstractPowerPatches {
                     ((AbstractShadowModPower) p).onNotDeath();
                 }
             }
+            GameStatsPatch.notDeathCombatCounter++;
             return SpireReturn.Continue();
         }
     }
@@ -92,6 +94,7 @@ public class AbstractPowerPatches {
                     ((AbstractShadowModPower) p).onNotDeath();
                 }
             }
+            GameStatsPatch.notDeathCombatCounter++;
             return SpireReturn.Continue();
         }
     }
@@ -109,6 +112,7 @@ public class AbstractPowerPatches {
                     ((AbstractShadowModPower) p).onNotDeath();
                 }
             }
+            GameStatsPatch.notDeathCombatCounter++;
             return SpireReturn.Continue();
         }
     }

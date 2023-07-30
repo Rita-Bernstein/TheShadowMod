@@ -29,7 +29,7 @@ public class Confusion extends AbstractTSCard {
     @Override
     public void tookDamage() {
         super.tookDamage();
-        addToTop(new FlipCardAction(this, AbstractDungeon.player.hand));
+        addToTop(new FlipCardAction(this));
     }
 
     public void upgrade() {

@@ -3,6 +3,9 @@ package TheShadowMod.powers.TheShadow;
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.TheShadow.FlipCombatCardsAction;
 import TheShadowMod.powers.AbstractShadowModPower;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.actions.utility.UseCardAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.PowerStrings;
@@ -34,6 +37,13 @@ public class FlipPower  extends AbstractShadowModPower {
     public void onRemove() {
         super.onRemove();
         addToTop(new FlipCombatCardsAction());
+    }
+
+    @Override
+    public void onUseCard(AbstractCard card, UseCardAction action) {
+        this.amount--;
+        if(this.amount<=0)
+            addToTop(new RemoveSpecificPowerAction(this.owner,this.owner,POWER_ID));
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 public class GameStatsPatch {
     public static boolean blackWorld = false;
+    public static int notDeathCombatCounter = 0;
 
     //    ========================================重置
     public static void turnBaseReset() {
@@ -34,6 +35,7 @@ public class GameStatsPatch {
 
     public static void combatBaseReset() {
         blackWorld = false;
+        notDeathCombatCounter = 0;
     }
 
 

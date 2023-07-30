@@ -29,6 +29,8 @@ public class CrossExamine extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new DamageAction(p, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+
         addToBot(new SFXAction("ATTACK_HEAVY"));
         addToBot(new VFXAction(p, new CleaveEffect(), 0.0F));
         addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageType, AbstractGameAction.AttackEffect.NONE, true));

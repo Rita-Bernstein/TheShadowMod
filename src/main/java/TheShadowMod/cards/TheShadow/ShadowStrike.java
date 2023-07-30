@@ -30,10 +30,8 @@ public class ShadowStrike extends AbstractTSCard {
     }
 
     @Override
-    public void onFlipInHand() {
+    public void onThisFlipInHand() {
         addToBot(new ModifyDamageAction(this.uuid, this.magicNumber));
-
-        super.onFlipInHand();
     }
 
     public void upgrade() {

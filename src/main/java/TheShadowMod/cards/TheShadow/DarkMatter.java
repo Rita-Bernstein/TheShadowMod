@@ -2,6 +2,7 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
@@ -18,8 +19,9 @@ public class DarkMatter extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 1;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p, p, this.block));
+    @Override
+    public void useCommon(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new GainEnergyAction(this.magicNumber));
     }
 
 

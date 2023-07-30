@@ -40,6 +40,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
 
     public void onFlip() {
+        onViewingFlip();
         if (this.isFlip) {
             this.thisCopy = this.makeStatEquivalentCopy();
             ((AbstractTSCard) this.thisCopy).backCard = null;
@@ -52,6 +53,11 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
                 this.selfRetain = this.backCard.selfRetain;
                 this.isEthereal = this.backCard.isEthereal;
+
+                this.costForTurn = this.backCard.costForTurn;
+                this.cost = this.backCard.cost;
+
+                this.freeToPlayOnce = this.backCard.freeToPlayOnce;
             }
 
         } else {
@@ -63,14 +69,26 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
                 this.selfRetain = this.thisCopy.selfRetain;
                 this.isEthereal = this.thisCopy.isEthereal;
+
+                this.costForTurn = this.thisCopy.costForTurn;
+                this.cost = this.thisCopy.cost;
+
+                this.freeToPlayOnce = this.thisCopy.freeToPlayOnce;
             }
         }
     }
 
     public void onFlipInHand() {
-        if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
-            ((AbstractTSCard) this.backCard).onFlipInHand();
+//        翻转后
+        if(this.isFlip){
+            onThisFlipInHand();
+        }else {
+            if(this.backCard != null && this.backCard instanceof AbstractTSCard)
+                ((AbstractTSCard) this.backCard).onThisFlipInHand();
         }
+    }
+
+    public void onThisFlipInHand() {
     }
 
     public void onViewingFlip() {
@@ -81,9 +99,22 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
+        useCommon(p, m);
+
+        if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
+            ((AbstractTSCard) this.backCard).useCommon(p, m);
+        }
+
         if (canDoubleTrigger()) {
             useThisCard(p, m);
             useBackCard(p, m);
+
+            useCommon(p, m);
+
+            if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
+                ((AbstractTSCard) this.backCard).useCommon(p, m);
+            }
+
             return;
         }
 
@@ -99,9 +130,9 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             return true;
         }
 
-        if(AbstractDungeon.player.hasPower(RealityFormPower.POWER_ID) && !purgeOnUse ) {
-            RealityFormPower p = (RealityFormPower)AbstractDungeon.player.getPower(RealityFormPower.POWER_ID);
-            if (AbstractDungeon.actionManager.cardsPlayedThisTurn.size() - p.amount2 <= p.amount){
+        if (AbstractDungeon.player.hasPower(RealityFormPower.POWER_ID) && !purgeOnUse) {
+            RealityFormPower p = (RealityFormPower) AbstractDungeon.player.getPower(RealityFormPower.POWER_ID);
+            if (AbstractDungeon.actionManager.cardsPlayedThisTurn.size() - p.amount2 <= p.amount) {
                 return true;
             }
         }
@@ -166,9 +197,12 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
     }
 
+    public void useCommon(AbstractPlayer p, AbstractMonster m) {
+    }
+
     @Override
     public boolean canUse(AbstractPlayer p, AbstractMonster m) {
-        if (ifChangeToBackSide()) {
+        if (this.isViewingFlip) {
             this.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:ViewingFlip").TEXT[0];
             return false;
         }
@@ -178,7 +212,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     @Override
     public boolean canPlay(AbstractCard card) {
-        if (ifChangeToBackSide()) {
+        if (this.isViewingFlip) {
             this.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:ViewingFlip").TEXT[0];
             return false;
         }
@@ -476,4 +510,11 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
     }
 
+
+    @Override
+    public void tookDamage() {
+        if (this.isFlip && this.backCard != null) {
+            this.backCard.tookDamage();
+        }
+    }
 }

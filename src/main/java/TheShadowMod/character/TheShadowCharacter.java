@@ -58,7 +58,7 @@ public class TheShadowCharacter extends CustomPlayer {
         initializeClass("TheShadowMod/img/characters/TheShadow/idle.png",
                 "TheShadowMod/img/characters/TheShadow/shoulder.png",
                 "TheShadowMod/img/characters/TheShadow/shoulder2.png",
-              "TheShadowMod/img/characters/TheShadow/corpse.png",
+                "TheShadowMod/img/characters/TheShadow/corpse.png",
                 getLoadout(), 0.0F, -5.0F, 240.0F, 280.0F, new EnergyManager(ENERGY_PER_TURN));
 
 
@@ -131,7 +131,7 @@ public class TheShadowCharacter extends CustomPlayer {
 
     @Override
     public int getAscensionMaxHPLoss() {
-        return 4;
+        return 2;
     }
 
     @Override

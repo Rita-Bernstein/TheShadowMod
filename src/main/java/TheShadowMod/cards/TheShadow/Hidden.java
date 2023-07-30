@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -20,9 +21,13 @@ public class Hidden extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p, p, this.block));
     }
 
+
+    @Override
+    public void onThisFlipInHand() {
+        addToBot(new DrawCardAction(this.magicNumber));
+    }
 
     public void upgrade() {
         if (!this.upgraded) {

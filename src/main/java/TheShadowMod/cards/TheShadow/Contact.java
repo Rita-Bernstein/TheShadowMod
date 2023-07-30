@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -19,8 +20,8 @@ public class Contact extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p, p, this.block));
+    public void useCommon(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new DrawCardAction(this.magicNumber));
     }
 
 
