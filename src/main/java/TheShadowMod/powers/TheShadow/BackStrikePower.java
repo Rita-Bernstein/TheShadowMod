@@ -21,6 +21,7 @@ public class BackStrikePower extends AbstractShadowModPower {
         this.name = NAME;
         this.ID = POWER_ID;
         this.owner = owner;
+        this.type = AbstractPower.PowerType.DEBUFF;
         updateDescription();
 
         loadShadowRegion("PealPower");

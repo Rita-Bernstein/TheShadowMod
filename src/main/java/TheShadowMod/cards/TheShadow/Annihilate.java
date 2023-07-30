@@ -20,7 +20,7 @@ public class Annihilate extends AbstractTSCard {
 
     public Annihilate() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseDamage = 12;
+        this.baseDamage = 10;
         this.magicNumber = this.baseMagicNumber = 1;
     }
 
@@ -32,7 +32,7 @@ public class Annihilate extends AbstractTSCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeDamage(6);
+            upgradeDamage(3);
         }
     }
 }

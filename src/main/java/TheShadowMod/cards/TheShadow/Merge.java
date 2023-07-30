@@ -32,7 +32,7 @@ public class Merge extends AbstractTSCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(1);
+            upgradeSecondM(1);
         }
     }
 }
