@@ -119,7 +119,7 @@
   "TheShadowMod:RootSystemPower": {
     "NAME": "根系",
     "DESCRIPTIONS": [
-      "在 #y沉重 生效时，从卡牌中获得的 #y格挡 也提高 %b%d 倍的 #y沉重 。"
+      "在 #y沉重 生效时，从卡牌中获得的 #y格挡 也提高 #b%d 倍的 #y沉重 。"
     ]
   },
   "TheShadowMod:RealityFormPower": {

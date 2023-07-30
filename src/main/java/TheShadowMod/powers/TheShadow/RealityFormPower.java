@@ -22,7 +22,6 @@ public class RealityFormPower extends AbstractShadowModPower {
         this.name = NAME;
         this.ID = POWER_ID;
         this.amount = amount;
-        this.amount2 = 0;
         this.owner = owner;
         updateDescription();
 
@@ -31,8 +30,7 @@ public class RealityFormPower extends AbstractShadowModPower {
 
     @Override
     public void onUseCard(AbstractCard card, UseCardAction action) {
-        if (!card.purgeOnUse && this.amount > 0 && AbstractDungeon.actionManager.cardsPlayedThisTurn.size() - this.amount2 <= this.amount){
-            this.amount2++;
+        if (!card.purgeOnUse && AbstractDungeon.actionManager.cardsPlayedThisTurn.size()  <= this.amount){
             flash();
         }
     }

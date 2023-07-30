@@ -15,6 +15,11 @@ public class FlipCombatCardsAction extends AbstractGameAction {
     public void update() {
         GameStatsPatch.blackWorld = !GameStatsPatch.blackWorld;
 
+        if (AbstractDungeon.player.cardInUse instanceof AbstractTSCard) {
+            ((AbstractTSCard) AbstractDungeon.player.cardInUse).isFlip =! ((AbstractTSCard) AbstractDungeon.player.cardInUse).isFlip;
+            ((AbstractTSCard) AbstractDungeon.player.cardInUse).onFlip();
+        }
+
         for (AbstractCard c : AbstractDungeon.player.hand.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;

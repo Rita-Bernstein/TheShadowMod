@@ -25,6 +25,7 @@ public class Fluctuate extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new GainBlockAction(p,p,this.block));
         addToBot(new SelectHandCardAction(EXTENDED_DESCRIPTION[0], 1, card -> card instanceof  AbstractTSCard,cards -> {
             for (AbstractCard c : cards) {
                 if(c instanceof  AbstractTSCard) {

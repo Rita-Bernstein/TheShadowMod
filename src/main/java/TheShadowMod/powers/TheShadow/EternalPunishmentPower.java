@@ -30,13 +30,13 @@ public class EternalPunishmentPower extends AbstractShadowModPower {
         loadShadowRegion("PealPower");
     }
 
-
     @Override
-    public void atStartOfTurnPostDraw() {
+    public void atStartOfTurn() {
         flash();
         for (int i = 0; i < this.amount; i++)
             addToBot(new DamageAction(this.owner, new DamageInfo(AbstractDungeon.player, this.amount2, DamageInfo.DamageType.THORNS), true));
     }
+
 
     @Override
     public void updateDescription() {

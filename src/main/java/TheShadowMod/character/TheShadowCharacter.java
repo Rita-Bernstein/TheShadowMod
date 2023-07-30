@@ -59,7 +59,7 @@ public class TheShadowCharacter extends CustomPlayer {
                 "TheShadowMod/img/characters/TheShadow/shoulder.png",
                 "TheShadowMod/img/characters/TheShadow/shoulder2.png",
                 "TheShadowMod/img/characters/TheShadow/corpse.png",
-                getLoadout(), 0.0F, -5.0F, 240.0F, 280.0F, new EnergyManager(ENERGY_PER_TURN));
+                getLoadout(), 0.0F, -5.0F, 240.0F, 380.0F, new EnergyManager(ENERGY_PER_TURN));
 
 
     }

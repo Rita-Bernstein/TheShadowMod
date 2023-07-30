@@ -5,6 +5,7 @@ import TheShadowMod.cards.TheShadow.AbstractTSCard;
 import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.AbstractShadowModPower;
 import basemod.ReflectionHacks;
+import com.evacipated.cardcrawl.modthespire.lib.ByRef;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -39,11 +40,12 @@ public class HeavyPower extends AbstractShadowModPower {
             method = "damage"
     )
     public static class DamagePatchPlayer {
-        @SpireInsertPatch(rloc = 0)
-        public static void Insert(AbstractPlayer _instance, DamageInfo info) {
+        @SpireInsertPatch(rloc = 60, localvars = {"damageAmount"})
+        public static void Insert(AbstractPlayer _instance, DamageInfo info, @ByRef int[] damageAmount) {
             if (canHeavyTrigger() && AbstractDungeon.player.hasPower(HeavyPower.POWER_ID)) {
-
-                info.output += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount;
+                AbstractDungeon.player.getPower(HeavyPower.POWER_ID).flash();
+                if (damageAmount[0] > 0)
+                    damageAmount[0] += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount;
             }
 
         }
@@ -54,11 +56,12 @@ public class HeavyPower extends AbstractShadowModPower {
             method = "damage"
     )
     public static class DamagePatchMonster {
-        @SpireInsertPatch(rloc = 0)
-        public static void Insert(AbstractMonster _instance, DamageInfo info) {
+        @SpireInsertPatch(rloc = 58, localvars = {"damageAmount"})
+        public static void Insert(AbstractMonster _instance, DamageInfo info, @ByRef int[] damageAmount) {
             if (canHeavyTrigger() && AbstractDungeon.player.hasPower(HeavyPower.POWER_ID)) {
-
-                info.output += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount;
+                AbstractDungeon.player.getPower(HeavyPower.POWER_ID).flash();
+                if (damageAmount[0] > 0)
+                    info.output += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount;
             }
 
         }

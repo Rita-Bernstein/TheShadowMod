@@ -30,7 +30,7 @@ public class EternalPunishmentPower2 extends AbstractShadowModPower {
 
 
     @Override
-    public void atStartOfTurnPostDraw() {
+    public void atStartOfTurn() {
         flash();
         for (int i = 0; i < this.amount; i++)
             addToBot(new DamageAction(this.owner, new DamageInfo(AbstractDungeon.player, this.amount2, DamageInfo.DamageType.THORNS), true));

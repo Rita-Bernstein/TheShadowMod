@@ -242,8 +242,7 @@ public class TheShadowMod implements
             UnlockTracker.unlockCard(card.cardID);
 
             if (card instanceof AbstractTSCard) {
-
-
+                if(card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL)
                 shadowCardPool.add(card);
             }
 

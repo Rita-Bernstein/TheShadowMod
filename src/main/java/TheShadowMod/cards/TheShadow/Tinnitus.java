@@ -28,12 +28,13 @@ public class Tinnitus extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPowerToAllEnemyAction((monster)->{
-            addToTop(new ApplyPowerAction(monster,p,new LoseStrengthPower(monster,this.secondaryM)));
-            addToTop(new ApplyPowerAction(monster,p,new StrengthPower(monster,this.secondaryM)));
-addToTop(new ApplyPealPowerAction(m,this.magicNumber));
+        addToBot(new ApplyPowerToAllEnemyAction((monster) -> {
+            addToTop(new ApplyPealPowerAction(monster, this.magicNumber));
+        }));
 
-
+        addToBot(new ApplyPowerToAllEnemyAction((monster) -> {
+            addToTop(new ApplyPowerAction(monster, p, new LoseStrengthPower(monster, this.secondaryM)));
+            addToTop(new ApplyPowerAction(monster, p, new StrengthPower(monster, this.secondaryM)));
         }));
 
     }

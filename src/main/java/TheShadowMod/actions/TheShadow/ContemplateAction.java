@@ -48,11 +48,16 @@ public class ContemplateAction extends AbstractGameAction {
             if (firstUse) {
                 this.firstUse = false;
 
-                AbstractDungeon.handCardSelectScreen.open(TEXT[0], 1, false, true);
+                AbstractDungeon.handCardSelectScreen.open(TEXT[0], 1, true, true);
                 return;
             }
 
             if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved) {
+                if(AbstractDungeon.handCardSelectScreen.selectedCards.group.isEmpty()){
+                    AbstractDungeon.handCardSelectScreen.wereCardsRetrieved = true;
+                    isDone = true;
+                    return;
+                }
                 saveSourceCard = AbstractDungeon.handCardSelectScreen.selectedCards.group.get(0);
                 AbstractDungeon.player.hand.addToTop(saveSourceCard);
                 this.currentScreen = CurrentScreen.Target;
@@ -94,7 +99,7 @@ public class ContemplateAction extends AbstractGameAction {
                     return;
                 }
 
-                AbstractDungeon.gridSelectScreen.open(AbstractDungeon.player.drawPile, 1, TEXT[0], false,
+                AbstractDungeon.gridSelectScreen.open(AbstractDungeon.player.drawPile, 1, TEXT[1], false,
                         false, false, false);
                 return;
             }

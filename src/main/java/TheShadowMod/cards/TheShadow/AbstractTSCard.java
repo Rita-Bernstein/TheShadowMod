@@ -51,6 +51,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
                 this.selfRetain = this.backCard.selfRetain;
                 this.isEthereal = this.backCard.isEthereal;
+                this.exhaust = this.backCard.exhaust;
 
                 this.costForTurn = this.backCard.costForTurn;
                 this.cost = this.backCard.cost;
@@ -69,6 +70,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
                 this.selfRetain = this.thisCopy.selfRetain;
                 this.isEthereal = this.thisCopy.isEthereal;
+                this.exhaust = this.thisCopy.exhaust;
 
                 this.costForTurn = this.thisCopy.costForTurn;
                 this.cost = this.thisCopy.cost;
@@ -110,7 +112,9 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         if (canDoubleTrigger()) {
             doubleOnUseOnce = false;
             useThisCard(p, m);
-            useBackCard(p, m);
+
+
+            useBackCard(p, (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng));
 
             useCommon(p, m);
 
@@ -118,10 +122,10 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                 ((AbstractTSCard) this.backCard).useCommon(p, m);
             }
 
-            if(flipOnUseOnce){
-                this.isFlip = ! this.isFlip;
+            if (flipOnUseOnce) {
+                this.isFlip = !this.isFlip;
                 this.onFlip();
-                flipOnUseOnce =false;
+                flipOnUseOnce = false;
             }
 
             return;
@@ -134,15 +138,15 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
 
 
-        if(flipOnUseOnce){
-            this.isFlip = ! this.isFlip;
+        if (flipOnUseOnce) {
+            this.isFlip = !this.isFlip;
             this.onFlip();
-            flipOnUseOnce =false;
+            flipOnUseOnce = false;
         }
     }
 
     public boolean canDoubleTrigger() {
-        if(doubleOnUseOnce)
+        if (doubleOnUseOnce)
             return true;
 
         if (AbstractDungeon.player.hasPower(AnnihilatePower.POWER_ID)) {
@@ -151,7 +155,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
         if (AbstractDungeon.player.hasPower(RealityFormPower.POWER_ID) && !purgeOnUse) {
             RealityFormPower p = (RealityFormPower) AbstractDungeon.player.getPower(RealityFormPower.POWER_ID);
-            if (AbstractDungeon.actionManager.cardsPlayedThisTurn.size() - p.amount2 <= p.amount) {
+            if (AbstractDungeon.actionManager.cardsPlayedThisTurn.size() <= p.amount) {
                 return true;
             }
         }
@@ -431,11 +435,11 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         super.renderCardTip(sb);
 
 
-            if (!Settings.hideCards && (boolean) ReflectionHacks.getPrivate(this, AbstractCard.class, "renderTip"))
-                if (this.backCard != null && this.backCard != this) {
+        if (!Settings.hideCards && (boolean) ReflectionHacks.getPrivate(this, AbstractCard.class, "renderTip"))
+            if (this.backCard != null && this.backCard != this) {
 
-                    renderCardPreviewBack(sb);
-                }
+                renderCardPreviewBack(sb);
+            }
     }
 
     public void renderCardPreviewBack(SpriteBatch sb) {
