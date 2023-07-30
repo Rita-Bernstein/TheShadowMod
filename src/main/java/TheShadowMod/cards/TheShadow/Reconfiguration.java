@@ -20,8 +20,7 @@ public class Reconfiguration extends AbstractTSCard {
 
     public Reconfiguration() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 1;
-        this.secondaryM = this.baseSecondaryM = 99;
+        this.magicNumber = this.baseMagicNumber = 99;
         this.exhaust = true;
         this.selfRetain = true;
     }
@@ -29,15 +28,13 @@ public class Reconfiguration extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(p, new DamageInfo(p, this.magicNumber, this.damageTypeForTurn), AbstractGameAction.AttackEffect.FIRE));
-        if(this.upgraded){
-            addToBot(new ApplyPowerAction(p,p,new HeavyPower(p,this.magicNumber)));
-        }
     }
 
 
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
+            this.selfRetain = true;
             this.rawDescription = UPGRADE_DESCRIPTION;
             initializeDescription();
         }

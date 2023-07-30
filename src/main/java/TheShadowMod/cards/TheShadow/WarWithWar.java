@@ -22,7 +22,7 @@ public class WarWithWar extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseDamage = 9;
         this.magicNumber = this.baseMagicNumber = 9;
-
+        this.tags.add(AbstractCard.CardTags.HEALING);
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {

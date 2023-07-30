@@ -17,6 +17,7 @@ public class TrueSight extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 8;
         this.exhaust = true;
+        this.tags.add(AbstractCard.CardTags.HEALING);
     }
 
 

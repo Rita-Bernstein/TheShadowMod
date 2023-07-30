@@ -23,7 +23,7 @@ public class PerfectImitation extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
         this.exhaust = true;
-
+        this.tags.add(AbstractCard.CardTags.HEALING);
     }
 
 
