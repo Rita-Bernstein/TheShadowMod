@@ -39,7 +39,7 @@ addToTop(new ApplyPealPowerAction(m,this.magicNumber));
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(3);

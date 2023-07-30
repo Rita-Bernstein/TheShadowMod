@@ -31,7 +31,7 @@ public class Airflow extends AbstractTSCard {
         addToTop(new GainBlockAction(AbstractDungeon.player,AbstractDungeon.player,this.magicNumber));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(5);

@@ -28,7 +28,7 @@ public class Eclipse extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.isEthereal = false;

@@ -34,7 +34,7 @@ public class ShadowStrike extends AbstractTSCard {
         addToBot(new ModifyDamageAction(this.uuid, this.magicNumber));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(4);

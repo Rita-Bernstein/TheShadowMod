@@ -27,7 +27,7 @@ public class NextTurnPealPower extends AbstractShadowModPower {
     }
 
     @Override
-    public void atStartOfTurnPostDraw() {
+    public void atEndOfTurn(boolean isPlayer) {
         flash();
         addToBot(new ApplyPealPowerAction(this.owner,this.amount));
         addToBot(new RemoveSpecificPowerAction(this.owner,this.owner,POWER_ID));

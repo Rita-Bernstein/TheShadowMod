@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.actions.TheShadow.ApplyPealPowerAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -22,10 +23,11 @@ public class UnmarkedCommonGraves extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        addToBot(new ApplyPealPowerAction(m,this.magicNumber));
+//        todo
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(5);

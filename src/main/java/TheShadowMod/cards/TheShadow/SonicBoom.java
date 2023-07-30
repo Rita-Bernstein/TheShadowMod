@@ -51,7 +51,7 @@ public class SonicBoom extends AbstractTSCard {
             this.magicNumber += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount * (this.upgraded ? 3 : 2);
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeSecondM(-10);

@@ -4,6 +4,7 @@ import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 public class Hidden extends AbstractTSCard {
@@ -23,13 +24,18 @@ public class Hidden extends AbstractTSCard {
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
     }
 
+    @Override
+    public boolean canUse(AbstractPlayer p, AbstractMonster m) {
+        this.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:CannotPlay").TEXT[0];
+        return false;
+    }
 
     @Override
     public void onThisFlipInHand() {
         addToBot(new DrawCardAction(this.magicNumber));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

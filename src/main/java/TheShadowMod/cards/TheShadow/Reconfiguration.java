@@ -23,6 +23,7 @@ public class Reconfiguration extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 1;
         this.secondaryM = this.baseSecondaryM = 99;
         this.exhaust = true;
+        this.selfRetain = true;
     }
 
 
@@ -34,7 +35,7 @@ public class Reconfiguration extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.rawDescription = UPGRADE_DESCRIPTION;

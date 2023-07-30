@@ -32,7 +32,7 @@ public class TestWater extends AbstractTSCard {
         addToBot(new DrawCardAction(this.magicNumber));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);

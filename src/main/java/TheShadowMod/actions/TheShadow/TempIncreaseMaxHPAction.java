@@ -28,10 +28,7 @@ public class TempIncreaseMaxHPAction extends AbstractGameAction {
         if (this.duration == Settings.ACTION_DUR_FAST) {
             if (!Settings.isEndless || !AbstractDungeon.player.hasBlight("FullBelly")) {
 
-                p.maxHealth += amount;
-                AbstractDungeon.effectsQueue.add(new TextAboveCreatureEffect(p.hb.cX - p.animX, p.hb.cY, TEXT[0] + amount, Settings.GREEN_TEXT_COLOR));
-                p.healthBarUpdatedEvent();
-                AbstractPlayer p = AbstractDungeon.player;
+                p.increaseMaxHp(this.amount,true);
                 addToBot(new ApplyPowerAction(p,p,new LoseMaxHpPower(p,this.amount),this.amount));
             }
         }

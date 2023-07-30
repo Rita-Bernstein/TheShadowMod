@@ -27,7 +27,7 @@ public class FloodTide extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.exhaust = false;

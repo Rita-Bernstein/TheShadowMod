@@ -38,7 +38,7 @@ public class ScaldingColloid extends AbstractTSCard {
         addToTop(new VFXAction(new ShowCardInCenterEffect(this)));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(5);

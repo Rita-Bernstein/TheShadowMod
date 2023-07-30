@@ -60,7 +60,7 @@ public class Assassin extends AbstractTSCard {
         initializeDescription();
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.exhaust = false;

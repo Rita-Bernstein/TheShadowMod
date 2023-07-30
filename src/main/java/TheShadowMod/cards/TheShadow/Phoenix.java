@@ -33,7 +33,7 @@ public class Phoenix extends AbstractTSCard {
         this.damage *= (int) Math.pow(2, GameStatsPatch.notDeathCombatCounter);
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(4);

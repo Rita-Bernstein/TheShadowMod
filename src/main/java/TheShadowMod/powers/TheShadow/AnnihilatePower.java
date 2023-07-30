@@ -3,6 +3,7 @@ package TheShadowMod.powers.TheShadow;
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.powers.AbstractShadowModPower;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -19,11 +20,11 @@ public class AnnihilatePower extends AbstractShadowModPower {
     public static final String[] DESCRIPTIONS = powerStrings.DESCRIPTIONS;
 
 
-    public AnnihilatePower(AbstractCreature owner) {
+    public AnnihilatePower(AbstractCreature owner,int amount) {
         this.name = NAME;
         this.ID = POWER_ID;
         this.owner = owner;
-
+        this.amount= amount;
 
         updateDescription();
 
@@ -32,11 +33,11 @@ public class AnnihilatePower extends AbstractShadowModPower {
 
     @Override
     public void onUseCard(AbstractCard card, UseCardAction action) {
-        addToTop(new RemoveSpecificPowerAction(this.owner, this.owner, POWER_ID));
+        addToTop(new ReducePowerAction(this.owner, this.owner, POWER_ID,1));
     }
 
     @Override
     public void updateDescription() {
-        this.description = DESCRIPTIONS[0];
+        this.description =this.amount>1? String.format( DESCRIPTIONS[1],this.amount):DESCRIPTIONS[0];
     }
 }

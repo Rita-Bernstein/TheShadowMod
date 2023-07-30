@@ -1,6 +1,8 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.powers.TheShadow.ContemplatePower;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -15,16 +17,16 @@ public class Contemplate extends AbstractTSCard {
 
     public Contemplate() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-
+        this.magicNumber = this.baseMagicNumber = 1;
     }
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p, p, this.block));
+        addToBot(new ApplyPowerAction(p, p, new ContemplatePower(p)));
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.isInnate = true;

@@ -34,7 +34,7 @@ public class EnucleationHeart extends AbstractTSCard {
         addToBot(new ApplyPowerAction(p,p,new HeavyPower(p,this.secondaryM)));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

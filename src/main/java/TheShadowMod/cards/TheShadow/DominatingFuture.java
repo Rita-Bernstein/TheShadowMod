@@ -15,6 +15,8 @@ public class DominatingFuture extends AbstractTSCard {
 
     public DominatingFuture() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
+        this.baseBlock = 20;//Todo
+
     }
 
 
@@ -23,7 +25,7 @@ public class DominatingFuture extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

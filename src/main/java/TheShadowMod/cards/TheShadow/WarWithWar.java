@@ -31,7 +31,7 @@ public class WarWithWar extends AbstractTSCard {
         addToBot(new TempIncreaseMaxHPAction(p,this.magicNumber));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(2);

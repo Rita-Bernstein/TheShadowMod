@@ -32,7 +32,7 @@ public class Confusion extends AbstractTSCard {
         addToTop(new FlipCardAction(this));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

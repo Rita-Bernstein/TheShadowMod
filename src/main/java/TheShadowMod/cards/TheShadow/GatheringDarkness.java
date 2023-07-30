@@ -24,7 +24,7 @@ public class GatheringDarkness extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(1);

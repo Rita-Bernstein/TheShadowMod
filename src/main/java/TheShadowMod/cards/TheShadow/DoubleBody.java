@@ -5,6 +5,7 @@ import TheShadowMod.actions.Common.PlayTmpCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
@@ -28,6 +29,12 @@ public class DoubleBody extends AbstractTSCard {
     }
 
     @Override
+    public boolean canUse(AbstractPlayer p, AbstractMonster m) {
+        this.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:CannotPlay").TEXT[0];
+        return false;
+    }
+
+    @Override
     public void onThisFlipInHand() {
         ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
         list.removeIf(card -> card == this);
@@ -38,7 +45,7 @@ public class DoubleBody extends AbstractTSCard {
         }
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.isEthereal = false;

@@ -2,17 +2,13 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.AbstractShadowModCard;
-import TheShadowMod.helpers.ShionMaskHelper;
 import TheShadowMod.helpers.ViewFlipButton;
 import TheShadowMod.patches.CardColorEnum;
 import TheShadowMod.powers.TheShadow.AnnihilatePower;
 import TheShadowMod.powers.TheShadow.RealityFormPower;
 import basemod.ReflectionHacks;
 import basemod.abstracts.CustomSavable;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -32,6 +28,8 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     public boolean isViewingFlip = false;
     public boolean isFlip = false;
+    public boolean flipOnUseOnce = false;
+    public boolean doubleOnUseOnce = false;
 
     public AbstractTSCard(String id, String img, int cost, AbstractCard.CardType type, AbstractCard.CardRarity rarity, AbstractCard.CardTarget target) {
         super(id, img, cost, type, rarity, target);
@@ -56,6 +54,8 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
                 this.costForTurn = this.backCard.costForTurn;
                 this.cost = this.backCard.cost;
+                this.isCostModified = this.backCard.isCostModified;
+                this.isCostModifiedForTurn = this.backCard.isCostModifiedForTurn;
 
                 this.freeToPlayOnce = this.backCard.freeToPlayOnce;
             }
@@ -72,6 +72,8 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
                 this.costForTurn = this.thisCopy.costForTurn;
                 this.cost = this.thisCopy.cost;
+                this.isCostModified = this.thisCopy.isCostModified;
+                this.isCostModifiedForTurn = this.thisCopy.isCostModifiedForTurn;
 
                 this.freeToPlayOnce = this.thisCopy.freeToPlayOnce;
             }
@@ -80,10 +82,10 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     public void onFlipInHand() {
 //        翻转后
-        if(this.isFlip){
+        if (this.isFlip) {
             onThisFlipInHand();
-        }else {
-            if(this.backCard != null && this.backCard instanceof AbstractTSCard)
+        } else {
+            if (this.backCard != null && this.backCard instanceof AbstractTSCard)
                 ((AbstractTSCard) this.backCard).onThisFlipInHand();
         }
     }
@@ -106,6 +108,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
 
         if (canDoubleTrigger()) {
+            doubleOnUseOnce = false;
             useThisCard(p, m);
             useBackCard(p, m);
 
@@ -113,6 +116,12 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
             if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
                 ((AbstractTSCard) this.backCard).useCommon(p, m);
+            }
+
+            if(flipOnUseOnce){
+                this.isFlip = ! this.isFlip;
+                this.onFlip();
+                flipOnUseOnce =false;
             }
 
             return;
@@ -123,9 +132,19 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         } else {
             useBackCard(p, m);
         }
+
+
+        if(flipOnUseOnce){
+            this.isFlip = ! this.isFlip;
+            this.onFlip();
+            flipOnUseOnce =false;
+        }
     }
 
     public boolean canDoubleTrigger() {
+        if(doubleOnUseOnce)
+            return true;
+
         if (AbstractDungeon.player.hasPower(AnnihilatePower.POWER_ID)) {
             return true;
         }
@@ -227,7 +246,17 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                 return;
             }
 
-            backCardIndex = AbstractDungeon.cardRandomRng.random(TheShadowMod.shadowCardPool.size() - 1);
+            switch (AbstractDungeon.rollRarity()) {
+                case COMMON:
+                    backCardIndex = AbstractDungeon.cardRng.random(22);
+                    break;
+                case UNCOMMON:
+                    backCardIndex = AbstractDungeon.cardRng.random(23, 53);
+                    break;
+                case RARE:
+                    backCardIndex = AbstractDungeon.cardRng.random(54, 71);
+                    break;
+            }
 
             try {
                 backCard = TheShadowMod.shadowCardPool.get(backCardIndex).getClass().newInstance();
@@ -377,7 +406,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     @SpireOverride
     protected void renderCard(SpriteBatch sb, boolean hovered, boolean selected) {
-        if (ifChangeToBackSide() && !(this.rarity == CardRarity.BASIC || this.rarity == CardRarity.SPECIAL)) {
+        if (ifChangeToBackSide() && (this.backCard != this)) {
             if (!Settings.hideCards) {
                 if (this.current_y >= -200.0F * Settings.scale && this.current_y <= (float) Settings.HEIGHT + 200.0F * Settings.scale) {
                     this.backCard.current_x = this.current_x;
@@ -401,9 +430,10 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     public void renderCardTip(SpriteBatch sb) {
         super.renderCardTip(sb);
 
-        if (this.rarity != CardRarity.BASIC && this.rarity != CardRarity.SPECIAL)
+
             if (!Settings.hideCards && (boolean) ReflectionHacks.getPrivate(this, AbstractCard.class, "renderTip"))
-                if (this.backCard != null) {
+                if (this.backCard != null && this.backCard != this) {
+
                     renderCardPreviewBack(sb);
                 }
     }
@@ -516,5 +546,23 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         if (this.isFlip && this.backCard != null) {
             this.backCard.tookDamage();
         }
+    }
+
+    @Override
+    public void upgrade() {
+        if (!isFlip) {
+            thisUpgrade();
+        } else {
+            if (this.backCard != null) {
+                if (this.backCard instanceof AbstractTSCard) {
+                    ((AbstractTSCard) this.backCard).thisUpgrade();
+                } else {
+                    this.backCard.upgrade();
+                }
+            }
+        }
+    }
+
+    public void thisUpgrade() {
     }
 }

@@ -39,7 +39,7 @@ public class Shroud extends AbstractTSCard {
         addToBot(new ApplyPowerToAllEnemyAction((mo) ->addToTop(new ApplyPealPowerAction(mo,this.magicNumber))));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(2);

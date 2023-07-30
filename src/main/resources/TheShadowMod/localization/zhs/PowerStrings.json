@@ -146,5 +146,11 @@
     "DESCRIPTIONS": [
       "成功给予 #y鸣响 后，获得给予层数 #b%d%% 的 #y格挡 。"
     ]
+  },
+  "TheShadowMod:ContemplatePower": {
+    "NAME": "思忖",
+    "DESCRIPTIONS": [
+      "每回合开始时，至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。"
+    ]
   }
 }

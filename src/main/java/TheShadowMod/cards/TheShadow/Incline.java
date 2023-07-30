@@ -1,8 +1,13 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.actions.Common.SelectHandCardAction;
+import TheShadowMod.actions.TheShadow.InclineAction;
+import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 public class Incline extends AbstractTSCard {
@@ -19,11 +24,20 @@ public class Incline extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p, p, this.block));
+        addToBot(new InclineAction());
     }
 
+    @Override
+    public void update() {
+        super.update();
+        if (AbstractDungeon.player != null)
+            if (this.upgraded)
+                this.cost = this.costForTurn = (GameActionManager.turn + 2) % 3;
+            else
+                this.cost = this.costForTurn = GameActionManager.turn % 3;
+    }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

@@ -28,7 +28,7 @@ public class DeadAngle extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(4);

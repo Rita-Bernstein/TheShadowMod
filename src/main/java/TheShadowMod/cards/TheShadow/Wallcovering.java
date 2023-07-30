@@ -28,6 +28,7 @@ public class Wallcovering extends AbstractShadowModCard {
         addToBot(new GainFlipPowerAction(this.magicNumber));
     }
 
+    @Override
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();

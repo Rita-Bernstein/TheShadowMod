@@ -1,6 +1,8 @@
 package TheShadowMod.patches;
 
+import TheShadowMod.helpers.SaveHelper;
 import TheShadowMod.powers.TheShadow.PealPower;
+import basemod.patches.com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue.Save;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
@@ -16,19 +18,19 @@ public class GameStatsPatch {
     public static boolean blackWorld = false;
     public static int notDeathCombatCounter = 0;
 
+
     //    ========================================重置
     public static void turnBaseReset() {
-        PealPower.getPealCounter(AbstractDungeon.player).atStartOfTurn();;
+        PealPower.getPealCounter(AbstractDungeon.player).atStartOfTurn();
 
-
-        if(AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
-        if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
-            for (AbstractMonster monster : (AbstractDungeon.getMonsters()).monsters) {
-                if (monster != null && !monster.isDeadOrEscaped()) {
-                    PealPower.getPealCounter(monster).atStartOfTurn();
+        if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
+            if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+                for (AbstractMonster monster : (AbstractDungeon.getMonsters()).monsters) {
+                    if (monster != null && !monster.isDeadOrEscaped()) {
+                        PealPower.getPealCounter(monster).atStartOfTurn();
+                    }
                 }
             }
-        }
 
 
     }
@@ -36,8 +38,10 @@ public class GameStatsPatch {
     public static void combatBaseReset() {
         blackWorld = false;
         notDeathCombatCounter = 0;
-    }
+        SaveHelper.noPotion = false;
+        SaveHelper.saveNoPotion();
 
+    }
 
 
     @SpirePatch(

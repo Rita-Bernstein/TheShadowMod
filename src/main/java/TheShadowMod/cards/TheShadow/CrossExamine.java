@@ -38,7 +38,7 @@ public class CrossExamine extends AbstractTSCard {
         addToBot(new ApplyPowerAction(p,p,new HeavyPower(p,this.magicNumber)));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

@@ -20,6 +20,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.EventRoom;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
+import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
 import com.megacrit.cardcrawl.vfx.combat.LightFlareParticleEffect;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
@@ -245,7 +246,7 @@ public class ViewFlipButton {
 
 //        卡牌奖励
 
-        if(AbstractDungeon.cardRewardScreen.rewardGroup != null && AbstractDungeon.cardRewardScreen.rewardGroup.size() >0){
+        if (AbstractDungeon.cardRewardScreen.rewardGroup != null && AbstractDungeon.cardRewardScreen.rewardGroup.size() > 0) {
             for (AbstractCard c : AbstractDungeon.cardRewardScreen.rewardGroup) {
                 if (c instanceof AbstractTSCard) {
                     ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
@@ -253,7 +254,7 @@ public class ViewFlipButton {
                 }
             }
         }
-        if(AbstractDungeon.shopScreen.coloredCards != null && AbstractDungeon.shopScreen.coloredCards.size() >0){
+        if (AbstractDungeon.shopScreen.coloredCards != null && AbstractDungeon.shopScreen.coloredCards.size() > 0) {
             for (AbstractCard c : AbstractDungeon.shopScreen.coloredCards) {
                 if (c instanceof AbstractTSCard) {
                     ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
@@ -261,6 +262,16 @@ public class ViewFlipButton {
                 }
             }
         }
+
+
+        AbstractCard girdHoverCard = ReflectionHacks.getPrivate(AbstractDungeon.gridSelectScreen, GridCardSelectScreen.class, "hoveredCard");
+        if (girdHoverCard instanceof AbstractTSCard && AbstractDungeon.gridSelectScreen.forUpgrade) {
+            ((AbstractTSCard) girdHoverCard).isViewingFlip = isViewingFlip;
+            ((AbstractTSCard) girdHoverCard).onViewingFlip();
+        }
+
+
+//        火堆升级
 
 
     }

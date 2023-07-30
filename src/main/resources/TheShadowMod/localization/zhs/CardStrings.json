@@ -33,7 +33,7 @@
   },
   "TheShadowMod:Promise": {
     "NAME": "承诺",
-    "DESCRIPTION": "给予 !D! 点伤害。 NL 给予 !M! 层 the_shadow_mod:鸣响 。 NL 本次战斗不会掉落药水。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 层 the_shadow_mod:鸣响 。 NL 本次战斗不会掉落药水。"
   },
   "TheShadowMod:Annihilate": {
     "NAME": "湮灭",
@@ -184,7 +184,10 @@
   },
   "TheShadowMod:Fluctuate": {
     "NAME": "波动",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 打出一张手牌的另一面。"
+    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 打出一张手牌的另一面。",
+    "EXTENDED_DESCRIPTION": [
+      "打出一张牌的另一面"
+    ]
   },
   "TheShadowMod:Twins": {
     "NAME": "残像",
@@ -308,8 +311,8 @@
   },
   "TheShadowMod:Contemplate": {
     "NAME": "思忖",
-    "DESCRIPTION": "每回合开始时，用至多一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。",
-    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合开始时，用至多一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。"
+    "DESCRIPTION": "每回合开始时，至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合开始时，至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）"
   },
   "TheShadowMod:Eclipse": {
     "NAME": "日蚀",

@@ -26,10 +26,10 @@ public class Annihilate extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-        addToBot(new ApplyPowerAction(p,p,new AnnihilatePower(p)));
+        addToBot(new ApplyPowerAction(p,p,new AnnihilatePower(p,this.magicNumber)));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(6);

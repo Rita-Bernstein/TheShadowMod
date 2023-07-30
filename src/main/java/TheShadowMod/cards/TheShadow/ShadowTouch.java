@@ -33,7 +33,7 @@ public class ShadowTouch extends AbstractTSCard {
         this.thisCopy.updateCost(-1);
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(6);

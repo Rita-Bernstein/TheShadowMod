@@ -31,7 +31,7 @@ public class NearDeathExperience extends AbstractTSCard {
         addToBot(new AbstractGameAction() {
             @Override
             public void update() {
-                p.currentHealth = 0;
+                p.currentHealth = 1;
                 p.healthBarUpdatedEvent();
                 isDone = true;
             }
@@ -42,7 +42,7 @@ public class NearDeathExperience extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
@@ -28,7 +29,9 @@ public class Illusion extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPowerToAllEnemyAction((mo) -> {
+            if(AbstractDungeon.cardRandomRng.randomBoolean())
             addToTop(new ApplyPowerAction(mo, p, new WeakPower(mo, this.magicNumber, false)));
+            else
             addToTop(new ApplyPowerAction(mo, p, new VulnerablePower(mo, this.magicNumber, false)));
         }
         ));
@@ -36,7 +39,7 @@ public class Illusion extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

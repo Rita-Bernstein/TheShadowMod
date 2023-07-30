@@ -12,7 +12,7 @@ public class VisceralDestruction extends AbstractTSCard {
     private static final int COST = 3;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardRarity RARITY = CardRarity.RARE;
-    private static final CardTarget TARGET = CardTarget.NONE;
+    private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public VisceralDestruction() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
@@ -24,7 +24,7 @@ public class VisceralDestruction extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(10);

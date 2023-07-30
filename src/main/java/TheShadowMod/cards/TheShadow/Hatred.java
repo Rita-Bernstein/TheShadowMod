@@ -55,7 +55,7 @@ public class Hatred extends AbstractTSCard {
         initializeDescription();
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

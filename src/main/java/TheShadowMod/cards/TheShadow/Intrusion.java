@@ -30,7 +30,7 @@ public class Intrusion extends AbstractTSCard {
         addToBot(new GainFlipPowerAction(this.magicNumber));
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(1);

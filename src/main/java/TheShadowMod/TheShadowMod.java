@@ -2,6 +2,7 @@ package TheShadowMod;
 
 import TheShadowMod.cards.TheShadow.*;
 import TheShadowMod.character.TheShadowCharacter;
+import TheShadowMod.helpers.SaveHelper;
 import TheShadowMod.helpers.SecondaryMagicVariable;
 import TheShadowMod.helpers.ViewFlipButton;
 import TheShadowMod.patches.AbstractPlayerEnum;
@@ -52,7 +53,10 @@ public class TheShadowMod implements
     public static String MOD_ID = "TheShadowMod";
     public static Properties TheShadowModDefaults = new Properties();
 
-    public static ArrayList<AbstractTSCard> shadowCardPool = new ArrayList<>();
+    public static ArrayList<AbstractCard> shadowCardPool = new ArrayList<>();
+    public static ArrayList<AbstractCard> shadowCardCommonPool = new ArrayList<>();
+    public static ArrayList<AbstractCard> shadowCardUncommonPool = new ArrayList<>();
+    public static ArrayList<AbstractCard> shadowCardRarePool = new ArrayList<>();
 
     public TheShadowMod() {
         BaseMod.subscribe(this);
@@ -70,31 +74,6 @@ public class TheShadowMod implements
         );
 
 
-    }
-
-
-    public static void saveSettings() {
-        try {
-            SpireConfig config = new SpireConfig("TheShadowMod", "settings", TheShadowModDefaults);
-            config.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void loadSettings() {
-        try {
-            SpireConfig config = new SpireConfig("TheShadowMod", "settings", TheShadowModDefaults);
-            config.load();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            clearSettings();
-        }
-    }
-
-    public static void clearSettings() {
-        saveSettings();
     }
 
 
@@ -117,7 +96,7 @@ public class TheShadowMod implements
 
     @Override
     public void receivePostInitialize() {
-        loadSettings();
+        SaveHelper.loadSettings();
 //        Texture badgeTexture = new Texture(assetPath("/img/badge.png"));
 //        ModPanel settingsPanel = new ModPanel();
 //        BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
@@ -184,7 +163,7 @@ public class TheShadowMod implements
         cards.add(new Intrusion());
         cards.add(new Shroud());
         cards.add(new EnucleationHeart());
-//        cards.add(new Promise());
+        cards.add(new Promise());
         cards.add(new Annihilate());
         cards.add(new ShadowTouch());
         cards.add(new ScaldingColloid());
@@ -194,7 +173,7 @@ public class TheShadowMod implements
         cards.add(new Wallcovering());
         cards.add(new Tinnitus());
         cards.add(new DeepDiving());
-//        cards.add(new Incline());
+        cards.add(new Incline());
         cards.add(new DeadAngle());
         cards.add(new Ultrasonic());
         cards.add(new EmptyShell());
@@ -218,12 +197,12 @@ public class TheShadowMod implements
         cards.add(new Hidden());
         cards.add(new PolarNight());
         cards.add(new Illusion());
-//        cards.add(new DominatingFuture());
+        cards.add(new DominatingFuture());
         cards.add(new Bone());
         cards.add(new DesperateAttempt());
-//        cards.add(new Fluctuate());
+        cards.add(new Fluctuate());
         cards.add(new Twins());
-//        cards.add(new BlackBoxes());
+        cards.add(new BlackBoxes());
         cards.add(new BloodyPath());
         cards.add(new FloodTide());
         cards.add(new SonicBoom());
@@ -235,24 +214,24 @@ public class TheShadowMod implements
         cards.add(new DejaVu());
         cards.add(new Reborn());
         cards.add(new Timing());
-//        cards.add(new EveningBreeze());
+        cards.add(new EveningBreeze());
         cards.add(new RootSystem());
 
 //        稀有牌
         cards.add(new BothDestruction());
         cards.add(new Hatred());
         cards.add(new Crumb());
-//        cards.add(new UnmarkedCommonGraves());
+        cards.add(new UnmarkedCommonGraves());
         cards.add(new PerfectImitation());
         cards.add(new DoubleBody());
         cards.add(new VisceralDestruction());
-//        cards.add(new TrueSight());
+        cards.add(new TrueSight());
         cards.add(new NearDeathExperience());
-//        cards.add(new UltimateReaction());
+        cards.add(new UltimateReaction());
         cards.add(new RealityForm());
         cards.add(new LingeringDeath());
         cards.add(new Mourning());
-//        cards.add(new Contemplate());
+        cards.add(new Contemplate());
         cards.add(new Eclipse());
         cards.add(new Peel());
         cards.add(new GatheringDarkness());
@@ -262,9 +241,13 @@ public class TheShadowMod implements
             BaseMod.addCard(card);
             UnlockTracker.unlockCard(card.cardID);
 
-            if (card instanceof AbstractTSCard && card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL) {
-                shadowCardPool.add((AbstractTSCard) card);
+            if (card instanceof AbstractTSCard) {
+
+
+                shadowCardPool.add(card);
             }
+
+
         }
     }
 

@@ -35,7 +35,7 @@ public class BackStrike extends AbstractTSCard {
         this.damage *= 1.5f;
     }
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);

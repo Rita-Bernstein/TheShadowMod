@@ -31,7 +31,7 @@ public class SpiralStaircase extends AbstractTSCard {
     }
 
 
-    public void upgrade() {
+    public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeSecondM(1);
