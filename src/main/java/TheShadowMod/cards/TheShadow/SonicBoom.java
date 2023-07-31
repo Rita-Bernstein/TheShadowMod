@@ -43,17 +43,18 @@ public class SonicBoom extends AbstractTSCard {
         });
     }
 
-    @Override
-    public void applyPowers() {
-        this.magicNumber = this.baseMagicNumber;
-        super.applyPowers();
-        if (AbstractDungeon.player.hasPower(HeavyPower.POWER_ID))
-            this.magicNumber += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount * (this.upgraded ? 3 : 2);
-    }
+//    @Override
+//    public void applyPowers() {
+//        this.magicNumber = this.baseMagicNumber;
+//        super.applyPowers();
+//        if (AbstractDungeon.player.hasPower(HeavyPower.POWER_ID))
+//            this.magicNumber += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount * (this.upgraded ? 3 : 2);
+//    }
 
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeMagicNumber(3);
             upgradeSecondM(-10);
             this.rawDescription = UPGRADE_DESCRIPTION;
             initializeDescription();

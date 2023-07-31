@@ -208,8 +208,8 @@
   },
   "TheShadowMod:SonicBoom": {
     "NAME": "音爆",
-    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 受 the_shadow_mod:沉重 的2倍加成。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。",
-    "UPGRADE_DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 受 the_shadow_mod:沉重 的3倍加成。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。"
+    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。",
+    "UPGRADE_DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。"
   },
   "TheShadowMod:Separation": {
     "NAME": "分身",

@@ -22,7 +22,7 @@ public class Tinnitus extends AbstractTSCard {
 
     public Tinnitus() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 10;
+        this.magicNumber = this.baseMagicNumber = 8;
         this.secondaryM = this.baseSecondaryM = 2;
     }
 
@@ -43,7 +43,7 @@ public class Tinnitus extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(3);
+            upgradeMagicNumber(2);
             upgradeSecondM(1);
         }
     }

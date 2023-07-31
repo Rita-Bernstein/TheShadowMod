@@ -20,7 +20,7 @@ public class DesperateAttempt extends AbstractTSCard {
 
     public DesperateAttempt() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 10;
+        this.magicNumber = this.baseMagicNumber = 7;
     }
 
 

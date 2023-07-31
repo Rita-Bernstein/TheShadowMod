@@ -16,7 +16,7 @@ public class VisceralDestruction extends AbstractTSCard {
 
     public VisceralDestruction() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 40;
+        this.magicNumber = this.baseMagicNumber = 32;
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
