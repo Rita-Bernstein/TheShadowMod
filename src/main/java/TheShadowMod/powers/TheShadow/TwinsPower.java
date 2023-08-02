@@ -29,7 +29,7 @@ public class TwinsPower extends AbstractShadowModPower {
     }
 
     @Override
-    public void atStartOfTurn(boolean isPlayer) {
+    public void atStartOfTurn() {
         flash();
         addToBot(new ApplyPowerToAllEnemyAction((mo)->addToTop(new ApplyPealPowerAction(mo,this.amount))));
     }

@@ -6,8 +6,10 @@ import TheShadowMod.relics.TheShadow.VocalCords;
 import TheShadowMod.relics.TheShadow.Waterphone;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -26,7 +28,11 @@ public class ApplyPealPowerAction extends AbstractGameAction {
     @Override
     public void update() {
         if (PealPower.getPealCounter(this.target).pealAppliedCount >= getMaxPealAmount()) {
-            isDone = true;
+            if (this.target.hasPower(PealPower.POWER_ID) &&
+                    this.target.getPower(PealPower.POWER_ID).amount > 0) {
+                addToBot(new DamageAction(this.target, new DamageInfo(AbstractDungeon.player,
+                        this.target.getPower(PealPower.POWER_ID).amount, DamageInfo.DamageType.THORNS)));
+            }isDone = true;
             return;
         }
 

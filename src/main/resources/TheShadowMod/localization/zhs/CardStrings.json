@@ -17,7 +17,7 @@
   },
   "TheShadowMod:BackStrike": {
     "NAME": "背后打击",
-    "DESCRIPTION": "这张牌造成的伤害总是额外增加50%。 NL 造成 !D! 点伤害。 NL 本回合内下次目标额外受到50%攻击伤害。"
+    "DESCRIPTION": "这张牌的伤害增加50%，造成 !D! 点伤害。 NL 本回合内下次目标额外受到50%攻击伤害。"
   },
   "TheShadowMod:Intrusion": {
     "NAME": "入侵",
@@ -73,8 +73,8 @@
   },
   "TheShadowMod:Incline": {
     "NAME": "倾斜",
-    "DESCRIPTION": "用一张手牌的当前面覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
-    "UPGRADE_DESCRIPTION": "用一张手牌的当前面覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
+    "DESCRIPTION": "用一张手牌覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
+    "UPGRADE_DESCRIPTION": "用一张手牌覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
   },
   "TheShadowMod:DeadAngle": {
     "NAME": "死角",
@@ -123,8 +123,8 @@
   },
   "TheShadowMod:DarkStrike": {
     "NAME": "黑暗打击",
-    "DESCRIPTION": "直到下次进入休息处前，失去 !M! 点生命和最大生命。 NL 造成 !D! 点伤害。 NL 手牌中所有攻击牌的当前面变为 *黑暗打击 。",
-    "UPGRADE_DESCRIPTION": "直到下次进入休息处前，失去 !M! 点生命和最大生命。 NL 造成 !D! 点伤害。 NL 手牌中所有攻击牌的当前面变为 *黑暗打击+ 。"
+    "DESCRIPTION": "失去 !M! 点生命和最大生命直到下次进入休息处。造成 !D! 点伤害。",
+    "UPGRADE_DESCRIPTION": "失去 !M! 点生命和最大生命直到下次进入休息处。造成 !D! 点伤害。"
   },
   "TheShadowMod:Assassin": {
     "NAME": "刺杀",
@@ -191,11 +191,11 @@
   },
   "TheShadowMod:Twins": {
     "NAME": "残像",
-    "DESCRIPTION": "每回合结束时，给予所有敌人 !M! 层 the_shadow_mod:鸣响 。"
+    "DESCRIPTION": "每回合开始时，给予所有敌人 !M! 层 the_shadow_mod:鸣响 。"
   },
   "TheShadowMod:BlackBoxes": {
     "NAME": "暗箱操作",
-    "DESCRIPTION": "用抽牌堆中的一张牌的当前面覆盖手牌中一张牌的另一面。"
+    "DESCRIPTION": "用抽牌堆中的一张牌覆盖手牌中一张牌的另一面。"
   },
   "TheShadowMod:BloodyPath": {
     "NAME": "血路",
@@ -217,8 +217,8 @@
   },
   "TheShadowMod:Reconfiguration": {
     "NAME": "重构",
-    "DESCRIPTION": "受到 !TheShadowSM! 点伤害。 消耗 。",
-    "UPGRADE_DESCRIPTION": "保留 。 NL 受到 !TheShadowSM! 点伤害。 消耗 。"
+    "DESCRIPTION": "受到 !M! 点伤害。 消耗 。",
+    "UPGRADE_DESCRIPTION": "保留 。 NL 受到 !M! 点伤害。 消耗 。"
   },
   "TheShadowMod:Echo": {
     "NAME": "回声",
@@ -270,7 +270,7 @@
   },
   "TheShadowMod:UnmarkedCommonGraves": {
     "NAME": "乱葬岗",
-    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 斩杀 时，从牌组选择一张牌，其在战斗开始时处于抽牌堆底部。 NL 消耗 。"
+    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 斩杀 时，从牌组选择一张牌，其在战斗开始时处于抽牌堆底部。 消耗 。"
   },
   "TheShadowMod:PerfectImitation": {
     "NAME": "完美模仿",
@@ -311,8 +311,8 @@
   },
   "TheShadowMod:Contemplate": {
     "NAME": "思忖",
-    "DESCRIPTION": "每回合开始时，至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）",
-    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合开始时，至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）"
+    "DESCRIPTION": "每回合开始时，至多用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合开始时，至多用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）"
   },
   "TheShadowMod:Eclipse": {
     "NAME": "日蚀",

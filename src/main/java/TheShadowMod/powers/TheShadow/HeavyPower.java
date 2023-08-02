@@ -61,7 +61,7 @@ public class HeavyPower extends AbstractShadowModPower {
             if (canHeavyTrigger() && AbstractDungeon.player.hasPower(HeavyPower.POWER_ID)) {
                 AbstractDungeon.player.getPower(HeavyPower.POWER_ID).flash();
                 if (damageAmount[0] > 0)
-                    info.output += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount;
+                    damageAmount[0] += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount;
             }
 
         }

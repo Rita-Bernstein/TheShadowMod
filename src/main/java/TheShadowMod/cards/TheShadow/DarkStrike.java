@@ -17,8 +17,8 @@ public class DarkStrike extends AbstractTSCard {
 
     public DarkStrike() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseDamage = 5;
-        this.magicNumber = this.baseMagicNumber = 1;
+        this.baseDamage = 7;
+        this.magicNumber = this.baseMagicNumber = 2;
         this.tags.add(CardTags.STRIKE);
 
     }

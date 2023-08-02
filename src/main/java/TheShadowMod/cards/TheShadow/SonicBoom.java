@@ -31,10 +31,11 @@ public class SonicBoom extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPealPowerAction(m,this.magicNumber));
+        int smn = this.secondaryM;
         addToBot(new AbstractGameAction() {
             @Override
             public void update() {
-                if(m.hasPower(PealPower.POWER_ID)  && m.getPower(PealPower.POWER_ID).amount > this.startDuration){
+                if(m.hasPower(PealPower.POWER_ID)  && m.getPower(PealPower.POWER_ID).amount >= smn){
                     addToTop(new GainEnergyAction(1));
                     addToTop(new DrawCardAction(2));
                 }
