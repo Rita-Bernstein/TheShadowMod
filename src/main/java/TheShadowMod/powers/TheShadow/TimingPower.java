@@ -22,7 +22,7 @@ public class TimingPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("TimingPower");
     }
 
     @Override

@@ -22,7 +22,7 @@ public class GatheringDarknessPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("GatheringDarknessPower");
     }
 
 

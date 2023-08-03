@@ -1,8 +1,10 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 public class TrueSight extends AbstractTSCard {
@@ -22,7 +24,17 @@ public class TrueSight extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-//        Todo
+        addToBot(new AbstractGameAction() {
+            @Override
+            public void update() {
+
+                AbstractDungeon.cardBlizzRandomizer -= TrueSight.this.magicNumber;
+                if (AbstractDungeon.cardBlizzRandomizer <= AbstractDungeon.cardBlizzMaxOffset) {
+                    AbstractDungeon.cardBlizzRandomizer = AbstractDungeon.cardBlizzMaxOffset;
+                }
+                isDone = true;
+            }
+        });
     }
 
 

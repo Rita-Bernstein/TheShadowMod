@@ -24,7 +24,7 @@ public class DejaVuPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("DejaVuPower");
     }
 
     @Override

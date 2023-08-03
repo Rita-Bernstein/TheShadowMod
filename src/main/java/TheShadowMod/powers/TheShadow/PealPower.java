@@ -1,17 +1,12 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
-import TheShadowMod.helpers.PealCounter;
 import TheShadowMod.powers.AbstractShadowModPower;
 import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 
 public class PealPower extends AbstractShadowModPower {
@@ -31,12 +26,6 @@ public class PealPower extends AbstractShadowModPower {
         loadShadowRegion("PealPower");
     }
 
-    @Override
-    public void stackPower(int stackAmount) {
-        addToBot(new DamageAction(this.owner, new DamageInfo(AbstractDungeon.player, this.amount, DamageInfo.DamageType.THORNS)));
-        super.stackPower(stackAmount);
-
-    }
 
     @Override
     public void updateDescription() {
@@ -48,11 +37,18 @@ public class PealPower extends AbstractShadowModPower {
             method = SpirePatch.CLASS
     )
     public static class AddFields {
-        public static SpireField<PealCounter> pealCanApplyAmount = new SpireField<>(() -> new PealCounter());
+        public static SpireField<Integer> pealCanApplyAmount = new SpireField<>(() -> 0);
     }
 
-    public static PealCounter getPealCounter(AbstractCreature creature) {
+    public static int getPealCounter(AbstractCreature creature) {
         return AddFields.pealCanApplyAmount.get(creature);
+    }
+
+    public static void setPealCounter(AbstractCreature creature,int amount) {
+        AddFields.pealCanApplyAmount.set(creature,amount);
+    }
+    public static void addPealCounter(AbstractCreature creature,int amount) {
+        AddFields.pealCanApplyAmount.set(creature,AddFields.pealCanApplyAmount.get(creature)+amount);
     }
 
 }

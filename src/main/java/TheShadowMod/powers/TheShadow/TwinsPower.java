@@ -25,7 +25,7 @@ public class TwinsPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("TwinsPower");
     }
 
     @Override

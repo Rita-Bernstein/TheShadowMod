@@ -22,7 +22,7 @@ public class ContemplatePower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("ContemplatePower");
     }
 
     @Override

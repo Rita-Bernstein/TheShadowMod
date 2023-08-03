@@ -24,7 +24,7 @@ public class JumpOutPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("JumpOutPower");
     }
 
     @Override

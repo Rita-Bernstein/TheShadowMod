@@ -22,7 +22,7 @@ public class EchoPower extends AbstractShadowModPower {
         this.amount = amount;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("EchoPower");
     }
 
 

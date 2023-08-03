@@ -25,7 +25,7 @@ public class EternalPunishmentPower2 extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("EternalPunishmentPower");
     }
 
 

@@ -30,7 +30,7 @@ public class SeparationPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("SeparationPower");
     }
 
     @Override

@@ -22,14 +22,14 @@ public class GameStatsPatch {
 
     //    ========================================重置
     public static void turnBaseReset() {
-        PealPower.getPealCounter(AbstractDungeon.player).atStartOfTurn();
+        PealPower.setPealCounter(AbstractDungeon.player,0);
 
         if(CardCrawlGame.dungeon != null)
         if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
             if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
                 for (AbstractMonster monster : (AbstractDungeon.getMonsters()).monsters) {
                     if (monster != null && !monster.isDeadOrEscaped()) {
-                        PealPower.getPealCounter(monster).atStartOfTurn();
+                        PealPower.setPealCounter(monster,0);
                     }
                 }
             }

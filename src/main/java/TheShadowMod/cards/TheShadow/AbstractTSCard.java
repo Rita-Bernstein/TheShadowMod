@@ -103,7 +103,12 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
+        if(this.backCard != null ){
+            this.backCard.freeToPlayOnce = this.freeToPlayOnce;
+            this.backCard.energyOnUse = this.energyOnUse;
+        }
         useCommon(p, m);
+
 
         if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
             ((AbstractTSCard) this.backCard).useCommon(p, m);

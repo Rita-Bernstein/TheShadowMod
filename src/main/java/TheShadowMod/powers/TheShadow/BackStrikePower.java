@@ -24,7 +24,7 @@ public class BackStrikePower extends AbstractShadowModPower {
         this.type = PowerType.DEBUFF;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("BackStrikePower");
     }
 
     @Override

@@ -24,7 +24,7 @@ public class UltrasonicPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("UltrasonicPower");
     }
 
     @Override

@@ -17,27 +17,30 @@ import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 public class ApplyPealPowerAction extends AbstractGameAction {
+    private boolean isGrave;
 
-
-    public ApplyPealPowerAction(AbstractCreature creature, int amount) {
+    public ApplyPealPowerAction(AbstractCreature creature, int amount, boolean isGrave) {
         this.amount = amount;
         this.target = creature;
         this.actionType = ActionType.POWER;
+        this.isGrave = isGrave;
+
+    }
+
+    public ApplyPealPowerAction(AbstractCreature creature, int amount) {
+        this(creature, amount, false);
+
     }
 
     @Override
     public void update() {
-        if (PealPower.getPealCounter(this.target).pealAppliedCount >= getMaxPealAmount()) {
-            if (this.target.hasPower(PealPower.POWER_ID) &&
-                    this.target.getPower(PealPower.POWER_ID).amount > 0) {
-                addToBot(new DamageAction(this.target, new DamageInfo(AbstractDungeon.player,
-                        this.target.getPower(PealPower.POWER_ID).amount, DamageInfo.DamageType.THORNS)));
-            }isDone = true;
+        if (PealPower.getPealCounter(this.target) >= getMaxPealAmount()) {
+            this.isDone = true;
             return;
         }
 
-        if(AbstractDungeon.player.hasRelic(Knell.ID)){
-             AbstractDungeon.player.getRelic(Knell.ID).flash();
+        if (AbstractDungeon.player.hasRelic(Knell.ID)) {
+            AbstractDungeon.player.getRelic(Knell.ID).flash();
 
             addToTop(new DrawCardAction(3));
         }
@@ -46,31 +49,45 @@ public class ApplyPealPowerAction extends AbstractGameAction {
             this.amount += AbstractDungeon.player.getPower(UltrasonicPower.POWER_ID).amount;
         }
 
-        if(AbstractDungeon.player.hasRelic(Waterphone.ID)){
-            this.amount +=3;
+        if (AbstractDungeon.player.hasRelic(Waterphone.ID)) {
+            this.amount += 3;
         }
-        if(AbstractDungeon.player.hasRelic(VocalCords.ID)){
+        if (AbstractDungeon.player.hasRelic(VocalCords.ID)) {
             AbstractRelic r = AbstractDungeon.player.getRelic(VocalCords.ID);
-            if(!r.grayscale){
+            if (!r.grayscale) {
                 r.grayscale = true;
             }
 
-            this.amount *=2;
+            this.amount *= 2;
         }
 
         if (!this.target.hasPower(ArtifactPower.POWER_ID)) {
-            PealPower.getPealCounter(this.target).pealAppliedCount++;
+            PealPower.addPealCounter(this.target, 1);
+
+
             if (AbstractDungeon.player.hasPower(GatheringDarknessPower.POWER_ID))
                 if (AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2 > 0)
+
                     addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player,
                             AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2));
         }
 
+
+        ifFatalPealDamage(this.target);
         addToTop(new ApplyPowerAction(this.target, AbstractDungeon.player, new PealPower(target, this.amount)));
 
 
         isDone = true;
 
+    }
+
+    public void ifFatalPealDamage(AbstractCreature target) {
+        if (target.hasPower(PealPower.POWER_ID) && target.getPower(PealPower.POWER_ID).amount > 0) {
+            if (this.isGrave)
+                addToTop(new PealDamageAction(target, new DamageInfo(AbstractDungeon.player, target.getPower(PealPower.POWER_ID).amount, DamageInfo.DamageType.THORNS)));
+            else
+                addToTop(new DamageAction(target, new DamageInfo(AbstractDungeon.player, target.getPower(PealPower.POWER_ID).amount, DamageInfo.DamageType.THORNS)));
+        }
     }
 
     public static int getMaxPealAmount() {

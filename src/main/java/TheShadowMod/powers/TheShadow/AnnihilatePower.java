@@ -28,7 +28,7 @@ public class AnnihilatePower extends AbstractShadowModPower {
 
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("AnnihilatePower");
     }
 
     @Override

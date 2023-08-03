@@ -30,11 +30,12 @@ public class Incline extends AbstractTSCard {
     @Override
     public void update() {
         super.update();
-        if (AbstractDungeon.player != null)
+        if (AbstractDungeon.player != null && this.costForTurn >= 0) {
             if (this.upgraded)
                 this.cost = this.costForTurn = (GameActionManager.turn + 2) % 3;
             else
                 this.cost = this.costForTurn = GameActionManager.turn % 3;
+        }
     }
 
     public void thisUpgrade() {

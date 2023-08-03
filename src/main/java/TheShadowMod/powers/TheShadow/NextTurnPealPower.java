@@ -23,7 +23,7 @@ public class NextTurnPealPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("NextTurnPealPower");
     }
 
     @Override

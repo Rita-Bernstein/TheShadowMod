@@ -26,7 +26,7 @@ public class BloodyPathPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("BloodyPathPower");
     }
 
     @Override

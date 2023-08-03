@@ -26,7 +26,7 @@ public class FloodTidePower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("PealPower");
+        loadShadowRegion("FloodTidePower");
     }
 
     @Override

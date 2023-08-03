@@ -23,8 +23,7 @@ public class UnmarkedCommonGraves extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPealPowerAction(m,this.magicNumber));
-//        todo
+        addToBot(new ApplyPealPowerAction(m,this.magicNumber,true));
     }
 
     public void thisUpgrade() {

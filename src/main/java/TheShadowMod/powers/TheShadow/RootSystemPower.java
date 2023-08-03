@@ -22,7 +22,7 @@ public class RootSystemPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("RootSystemPower");
     }
 
     @Override

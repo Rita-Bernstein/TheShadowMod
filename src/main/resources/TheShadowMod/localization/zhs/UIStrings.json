@@ -36,5 +36,16 @@
       "至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌",
       "覆盖抽牌堆一张牌的另一面并抽一张牌"
     ]
+  },
+  "TheShadowMod:SelectCardToHandAction": {
+    "TEXT": [
+      " NL 消耗 。",
+      " 虚无 。"
+    ]
+  },
+  "TheShadowMod:SelectDeckCombatBottomAction": {
+    "TEXT": [
+      "选择一张牌战斗开始时处于抽牌堆底部"
+    ]
   }
 }

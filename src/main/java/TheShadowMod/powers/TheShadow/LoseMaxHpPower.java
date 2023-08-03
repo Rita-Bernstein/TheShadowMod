@@ -23,7 +23,7 @@ public class LoseMaxHpPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("LoseMaxHpPower");
     }
 
     public void onVictory() {

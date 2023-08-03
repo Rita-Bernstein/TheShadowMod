@@ -21,7 +21,7 @@ public class MourningPower extends AbstractShadowModPower {
         this.owner = owner;
         updateDescription();
 
-        loadShadowRegion("FlipPower");
+        loadShadowRegion("MourningPower");
     }
 
 
