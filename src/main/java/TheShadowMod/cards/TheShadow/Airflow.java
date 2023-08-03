@@ -27,8 +27,9 @@ public class Airflow extends AbstractTSCard {
 
 
     @Override
-    public void onThisFlipInHand() {
+    public void onFlipInHand() {
         addToTop(new GainBlockAction(AbstractDungeon.player,AbstractDungeon.player,this.magicNumber));
+        super.onFlipInHand();
     }
 
     public void thisUpgrade() {

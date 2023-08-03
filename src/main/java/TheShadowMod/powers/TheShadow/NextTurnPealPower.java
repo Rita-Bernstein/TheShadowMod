@@ -21,6 +21,7 @@ public class NextTurnPealPower extends AbstractShadowModPower {
         this.ID = POWER_ID;
         this.amount = amount;
         this.owner = owner;
+        this.type = PowerType.DEBUFF;
         updateDescription();
 
         loadShadowRegion("PealPower");

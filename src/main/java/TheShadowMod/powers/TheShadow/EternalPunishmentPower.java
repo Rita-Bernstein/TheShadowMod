@@ -25,6 +25,7 @@ public class EternalPunishmentPower extends AbstractShadowModPower {
         this.amount = amount;
         this.amount2 = damage;
         this.owner = owner;
+        this.type = PowerType.DEBUFF;
         updateDescription();
 
         loadShadowRegion("PealPower");

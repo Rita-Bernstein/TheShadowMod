@@ -258,7 +258,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                     backCardIndex = AbstractDungeon.cardRng.random(23, 53);
                     break;
                 case RARE:
-                    backCardIndex = AbstractDungeon.cardRng.random(54, 71);
+                    backCardIndex = AbstractDungeon.cardRng.random(54, 70);
                     break;
             }
 
@@ -393,7 +393,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
 
         backCardIndex = integer % 100;
-        backCard = TheShadowMod.shadowCardPool.get(integer).makeCopy();
+        backCard = TheShadowMod.shadowCardPool.get(backCardIndex).makeCopy();
 
         if (integer / 100 > 0) {
             for (int i = 0; i < integer / 100; i++) {
