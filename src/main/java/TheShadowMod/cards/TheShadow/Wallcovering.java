@@ -21,6 +21,7 @@ public class Wallcovering extends AbstractShadowModCard {
         this.magicNumber = this.baseMagicNumber = 1;
         this.selfRetain = true;
         this.color = CardColor.COLORLESS;
+        this.exhaust = true;
     }
 
     @Override

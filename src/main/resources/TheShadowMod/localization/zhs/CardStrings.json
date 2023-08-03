@@ -61,7 +61,7 @@
   },
   "TheShadowMod:Wallcovering": {
     "NAME": "剥落墙皮",
-    "DESCRIPTION": " 保留 。 NL 获得 !M! 层 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": " 保留 。 NL 获得 !M! 层 the_shadow_mod:颠倒 。 NL 消耗 。"
   },
   "TheShadowMod:Tinnitus": {
     "NAME": "耳鸣",
