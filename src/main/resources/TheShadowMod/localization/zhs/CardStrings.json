@@ -207,7 +207,7 @@
   },
   "TheShadowMod:BloodyPath": {
     "NAME": "血路",
-    "DESCRIPTION": "获得 !M! 层 the_shadow_mod:沉重 。 NL 本回合结束前，每打出一张攻击牌，失去 !TheShadowSM! 点生命。"
+    "DESCRIPTION": "抽 !M! 张牌。 NL 本回合结束前，每打出一张攻击牌，失去 !TheShadowSM! 点生命。"
   },
   "TheShadowMod:FloodTide": {
     "NAME": "涨潮",
