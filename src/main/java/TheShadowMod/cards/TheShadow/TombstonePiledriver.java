@@ -19,8 +19,8 @@ public class TombstonePiledriver extends AbstractTSCard {
 
     public TombstonePiledriver() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseDamage = 15;
-        this.magicNumber = this.baseMagicNumber = 15;
+        this.baseDamage = 14;
+        this.magicNumber = this.baseMagicNumber = 14;
 
     }
 
@@ -33,8 +33,8 @@ public class TombstonePiledriver extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeDamage(5);
-            upgradeMagicNumber(5);
+            upgradeDamage(4);
+            upgradeMagicNumber(4);
         }
     }
 }

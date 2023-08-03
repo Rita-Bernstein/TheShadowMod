@@ -18,7 +18,7 @@ public class UnmarkedCommonGraves extends AbstractTSCard {
 
     public UnmarkedCommonGraves() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 13;
+        this.magicNumber = this.baseMagicNumber = 11;
         this.exhaust = true;
     }
 
@@ -30,7 +30,7 @@ public class UnmarkedCommonGraves extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(5);
+            upgradeMagicNumber(3);
         }
     }
 }

@@ -4,9 +4,12 @@ import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.Common.ApplyPowerToAllEnemyAction;
 import TheShadowMod.actions.TheShadow.ApplyPealPowerAction;
 import TheShadowMod.powers.TheShadow.PealPower;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.GainStrengthPower;
 import com.megacrit.cardcrawl.powers.LoseStrengthPower;
@@ -22,7 +25,7 @@ public class Tinnitus extends AbstractTSCard {
 
     public Tinnitus() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 10;
+        this.magicNumber = this.baseMagicNumber = 8;
         this.secondaryM = this.baseSecondaryM = 2;
     }
 
@@ -32,10 +35,15 @@ public class Tinnitus extends AbstractTSCard {
             addToTop(new ApplyPealPowerAction(monster, this.magicNumber));
         }));
 
-        addToBot(new ApplyPowerToAllEnemyAction((monster) -> {
-            addToTop(new ApplyPowerAction(monster, p, new LoseStrengthPower(monster, this.secondaryM)));
-            addToTop(new ApplyPowerAction(monster, p, new StrengthPower(monster, this.secondaryM)));
-        }));
+        for (AbstractMonster mo : (AbstractDungeon.getCurrRoom()).monsters.monsters)
+            addToBot(new ApplyPowerAction(mo, p,
+                    new StrengthPower(mo, -this.secondaryM), -this.secondaryM,
+                    true, AbstractGameAction.AttackEffect.NONE));
+        for (AbstractMonster mo : (AbstractDungeon.getCurrRoom()).monsters.monsters) {
+            if (!mo.hasPower("Artifact"))
+                addToBot(new ApplyPowerAction(mo, p, new GainStrengthPower(mo, this.secondaryM),
+                        this.secondaryM, true, AbstractGameAction.AttackEffect.NONE));
+        }
 
     }
 
@@ -43,7 +51,7 @@ public class Tinnitus extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(3);
+            upgradeMagicNumber(2);
             upgradeSecondM(1);
         }
     }

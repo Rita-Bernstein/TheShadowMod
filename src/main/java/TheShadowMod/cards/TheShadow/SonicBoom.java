@@ -31,10 +31,11 @@ public class SonicBoom extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPealPowerAction(m,this.magicNumber));
+        int smn = this.secondaryM;
         addToBot(new AbstractGameAction() {
             @Override
             public void update() {
-                if(m.hasPower(PealPower.POWER_ID)  && m.getPower(PealPower.POWER_ID).amount > this.startDuration){
+                if(m.hasPower(PealPower.POWER_ID)  && m.getPower(PealPower.POWER_ID).amount >= smn){
                     addToTop(new GainEnergyAction(1));
                     addToTop(new DrawCardAction(2));
                 }
@@ -43,17 +44,18 @@ public class SonicBoom extends AbstractTSCard {
         });
     }
 
-    @Override
-    public void applyPowers() {
-        this.magicNumber = this.baseMagicNumber;
-        super.applyPowers();
-        if (AbstractDungeon.player.hasPower(HeavyPower.POWER_ID))
-            this.magicNumber += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount * (this.upgraded ? 3 : 2);
-    }
+//    @Override
+//    public void applyPowers() {
+//        this.magicNumber = this.baseMagicNumber;
+//        super.applyPowers();
+//        if (AbstractDungeon.player.hasPower(HeavyPower.POWER_ID))
+//            this.magicNumber += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount * (this.upgraded ? 3 : 2);
+//    }
 
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
+            upgradeMagicNumber(3);
             upgradeSecondM(-10);
             this.rawDescription = UPGRADE_DESCRIPTION;
             initializeDescription();

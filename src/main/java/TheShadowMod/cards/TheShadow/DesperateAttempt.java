@@ -20,13 +20,13 @@ public class DesperateAttempt extends AbstractTSCard {
 
     public DesperateAttempt() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 10;
+        this.magicNumber = this.baseMagicNumber = 7;
     }
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new XActionAction(effect -> {
-            addToBot(new ApplyPealPowerAction(p,effect*this.magicNumber));
+            addToBot(new ApplyPealPowerAction(m,effect*this.magicNumber));
 
         }, this.freeToPlayOnce, this.energyOnUse));
     }
