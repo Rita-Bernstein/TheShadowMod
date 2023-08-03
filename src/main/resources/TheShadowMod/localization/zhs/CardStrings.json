@@ -23,7 +23,7 @@
     "NAME": "入侵",
     "DESCRIPTION": "造成 !D! 点伤害。 NL 抽一张牌。 NL 获得 !M! 层 the_shadow_mod:颠倒 。"
   },
-    "TheShadowMod:Shroud": {
+  "TheShadowMod:Shroud": {
     "NAME": "笼罩",
     "DESCRIPTION": "对所有敌人 !D! 点伤害并给予 !M! 层 the_shadow_mod:鸣响 。"
   },
@@ -169,6 +169,14 @@
   "TheShadowMod:Illusion": {
     "NAME": "幻象",
     "DESCRIPTION": "给予所有敌人 !M! 层 易伤 或 虚弱 。 NL 抽一张牌。 NL 消耗 。"
+  },
+  "TheShadowMod:IllusionVul": {
+    "NAME": "幻象",
+    "DESCRIPTION": "给予所有敌人 !M! 层 易伤 。 NL 抽一张牌。 NL 消耗 。"
+  },
+  "TheShadowMod:IllusionWeak": {
+    "NAME": "幻象",
+    "DESCRIPTION": "给予所有敌人 !M! 层 虚弱 。 NL 抽一张牌。 NL 消耗 。"
   },
   "TheShadowMod:DominatingFuture": {
     "NAME": "支配未来",

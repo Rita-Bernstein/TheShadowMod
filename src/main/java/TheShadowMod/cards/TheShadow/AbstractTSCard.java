@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
 public abstract class AbstractTSCard extends AbstractShadowModCard implements CustomSavable<Integer> {
     public AbstractCard backCard;
     public AbstractCard thisCopy;
-    protected int backCardIndex = -1;
+    public int backCardIndex = -1;
 
     public boolean isViewingFlip = false;
     public boolean isFlip = false;

@@ -170,7 +170,6 @@ public class TheShadowMod implements
         cards.add(new EternalPunishment());
         cards.add(new Idealistic());
         cards.add(new HiddenDoor());
-        cards.add(new Wallcovering());
         cards.add(new Tinnitus());
         cards.add(new DeepDiving());
         cards.add(new Incline());
@@ -236,6 +235,11 @@ public class TheShadowMod implements
         cards.add(new Peel());
         cards.add(new GatheringDarkness());
 
+//        特殊派
+        cards.add(new Wallcovering());
+        cards.add(new IllusionVul());
+        cards.add(new IllusionWeak());
+
 
         for (CustomCard card : cards) {
             BaseMod.addCard(card);
@@ -258,7 +262,7 @@ public class TheShadowMod implements
         BaseMod.addRelicToCustomPool(new Knell(), CardColorEnum.TheShadow_LIME);
         BaseMod.addRelicToCustomPool(new PyramidHead(), CardColorEnum.TheShadow_LIME);
         BaseMod.addRelicToCustomPool(new Waterphone(), CardColorEnum.TheShadow_LIME);
-//        BaseMod.addRelicToCustomPool(new Empties(), CardColorEnum.TheShadow_LIME);
+        BaseMod.addRelicToCustomPool(new Empties(), CardColorEnum.TheShadow_LIME);
         BaseMod.addRelicToCustomPool(new Othello(), CardColorEnum.TheShadow_LIME);
         BaseMod.addRelicToCustomPool(new DarkCore(), CardColorEnum.TheShadow_LIME);
         BaseMod.addRelicToCustomPool(new HeavyWeight(), CardColorEnum.TheShadow_LIME);

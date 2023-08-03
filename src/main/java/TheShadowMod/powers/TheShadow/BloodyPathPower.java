@@ -4,6 +4,7 @@ import TheShadowMod.TheShadowMod;
 import TheShadowMod.powers.AbstractShadowModPower;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.LoseHPAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -35,6 +36,11 @@ public class BloodyPathPower extends AbstractShadowModPower {
             flash();
             addToBot(new LoseHPAction(this.owner, this.owner, this.amount));
         }
+    }
+
+    @Override
+    public void atEndOfTurn(boolean isPlayer) {
+        addToBot(new RemoveSpecificPowerAction(this.owner,this.owner,POWER_ID));
     }
 
     @Override
