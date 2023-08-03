@@ -27,10 +27,10 @@ public class ShadowTouch extends AbstractTSCard {
     }
 
     @Override
-    public void onFlip() {
-        super.onFlip();
+    public void onFlipInHand() {
         updateCost(-1);
         this.thisCopy.updateCost(-1);
+        super.onFlipInHand();
     }
 
     public void thisUpgrade() {

@@ -21,8 +21,8 @@ public class PealPower extends AbstractShadowModPower {
         this.ID = POWER_ID;
         this.amount = amount;
         this.owner = owner;
-        updateDescription();
         this.type = PowerType.DEBUFF;
+        updateDescription();
         loadShadowRegion("PealPower");
     }
 
