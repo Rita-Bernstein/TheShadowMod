@@ -19,9 +19,8 @@ public class Idealistic extends AbstractTSCard {
     }
 
     @Override
-    public void use(AbstractPlayer p, AbstractMonster m) {
+    public void useCommon(AbstractPlayer p, AbstractMonster m) {
         addToBot(new GainBlockAction(p, p, this.block));
-        super.use(p, m);
     }
 
 
