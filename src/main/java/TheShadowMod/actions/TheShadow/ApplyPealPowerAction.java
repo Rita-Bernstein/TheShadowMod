@@ -35,6 +35,11 @@ public class ApplyPealPowerAction extends AbstractGameAction {
     @Override
     public void update() {
         if (PealPower.getPealCounter(this.target) >= getMaxPealAmount()) {
+            if (this.target.hasPower(PealPower.POWER_ID) &&
+                    this.target.getPower(PealPower.POWER_ID).amount > 0) {
+                addToBot(new DamageAction(this.target, new DamageInfo(AbstractDungeon.player,
+                        this.target.getPower(PealPower.POWER_ID).amount, DamageInfo.DamageType.THORNS)));
+            }
             this.isDone = true;
             return;
         }

@@ -82,13 +82,18 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
     }
 
-    public void onFlipInHand() {
+    public void onFlipInHand(boolean isBack) {
+        if (!isBack) {
+            if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
+                ((AbstractTSCard) this.backCard).onFlipInHand(true);
+            }
 //        翻转后
-        if (this.isFlip) {
-            onThisFlipInHand();
-        } else {
-            if (this.backCard != null && this.backCard instanceof AbstractTSCard)
-                ((AbstractTSCard) this.backCard).onThisFlipInHand();
+            if (this.isFlip) {
+                onThisFlipInHand();
+            } else {
+                if (this.backCard != null && this.backCard instanceof AbstractTSCard)
+                    ((AbstractTSCard) this.backCard).onThisFlipInHand();
+            }
         }
     }
 

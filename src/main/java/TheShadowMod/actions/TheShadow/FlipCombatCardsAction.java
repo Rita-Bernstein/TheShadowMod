@@ -24,7 +24,7 @@ public class FlipCombatCardsAction extends AbstractGameAction {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
                 ((AbstractTSCard) c).onFlip();
-                ((AbstractTSCard) c).onFlipInHand();
+                ((AbstractTSCard) c).onFlipInHand(false);
             }
         }
 

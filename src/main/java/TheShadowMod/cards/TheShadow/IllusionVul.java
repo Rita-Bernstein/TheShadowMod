@@ -23,6 +23,7 @@ public class IllusionVul extends AbstractShadowModCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 2;
         this.secondaryM = this.baseSecondaryM = 1;
+        this.color = CardColor.COLORLESS;
         this.exhaust = true;
     }
 

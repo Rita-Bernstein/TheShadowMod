@@ -207,7 +207,7 @@
   },
   "TheShadowMod:BloodyPath": {
     "NAME": "血路",
-    "DESCRIPTION": "获得 !M! 层 the_shadow_mod:沉重 。 NL 本回合结束前，每打出一张攻击牌，失去 !TheShadowSM! 点生命。"
+    "DESCRIPTION": "抽 !M! 张牌。 NL 本回合结束前，每打出一张攻击牌，失去 !TheShadowSM! 点生命。"
   },
   "TheShadowMod:FloodTide": {
     "NAME": "涨潮",
@@ -259,7 +259,8 @@
   },
   "TheShadowMod:RootSystem": {
     "NAME": "根系",
-    "DESCRIPTION": "在 the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 也提高 !M! 倍的 the_shadow_mod:沉重 。"
+    "DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。",
+    "UPGRADE_DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。 NL 获得1层 the_shadow_mod:沉重 。"
   },
   "TheShadowMod:BothDestruction": {
     "NAME": "两败俱伤",
@@ -334,6 +335,7 @@
   },
   "TheShadowMod:GatheringDarkness": {
     "NAME": "夜幕",
-    "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数50%的 格挡 。"
+    "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数50%的 格挡 。",
+    "UPGRADE_DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数的 格挡 。"
   }
 }

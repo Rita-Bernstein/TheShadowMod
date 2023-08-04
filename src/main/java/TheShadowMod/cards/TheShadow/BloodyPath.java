@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 
 public class BloodyPath extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(BloodyPath.class.getSimpleName());
@@ -23,7 +24,7 @@ public class BloodyPath extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPowerAction(p,p,new HeavyPower(p,this.magicNumber)));
+        addToBot(new DrawCardAction(this.magicNumber));
         addToBot(new ApplyPowerAction(p,p,new BloodyPathPower(p,this.magicNumber)));
 
     }

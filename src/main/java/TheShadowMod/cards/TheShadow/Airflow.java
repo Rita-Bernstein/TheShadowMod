@@ -16,8 +16,8 @@ public class Airflow extends AbstractTSCard {
 
     public Airflow() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseBlock = 10;
-        this.magicNumber = this.baseMagicNumber = 5;
+        this.baseBlock = 8;
+        this.magicNumber = this.baseMagicNumber = 4;
         this.exhaust = true;
     }
 
@@ -27,16 +27,16 @@ public class Airflow extends AbstractTSCard {
 
 
     @Override
-    public void onFlipInHand() {
+    public void onFlipInHand(boolean isBack) {
         addToTop(new GainBlockAction(AbstractDungeon.player,AbstractDungeon.player,this.magicNumber));
-        super.onFlipInHand();
+        super.onFlipInHand(isBack);
     }
 
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeBlock(5);
-            upgradeMagicNumber(3);
+            upgradeBlock(4);
+            upgradeMagicNumber(2);
         }
     }
 

@@ -8,7 +8,7 @@
   "TheShadowMod:PealPower": {
     "NAME": "鸣响",
     "DESCRIPTIONS": [
-      "每回合其仅可获得 #b1 次 #y鸣响 。 获得效果前，造成其已有 #y鸣响 层数的伤害。"
+      "每回合其仅可获得 #b1 次 #y鸣响 。 给予前，造成其已有 #y鸣响 层数的伤害，无论是否能给予成功。"
     ]
   },
   "TheShadowMod:HeavyPower": {

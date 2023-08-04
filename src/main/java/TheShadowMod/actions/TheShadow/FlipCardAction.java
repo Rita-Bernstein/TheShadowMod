@@ -36,7 +36,7 @@ public class FlipCardAction extends AbstractGameAction {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
                     if (this.group == AbstractDungeon.player.hand) {
                         ((AbstractTSCard) c).onFlip();
-                        ((AbstractTSCard) c).onFlipInHand();
+                        ((AbstractTSCard) c).onFlipInHand(false);
                     }
                 }
             }
@@ -46,7 +46,7 @@ public class FlipCardAction extends AbstractGameAction {
                 if (c == this.card) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
                     ((AbstractTSCard) c).onFlip();
-                    ((AbstractTSCard) c).onFlipInHand();
+                    ((AbstractTSCard) c).onFlipInHand(false);
                 }
             }
 
