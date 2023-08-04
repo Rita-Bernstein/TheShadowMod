@@ -83,7 +83,7 @@
   "TheShadowMod:EchoPower": {
     "NAME": "回声",
     "DESCRIPTIONS": [
-      "每回合可额外对每一目标给予 #b%d 次 the_shadow_mod:鸣响 。"
+      "每回合可额外对每一目标给予 #b%d 次 #y鸣响 。"
     ]
   },
   "TheShadowMod:LoseMaxHpPower": {

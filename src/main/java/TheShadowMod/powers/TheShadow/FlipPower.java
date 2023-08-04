@@ -10,14 +10,14 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 
-public class FlipPower  extends AbstractShadowModPower {
+public class FlipPower extends AbstractShadowModPower {
     public static final String POWER_ID = TheShadowMod.makeID(FlipPower.class.getSimpleName());
     private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     public static final String NAME = powerStrings.NAME;
     public static final String[] DESCRIPTIONS = powerStrings.DESCRIPTIONS;
 
 
-    public FlipPower(AbstractCreature owner,int amount) {
+    public FlipPower(AbstractCreature owner, int amount) {
         this.name = NAME;
         this.ID = POWER_ID;
         this.amount = amount;
@@ -35,15 +35,16 @@ public class FlipPower  extends AbstractShadowModPower {
 
     @Override
     public void onRemove() {
-        super.onRemove();
-        addToTop(new FlipCombatCardsAction());
+        addToBot(new FlipCombatCardsAction());
     }
 
+
     @Override
-    public void onUseCard(AbstractCard card, UseCardAction action) {
+    public void onAfterCardPlayed(AbstractCard usedCard) {
         this.amount--;
-        if(this.amount<=0)
-            addToTop(new RemoveSpecificPowerAction(this.owner,this.owner,POWER_ID));
+        if (this.amount <= 0) {
+            addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, POWER_ID));
+        }
     }
 
     @Override

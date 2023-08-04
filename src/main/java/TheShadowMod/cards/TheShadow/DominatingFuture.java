@@ -3,6 +3,8 @@ package TheShadowMod.cards.TheShadow;
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.Common.SelectCardToHandAction;
 import TheShadowMod.actions.Common.SelectHandCardAction;
+import TheShadowMod.helpers.SaveHelper;
+import basemod.patches.com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue.Save;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -23,29 +25,34 @@ public class DominatingFuture extends AbstractTSCard {
 
     public DominatingFuture() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-
-
     }
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new SelectCardToHandAction(getRewardCards(),false,false));
+        addToBot(new SelectCardToHandAction(getRewardCards(), false, false));
     }
 
     public ArrayList<AbstractCard> getRewardCards() {
-        ArrayList<AbstractCard> retVal = new ArrayList<AbstractCard>();
-        AbstractCard card = AbstractDungeon.getCard(CardRarity.RARE);
-        for (int numCards = 3, i = 0; i < numCards; i++) {
-            while (retVal.contains(card)) {
-                card = AbstractDungeon.getCard(CardRarity.RARE);
+        ArrayList<AbstractCard> retVal = SaveHelper.loadRewardCard();
+        if (retVal.isEmpty()) {
+            AbstractCard card = AbstractDungeon.getCard(CardRarity.RARE);
+            for (int numCards = 3, i = 0; i < numCards; i++) {
+                while (retVal.contains(card)) {
+                    card = AbstractDungeon.getCard(CardRarity.RARE);
+                }
+                retVal.add(card);
             }
-            retVal.add(card);
+
+            ArrayList<AbstractCard> retVal2 = new ArrayList<AbstractCard>();
+            for (AbstractCard c : retVal) {
+                retVal2.add(c.makeCopy());
+            }
+
+            SaveHelper.SaveRewardCard(retVal2);
+            return retVal2;
+        } else {
+            return retVal;
         }
-        ArrayList<AbstractCard> retVal2 = new ArrayList<AbstractCard>();
-        for (AbstractCard c : retVal) {
-            retVal2.add(c.makeCopy());
-        }
-        return retVal2;
     }
 
     public void thisUpgrade() {

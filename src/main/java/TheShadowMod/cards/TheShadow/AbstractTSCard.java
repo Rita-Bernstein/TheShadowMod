@@ -248,7 +248,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         return super.canPlay(card);
     }
 
-    protected void initializeBackCard() {
+    public void initializeBackCard() {
         if (backCard == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
             if (this.rarity == CardRarity.BASIC || this.rarity == CardRarity.SPECIAL) {
                 this.backCard = this;
@@ -267,13 +267,18 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                     break;
             }
 
-            try {
-                backCard = TheShadowMod.shadowCardPool.get(backCardIndex).getClass().newInstance();
-                setBackCardBackground((AbstractTSCard) backCard, true);
+            setBackCardFromIndex(backCardIndex);
+        }
+    }
 
-            } catch (IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
+
+    public void setBackCardFromIndex(int index){
+        try {
+            backCard = TheShadowMod.shadowCardPool.get(index).getClass().newInstance();
+            setBackCardBackground((AbstractTSCard) backCard, true);
+
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
         }
     }
 

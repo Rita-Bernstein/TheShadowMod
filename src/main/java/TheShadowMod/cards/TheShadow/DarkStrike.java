@@ -3,6 +3,7 @@ package TheShadowMod.cards.TheShadow;
 import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -26,6 +27,46 @@ public class DarkStrike extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        addToBot(new AbstractGameAction() {
+            @Override
+            public void update() {
+                for (AbstractCard card : p.hand.group) {
+                    if (card.type == CardType.ATTACK) {
+                        if (card instanceof AbstractTSCard) {
+                            AbstractTSCard c = (AbstractTSCard) card;
+
+                            AbstractCard b = null;
+                            int index = -1;
+
+
+                            if (!c.isFlip) {
+                                if (c.backCard != null) {
+                                    b = c.backCard;
+                                    index = c.backCardIndex;
+                                }
+
+
+                                c = new DarkStrike();
+                                c.backCard = b;
+                                c.backCardIndex = index;
+                            } else {
+                                if (c.backCard != null) {
+                                    c.backCard = new DarkStrike();
+                                    c.backCardIndex = 25;
+                                }
+                            }
+
+
+                        } else {
+                            card = new DarkStrike();
+                            ((DarkStrike) card).initializeBackCard();
+                        }
+
+                    }
+                }
+                isDone = true;
+            }
+        });
     }
 
     public void thisUpgrade() {

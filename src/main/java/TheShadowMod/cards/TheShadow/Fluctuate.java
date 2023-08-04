@@ -31,6 +31,7 @@ public class Fluctuate extends AbstractTSCard {
                 if(c instanceof  AbstractTSCard) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
                     ((AbstractTSCard) c).onFlip();
+                    c.freeToPlayOnce = true;
                     AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
                 }
             }

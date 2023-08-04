@@ -19,7 +19,6 @@ public class GameStatsPatch {
     public static boolean blackWorld = false;
     public static int notDeathCombatCounter = 0;
 
-
     //    ========================================重置
     public static void turnBaseReset() {
         PealPower.setPealCounter(AbstractDungeon.player,0);
@@ -27,14 +26,13 @@ public class GameStatsPatch {
         if(CardCrawlGame.dungeon != null)
         if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
             if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+                if((AbstractDungeon.getMonsters()).monsters != null)
                 for (AbstractMonster monster : (AbstractDungeon.getMonsters()).monsters) {
                     if (monster != null && !monster.isDeadOrEscaped()) {
                         PealPower.setPealCounter(monster,0);
                     }
                 }
             }
-
-
     }
 
     public static void combatBaseReset() {
