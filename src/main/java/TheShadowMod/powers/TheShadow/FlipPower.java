@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.PowerStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 public class FlipPower extends AbstractShadowModPower {
     public static final String POWER_ID = TheShadowMod.makeID(FlipPower.class.getSimpleName());
@@ -40,10 +41,13 @@ public class FlipPower extends AbstractShadowModPower {
 
 
     @Override
-    public void onAfterCardPlayed(AbstractCard usedCard) {
+    public void onPlayCard(AbstractCard usedCard, AbstractMonster m) {
         this.amount--;
+    }
+    @Override
+    public void onAfterCardPlayed(AbstractCard usedCard) {
         if (this.amount <= 0) {
-            addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, POWER_ID));
+            addToTop(new RemoveSpecificPowerAction(this.owner, this.owner, POWER_ID));
         }
     }
 

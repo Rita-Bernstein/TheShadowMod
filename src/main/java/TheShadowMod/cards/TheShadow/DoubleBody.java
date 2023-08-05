@@ -2,8 +2,10 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.Common.PlayTmpCardAction;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardQueueItem;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -39,9 +41,30 @@ public class DoubleBody extends AbstractTSCard {
         ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
         list.removeIf(card -> card == this);
         if(list.size()>1){
-            addToTop(new PlayTmpCardAction(list.get(AbstractDungeon.cardRandomRng.random(list.size()-1))));
+            addToTop(new AbstractGameAction() {
+                         @Override
+                         public void update() {
+                             AbstractCard c = list.get(AbstractDungeon.cardRandomRng.random(list.size()-1));
+                             c.freeToPlayOnce = true;
+                             AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
+                             AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
+                             isDone = true;
+                         }
+                     }
+            );
+
         }else if(list.size()==1){
-            addToTop(new PlayTmpCardAction(list.get(0)));
+            addToTop(new AbstractGameAction() {
+                         @Override
+                         public void update() {
+                             AbstractCard c = list.get(0);
+                             c.freeToPlayOnce = true;
+                             AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
+                             AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
+                             isDone = true;
+                         }
+                     }
+            );
         }
     }
 

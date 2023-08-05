@@ -2,7 +2,9 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.patches.GameStatsPatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -28,10 +30,22 @@ public class Phoenix extends AbstractTSCard {
     }
 
     @Override
-    public void calculateCardDamage(AbstractMonster mo) {
-        super.calculateCardDamage(mo);
-        this.damage *= (int) Math.pow(2, GameStatsPatch.notDeathCombatCounter);
+    public void applyPowers() {
+        if (this.upgraded) {
+            this.baseDamage = 8 * (int)Math.pow(2,
+                    Math.min(GameStatsPatch.notDeathCombatCounter, 20));
+        } else {
+            this.baseDamage = 4 * (int)Math.pow(2,
+                    Math.min(GameStatsPatch.notDeathCombatCounter, 20));
+        }
+        super.applyPowers();
+        this.rawDescription = DESCRIPTION;
+        initializeDescription();
     }
+//    public void calculateCardDamage(AbstractMonster mo) {
+//        super.calculateCardDamage(mo);
+//        this.damage *= (int) Math.pow(2, GameStatsPatch.notDeathCombatCounter);
+//    }
 
     public void thisUpgrade() {
         if (!this.upgraded) {
