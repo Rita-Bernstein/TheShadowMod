@@ -4,6 +4,7 @@ import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
 import TheShadowMod.patches.AbstractCardPatches;
 import TheShadowMod.patches.IndexCardsPatches;
+import basemod.patches.com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue.Save;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
@@ -18,13 +19,14 @@ import java.util.ArrayList;
 public class SaveHelper {
     public static boolean noPotion = false;
     public static int nextCombatDamage = 0;
+    public static int increaseMaxHP = 0;
+    public static boolean rewardNewAct = true;
 
     public static void saveNoPotion() {
 
         try {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
             config.setBool(CardCrawlGame.saveSlot + "noPotion", noPotion);
-
 
             config.save();
         } catch (Exception e) {
@@ -45,13 +47,37 @@ public class SaveHelper {
         }
     }
 
+    public static void saveIncreaseMaxHP() {
+
+        try {
+            SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
+            config.setInt(CardCrawlGame.saveSlot + "increaseMaxHP", increaseMaxHP);
+
+
+            config.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void loadSettings() {
         try {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
             config.load();
-            noPotion = config.getBool(CardCrawlGame.saveSlot + "noPotion");
-            nextCombatDamage = config.getInt(CardCrawlGame.saveSlot + "nextCombatDamage");
 
+            nextCombatDamage = config.getInt(CardCrawlGame.saveSlot + "nextCombatDamage");
+            increaseMaxHP = config.getInt(CardCrawlGame.saveSlot + "increaseMaxHP");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadNoPotion() {
+        try {
+            SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
+            config.load();
+            noPotion = config.getBool(CardCrawlGame.saveSlot + "noPotion");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +125,8 @@ public class SaveHelper {
     public static void SaveRewardCard(ArrayList<AbstractCard> cards) {
         try {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
+            config.setBool(CardCrawlGame.saveSlot + "rewardNewAct", SaveHelper.rewardNewAct);
+
             for (int i = 0; i < cards.size(); i++)
                 config.setString(CardCrawlGame.saveSlot + "RewardCard" + i, cards.get(i).cardID);
 
@@ -113,12 +141,26 @@ public class SaveHelper {
         }
     }
 
+    public static void SaveRewardCard() {
+        try {
+            SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
+            config.setBool(CardCrawlGame.saveSlot + "rewardNewAct", SaveHelper.rewardNewAct);
+
+            config.save();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static ArrayList<AbstractCard> loadRewardCard() {
         ArrayList<AbstractCard> cards = new ArrayList<>();
         try {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
             config.load();
+
+            SaveHelper.rewardNewAct = config.getBool(CardCrawlGame.saveSlot + "rewardNewAct");
 
             for (int i = 0; i < 3; i++)
                 cards.add((AbstractTSCard) CardLibrary.getCopy(config.getString(CardCrawlGame.saveSlot + "RewardCard" + i)));

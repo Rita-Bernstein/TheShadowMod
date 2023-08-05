@@ -119,12 +119,12 @@
   },
   "TheShadowMod:Phoenix": {
     "NAME": "不死鸟",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中每免死，伤害翻倍。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中每当免死时，伤害翻倍。"
   },
   "TheShadowMod:DarkStrike": {
     "NAME": "黑暗打击",
-    "DESCRIPTION": "失去 !M! 点生命和最大生命直到下次进入休息处。造成 !D! 点伤害。",
-    "UPGRADE_DESCRIPTION": "失去 !M! 点生命和最大生命直到下次进入休息处。造成 !D! 点伤害。"
+    "DESCRIPTION": "直到休息处前失去 !M! 点生命和最大生命。 NL 造成 !D! 点伤害。",
+    "UPGRADE_DESCRIPTION": "直到休息处前失去 !M! 点生命和最大生命。 NL 造成 !D! 点伤害。"
   },
   "TheShadowMod:Assassin": {
     "NAME": "刺杀",

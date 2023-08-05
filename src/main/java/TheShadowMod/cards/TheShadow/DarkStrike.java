@@ -1,12 +1,19 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.helpers.SaveHelper;
+import TheShadowMod.powers.TheShadow.LoseMaxHpPower;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 
 public class DarkStrike extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(DarkStrike.class.getSimpleName());
@@ -27,6 +34,50 @@ public class DarkStrike extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        addToBot(new AbstractGameAction() {
+            @Override
+            public void update() {
+                if (p.currentHealth > 0)
+                    p.decreaseMaxHealth(magicNumber);
+                SaveHelper.increaseMaxHP += magicNumber;
+                isDone = true;
+            }
+        });
+    }
+
+    @SpirePatch(
+            clz = AbstractDungeon.class,
+            method = "nextRoomTransition",
+            paramtypez = {SaveFile.class}
+    )
+    public static class OnEnterRoomPatch {
+        @SpireInsertPatch(rloc = 89)
+        public static SpireReturn<Void> Insert(AbstractDungeon _instance, SaveFile saveFile) {
+            SaveHelper.loadSettings();
+
+            if (AbstractDungeon.nextRoom.room instanceof com.megacrit.cardcrawl.rooms.RestRoom) {
+                AbstractDungeon.player.increaseMaxHp(SaveHelper.increaseMaxHP, true);
+                SaveHelper.increaseMaxHP = 0;
+            }else {
+                SaveHelper.saveIncreaseMaxHP();
+            }
+
+
+                return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractPlayer.class,
+            method = "onVictory"
+    )
+    public static class OnVictoryPatch {
+        @SpireInsertPatch(rloc = 0)
+        public static SpireReturn<Void> Insert(AbstractPlayer _instance) {
+            SaveHelper.saveIncreaseMaxHP();
+            return SpireReturn.Continue();
+        }
     }
 
     public void thisUpgrade() {

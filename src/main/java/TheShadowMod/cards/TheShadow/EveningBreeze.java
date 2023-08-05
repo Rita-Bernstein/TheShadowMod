@@ -8,6 +8,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -43,18 +44,22 @@ public class EveningBreeze extends AbstractTSCard {
         @SpireInsertPatch(rloc = 0)
         public static SpireReturn<Void> Insert(AbstractPlayer _instance) {
             SaveHelper.loadSettings();
-            AbstractDungeon.actionManager.addToBottom(new AbstractGameAction() {
-                @Override
-                public void update() {
-                    AbstractDungeon.effectsQueue.add(new TextAboveCreatureEffect(AbstractDungeon.player.hb.cX - AbstractDungeon.player.animX, AbstractDungeon.player.hb.cY,
-                            CardCrawlGame.languagePack.getCardStrings(EveningBreeze.ID).NAME, Settings.GREEN_TEXT_COLOR));
-                    isDone = true;
-                }
-            });
-            AbstractDungeon.actionManager.addToBottom(new DamageAllEnemiesAction(null,
-                    DamageInfo.createDamageMatrix(SaveHelper.nextCombatDamage, true), DamageInfo.DamageType.THORNS,
 
-                    AbstractGameAction.AttackEffect.SLASH_HEAVY));
+            if(SaveHelper.nextCombatDamage >0) {
+                AbstractDungeon.actionManager.addToBottom(new AbstractGameAction() {
+                    @Override
+                    public void update() {
+                        AbstractDungeon.effectsQueue.add(new TextAboveCreatureEffect(
+                                AbstractDungeon.player.hb.cX - AbstractDungeon.player.animX, AbstractDungeon.player.hb.cY + AbstractDungeon.player.hb.height / 2.0F - AbstractDungeon.player.animY,
+                                CardCrawlGame.languagePack.getCardStrings(EveningBreeze.ID).NAME, Settings.GREEN_TEXT_COLOR));
+                        isDone = true;
+                    }
+                });
+                AbstractDungeon.actionManager.addToBottom(new DamageAllEnemiesAction(null,
+                        DamageInfo.createDamageMatrix(SaveHelper.nextCombatDamage, true), DamageInfo.DamageType.THORNS,
+
+                        AbstractGameAction.AttackEffect.SLASH_HEAVY));
+            }
             SaveHelper.nextCombatDamage = 0;
 
             return SpireReturn.Continue();

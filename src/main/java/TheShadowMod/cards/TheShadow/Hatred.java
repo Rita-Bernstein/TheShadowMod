@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.patches.GameStatsPatch;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -22,7 +23,7 @@ public class Hatred extends AbstractTSCard {
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        this.baseDamage = GameActionManager.damageReceivedThisCombat;
+        this.baseDamage = GameStatsPatch.trueDamageReceivedThisCombat;
         calculateCardDamage(m);
 
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
@@ -33,7 +34,7 @@ public class Hatred extends AbstractTSCard {
 
     @Override
     public void applyPowers() {
-        this.baseDamage = GameActionManager.damageReceivedThisCombat;
+        this.baseDamage = GameStatsPatch.trueDamageReceivedThisCombat;
         super.applyPowers();
         this.rawDescription = DESCRIPTION;
         this.rawDescription += EXTENDED_DESCRIPTION[0];

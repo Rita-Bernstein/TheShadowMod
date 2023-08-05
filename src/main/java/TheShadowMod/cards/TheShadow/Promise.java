@@ -52,6 +52,7 @@ public class Promise extends AbstractTSCard {
     public static class NoPotionPatch {
         @SpireInsertPatch(rloc = 23, localvars = {"chance"})
         public static SpireReturn<Void> Insert(AbstractRoom __instance, @ByRef int[] chance) {
+            SaveHelper.loadNoPotion();
             if (SaveHelper.noPotion) {
                 chance[0] = 0;
             }

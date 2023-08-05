@@ -123,9 +123,8 @@ public class TheShadowMod implements
 
     @Override
     public void receiveStartAct() {
-//        if (AbstractDungeon.player != null && AbstractDungeon.player.hasBlight(EnemyEnhanceBlight.ID)) {
-//            AbstractDungeon.player.getBlight(EnemyEnhanceBlight.ID).updateDescription();
-//        }
+        SaveHelper.rewardNewAct = true;
+        SaveHelper.SaveRewardCard();
     }
 
     @Override
