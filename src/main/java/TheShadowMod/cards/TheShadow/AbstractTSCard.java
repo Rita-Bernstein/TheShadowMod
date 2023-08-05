@@ -121,10 +121,14 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
         if (canDoubleTrigger()) {
             doubleOnUseOnce = false;
+
+            if (m == null) {
+                m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+            }
             useThisCard(p, m);
 
-
-            useBackCard(p, (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng));
+            AbstractMonster rm = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+            useBackCard(p, rm);
 
             useCommon(p, m);
 
