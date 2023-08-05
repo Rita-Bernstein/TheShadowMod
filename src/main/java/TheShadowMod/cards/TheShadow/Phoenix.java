@@ -32,9 +32,11 @@ public class Phoenix extends AbstractTSCard {
     @Override
     public void applyPowers() {
         if (this.upgraded) {
-            this.baseDamage = 8 * (int)Math.pow(2, GameStatsPatch.notDeathCombatCounter);
+            this.baseDamage = 8 * (int)Math.pow(2,
+                    Math.min(GameStatsPatch.notDeathCombatCounter, 20));
         } else {
-            this.baseDamage = 4 * (int)Math.pow(2, GameStatsPatch.notDeathCombatCounter);
+            this.baseDamage = 4 * (int)Math.pow(2,
+                    Math.min(GameStatsPatch.notDeathCombatCounter, 20));
         }
         super.applyPowers();
         this.rawDescription = DESCRIPTION;
