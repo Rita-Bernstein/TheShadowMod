@@ -34,7 +34,7 @@ public class BloodyPathPower extends AbstractShadowModPower {
     public void onUseCard(AbstractCard card, UseCardAction action) {
         if (card.type == AbstractCard.CardType.ATTACK) {
             flash();
-            addToBot(new LoseHPAction(this.owner, this.owner, this.amount));
+            addToTop(new LoseHPAction(this.owner, this.owner, this.amount));
         }
     }
 
