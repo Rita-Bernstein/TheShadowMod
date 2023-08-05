@@ -44,7 +44,7 @@ public class ContemplateAction extends AbstractGameAction {
         }
 
 
-        if(this.currentScreen == CurrentScreen.Source){
+        if (this.currentScreen == CurrentScreen.Source) {
             if (firstUse) {
                 this.firstUse = false;
 
@@ -53,13 +53,12 @@ public class ContemplateAction extends AbstractGameAction {
             }
 
             if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved) {
-                if(AbstractDungeon.handCardSelectScreen.selectedCards.group.isEmpty()){
+                if (AbstractDungeon.handCardSelectScreen.selectedCards.group.isEmpty()) {
                     AbstractDungeon.handCardSelectScreen.wereCardsRetrieved = true;
                     isDone = true;
                     return;
                 }
                 saveSourceCard = AbstractDungeon.handCardSelectScreen.selectedCards.group.get(0);
-                AbstractDungeon.player.hand.addToTop(saveSourceCard);
                 this.currentScreen = CurrentScreen.Target;
                 this.firstUse = true;
 
@@ -69,13 +68,13 @@ public class ContemplateAction extends AbstractGameAction {
             }
         }
 
-        if(this.currentScreen == CurrentScreen.Target){
+        if (this.currentScreen == CurrentScreen.Target) {
             if (firstUse) {
                 this.firstUse = false;
 
                 CardGroup temp = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
-                for(AbstractCard c : AbstractDungeon.player.drawPile.group){
-                    if(c instanceof  AbstractTSCard){
+                for (AbstractCard c : AbstractDungeon.player.drawPile.group) {
+                    if (c instanceof AbstractTSCard) {
                         temp.addToTop(c);
                     }
                 }

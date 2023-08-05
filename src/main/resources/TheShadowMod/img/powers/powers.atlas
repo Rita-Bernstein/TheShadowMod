@@ -25,142 +25,149 @@ repeat: none
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/DejaVuPower
+128/ContemplatePower
   rotate: false
   xy: 2, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/EchoPower
+128/DejaVuPower
   rotate: false
   xy: 132, 132
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/EternalPunishmentPower
+128/EchoPower
   rotate: false
   xy: 262, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/FlipPower
+128/EternalPunishmentPower
   rotate: false
   xy: 132, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/FloodTidePower
+128/FlipPower
   rotate: false
   xy: 262, 132
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/GatheringDarknessPower
+128/FloodTidePower
   rotate: false
   xy: 392, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/HeavyPower
+128/GatheringDarknessPower
   rotate: false
   xy: 262, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/JumpOutPower
+128/HeavyPower
   rotate: false
   xy: 392, 132
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/LoseMaxHpPower
+128/JumpOutPower
   rotate: false
   xy: 522, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/MourningPower
+128/LoseMaxHpPower
   rotate: false
   xy: 392, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/NextTurnPealPower
+128/MourningPower
   rotate: false
   xy: 522, 132
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/PealPower
+128/NextTurnPealPower
   rotate: false
   xy: 652, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/PeelPower
+128/PealPower
   rotate: false
   xy: 522, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/RealityFormPower
+128/PeelPower
   rotate: false
   xy: 652, 132
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/RebornPower
+128/RealityFormPower
   rotate: false
   xy: 782, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/RootSystemPower
+128/RebornPower
   rotate: false
   xy: 652, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/SeparationPower
+128/RootSystemPower
   rotate: false
   xy: 782, 132
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/TimingPower
+128/SeparationPower
   rotate: false
   xy: 912, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/TwinsPower
+128/TimingPower
   rotate: false
   xy: 782, 2
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-128/UltrasonicPower
+128/TwinsPower
   rotate: false
   xy: 912, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+128/UltrasonicPower
+  rotate: false
+  xy: 1042, 262
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -192,142 +199,149 @@ repeat: none
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/DejaVuPower
+48/ContemplatePower
   rotate: false
   xy: 2, 102
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/EchoPower
+48/DejaVuPower
   rotate: false
   xy: 52, 152
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/EternalPunishmentPower
+48/EchoPower
   rotate: false
   xy: 102, 202
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/FlipPower
+48/EternalPunishmentPower
   rotate: false
   xy: 2, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/FloodTidePower
+48/FlipPower
   rotate: false
   xy: 52, 102
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/GatheringDarknessPower
+48/FloodTidePower
   rotate: false
   xy: 102, 152
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/HeavyPower
+48/GatheringDarknessPower
   rotate: false
   xy: 152, 202
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/JumpOutPower
+48/HeavyPower
   rotate: false
   xy: 2, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/LoseMaxHpPower
+48/JumpOutPower
   rotate: false
   xy: 52, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/MourningPower
+48/LoseMaxHpPower
   rotate: false
   xy: 102, 102
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/NextTurnPealPower
+48/MourningPower
   rotate: false
   xy: 152, 152
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/PealPower
+48/NextTurnPealPower
   rotate: false
   xy: 202, 202
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/PeelPower
+48/PealPower
   rotate: false
   xy: 52, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/RealityFormPower
+48/PeelPower
   rotate: false
   xy: 102, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/RebornPower
+48/RealityFormPower
   rotate: false
   xy: 152, 102
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/RootSystemPower
+48/RebornPower
   rotate: false
   xy: 202, 152
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/SeparationPower
+48/RootSystemPower
   rotate: false
   xy: 102, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/TimingPower
+48/SeparationPower
   rotate: false
   xy: 152, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/TwinsPower
+48/TimingPower
   rotate: false
   xy: 202, 102
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-48/UltrasonicPower
+48/TwinsPower
   rotate: false
   xy: 152, 2
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+48/UltrasonicPower
+  rotate: false
+  xy: 202, 52
   size: 48, 48
   orig: 48, 48
   offset: 0, 0

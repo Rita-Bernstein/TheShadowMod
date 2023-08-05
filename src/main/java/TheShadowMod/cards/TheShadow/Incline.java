@@ -38,6 +38,11 @@ public class Incline extends AbstractTSCard {
         }
     }
 
+    @Override
+    public void betterUpdate(AbstractCard thisCard) {
+        thisCard.costForTurn = this.cost;
+    }
+
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();

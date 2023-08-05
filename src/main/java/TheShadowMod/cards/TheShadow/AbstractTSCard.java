@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 
 import java.lang.reflect.Type;
@@ -44,42 +45,33 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             ((AbstractTSCard) this.thisCopy).backCard = null;
 
             if (this.backCard != null) {
-                this.type = this.backCard.type;
-                this.rarity = this.backCard.rarity;
-                this.target = this.backCard.target;
-                this.isMultiDamage = ReflectionHacks.getPrivate(this.backCard, AbstractCard.class, "isMultiDamage");
-
-                this.selfRetain = this.backCard.selfRetain;
-                this.isEthereal = this.backCard.isEthereal;
-                this.exhaust = this.backCard.exhaust;
-
-                this.costForTurn = this.backCard.costForTurn;
-                this.cost = this.backCard.cost;
-                this.isCostModified = this.backCard.isCostModified;
-                this.isCostModifiedForTurn = this.backCard.isCostModifiedForTurn;
-
-                this.freeToPlayOnce = this.backCard.freeToPlayOnce;
+                cloneFieldToCard(this.backCard);
             }
 
         } else {
             if (this.thisCopy != null) {
-                this.type = this.thisCopy.type;
-                this.rarity = this.thisCopy.rarity;
-                this.target = this.thisCopy.target;
-                this.isMultiDamage = ((AbstractTSCard) this.thisCopy).isMultiDamage;
-
-                this.selfRetain = this.thisCopy.selfRetain;
-                this.isEthereal = this.thisCopy.isEthereal;
-                this.exhaust = this.thisCopy.exhaust;
-
-                this.costForTurn = this.thisCopy.costForTurn;
-                this.cost = this.thisCopy.cost;
-                this.isCostModified = this.thisCopy.isCostModified;
-                this.isCostModifiedForTurn = this.thisCopy.isCostModifiedForTurn;
-
-                this.freeToPlayOnce = this.thisCopy.freeToPlayOnce;
+                cloneFieldToCard(this.thisCopy);
             }
         }
+    }
+
+    public void cloneFieldToCard(AbstractCard c) {
+        this.type = c.type;
+        this.rarity = c.rarity;
+        this.target = c.target;
+        this.isMultiDamage = ((AbstractTSCard) c).isMultiDamage;
+
+        this.isInnate = c.isInnate;
+        this.selfRetain = c.selfRetain;
+        this.isEthereal = c.isEthereal;
+        this.exhaust = c.exhaust;
+
+        this.costForTurn = c.costForTurn;
+        this.cost = c.cost;
+        this.isCostModified = c.isCostModified;
+        this.isCostModifiedForTurn = c.isCostModifiedForTurn;
+
+        this.freeToPlayOnce = c.freeToPlayOnce;
     }
 
     public void onFlipInHand(boolean isBack) {
@@ -108,7 +100,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        if(this.backCard != null ){
+        if (this.backCard != null) {
             this.backCard.freeToPlayOnce = this.freeToPlayOnce;
             this.backCard.energyOnUse = this.energyOnUse;
         }
@@ -240,6 +232,10 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             return false;
         }
 
+        if (this.isFlip && this.backCard != null) {
+            return this.backCard.canUse(p, m);
+        }
+
         return super.canUse(p, m);
     }
 
@@ -273,11 +269,41 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             }
 
             setBackCardFromIndex(backCardIndex);
+
+//            战斗中不印Healing
+            if(CardCrawlGame.dungeon != null)
+                if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
+                    if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+                        while (this.backCard.hasTag(CardTags.HEALING)){
+                            switch (AbstractDungeon.rollRarity()) {
+                                case COMMON:
+                                    backCardIndex = AbstractDungeon.cardRng.random(22);
+                                    break;
+                                case UNCOMMON:
+                                    backCardIndex = AbstractDungeon.cardRng.random(23, 53);
+                                    break;
+                                case RARE:
+                                    backCardIndex = AbstractDungeon.cardRng.random(54, 70);
+                                    break;
+                            }
+
+                            setBackCardFromIndex(backCardIndex);
+                        }
+                    }
+
+
+            if(this.backCard instanceof AbstractTSCard) {
+                ((AbstractTSCard) this.backCard).onInitializeBackCard(this);
+            }
         }
     }
 
+    public void onInitializeBackCard(AbstractCard thisCard) {
 
-    public void setBackCardFromIndex(int index){
+    }
+
+
+    public void setBackCardFromIndex(int index) {
         try {
             backCard = TheShadowMod.shadowCardPool.get(index).getClass().newInstance();
             setBackCardBackground((AbstractTSCard) backCard, true);
@@ -583,5 +609,18 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     }
 
     public void thisUpgrade() {
+    }
+
+
+    @Override
+    public void update() {
+        super.update();
+
+        if(this.backCard instanceof AbstractTSCard){
+            ((AbstractTSCard) this.backCard).betterUpdate(this);
+        }
+    }
+
+    public void betterUpdate(AbstractCard thisCard) {
     }
 }

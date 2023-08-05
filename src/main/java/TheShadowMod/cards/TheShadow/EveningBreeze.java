@@ -10,8 +10,11 @@ import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.vfx.TextAboveCreatureEffect;
 
 public class EveningBreeze extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(EveningBreeze.class.getSimpleName());
@@ -28,18 +31,26 @@ public class EveningBreeze extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        SaveHelper.nextCombatDamage+=this.magicNumber;
+        SaveHelper.nextCombatDamage += this.magicNumber;
     }
 
 
     @SpirePatch(
             clz = AbstractPlayer.class,
-            method = "preBattlePrep"
+            method = "applyStartOfCombatLogic"
     )
     public static class PreBattlePrepPatch {
         @SpireInsertPatch(rloc = 0)
         public static SpireReturn<Void> Insert(AbstractPlayer _instance) {
             SaveHelper.loadSettings();
+            AbstractDungeon.actionManager.addToBottom(new AbstractGameAction() {
+                @Override
+                public void update() {
+                    AbstractDungeon.effectsQueue.add(new TextAboveCreatureEffect(AbstractDungeon.player.hb.cX - AbstractDungeon.player.animX, AbstractDungeon.player.hb.cY,
+                            CardCrawlGame.languagePack.getCardStrings(EveningBreeze.ID).NAME, Settings.GREEN_TEXT_COLOR));
+                    isDone = true;
+                }
+            });
             AbstractDungeon.actionManager.addToBottom(new DamageAllEnemiesAction(null,
                     DamageInfo.createDamageMatrix(SaveHelper.nextCombatDamage, true), DamageInfo.DamageType.THORNS,
 

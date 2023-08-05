@@ -325,8 +325,8 @@
   },
   "TheShadowMod:Eclipse": {
     "NAME": "日蚀",
-    "DESCRIPTION": "获得 !M! 层 *坚不可摧 。 NL the_shadow_mod:本质 ： 固有 ， 虚无 。",
-    "UPGRADE_DESCRIPTION": "获得 !M! 层 *坚不可摧 。"
+    "DESCRIPTION": "本回合内获得 !M! 层 *坚不可摧 。 NL the_shadow_mod:本质 ： 固有 ， 虚无 。",
+    "UPGRADE_DESCRIPTION": "本回合内获得 !M! 层 *坚不可摧 。"
   },
   "TheShadowMod:Peel": {
     "NAME": "剥离",

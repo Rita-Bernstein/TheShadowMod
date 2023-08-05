@@ -3,6 +3,8 @@ package TheShadowMod.cards.TheShadow;
 import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.InvinciblePower;
@@ -24,9 +26,18 @@ public class Eclipse extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPowerAction(p,p,new InvinciblePower(p,this.magicNumber)));
+        addToBot(new ApplyPowerAction(p,p,new InvinciblePower(p,this.magicNumber){
+            @Override
+            public void atEndOfRound() {
+                addToBot(new RemoveSpecificPowerAction(this.owner,this.owner,InvinciblePower.POWER_ID));
+            }
+        }));
     }
 
+    @Override
+    public void onInitializeBackCard(AbstractCard thisCard) {
+        thisCard.isInnate = true;
+    }
 
     public void thisUpgrade() {
         if (!this.upgraded) {

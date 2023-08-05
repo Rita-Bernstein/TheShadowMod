@@ -36,18 +36,19 @@ public class InclineAction extends AbstractGameAction {
 
 
     public void update() {
-        if (AbstractDungeon.player.hand.isEmpty() || AbstractDungeon.player.hand.group.stream().noneMatch(card -> card instanceof AbstractTSCard)) {
+        if (AbstractDungeon.player.hand.size() < 2 || AbstractDungeon.player.hand.group.stream().noneMatch(card -> card instanceof AbstractTSCard)) {
             this.isDone = true;
             return;
         }
 
 
-        if(this.currentScreen == CurrentScreen.Source){
+        if (this.currentScreen == CurrentScreen.Source) {
             if (firstUse) {
                 this.firstUse = false;
 
-                if (AbstractDungeon.player.hand.group.size() == 1) {
-                    saveSourceCard = AbstractDungeon.player.hand.group.get(0);
+                if (AbstractDungeon.player.hand.group.stream().filter(c -> !(c instanceof AbstractTSCard)).count() == 1) {
+                    saveSourceCard = AbstractDungeon.player.hand.group.stream().filter(c -> !(c instanceof AbstractTSCard)).findFirst().get();
+                    AbstractDungeon.player.hand.group.remove(saveSourceCard);
                     this.currentScreen = CurrentScreen.Target;
                     this.firstUse = true;
                     return;
@@ -59,7 +60,6 @@ public class InclineAction extends AbstractGameAction {
 
             if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved) {
                 saveSourceCard = AbstractDungeon.handCardSelectScreen.selectedCards.group.get(0);
-                AbstractDungeon.player.hand.addToTop(saveSourceCard);
                 this.currentScreen = CurrentScreen.Target;
                 this.firstUse = true;
 
@@ -69,12 +69,12 @@ public class InclineAction extends AbstractGameAction {
             }
         }
 
-        if(this.currentScreen == CurrentScreen.Target){
+        if (this.currentScreen == CurrentScreen.Target) {
             if (firstUse) {
                 this.firstUse = false;
 
                 for (AbstractCard c : AbstractDungeon.player.hand.group) {
-                    if (!(c instanceof AbstractTSCard) || c == saveSourceCard) {
+                    if (!(c instanceof AbstractTSCard)) {
                         cannotDuplicate.add(c);
                     }
                 }
@@ -89,9 +89,11 @@ public class InclineAction extends AbstractGameAction {
                     if (t.backCard instanceof AbstractTSCard) {
                         ((AbstractTSCard) t.backCard).backCard = null;
                     }
-                    returnCards();
+
 
                     t.superFlash();
+
+                    returnCards();
                     AbstractDungeon.player.hand.refreshHandLayout();
 
                     isDone = true;
@@ -125,7 +127,8 @@ public class InclineAction extends AbstractGameAction {
 
     private void returnCards() {
         for (AbstractCard c : this.cannotDuplicate) {
-            AbstractDungeon.player.hand.addToTop(c);
+            if (c != saveSourceCard)
+                AbstractDungeon.player.hand.addToTop(c);
         }
 
         AbstractDungeon.player.hand.refreshHandLayout();

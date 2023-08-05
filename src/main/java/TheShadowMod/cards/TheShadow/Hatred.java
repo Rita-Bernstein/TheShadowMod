@@ -19,7 +19,6 @@ public class Hatred extends AbstractTSCard {
     public Hatred() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseDamage = 0;
-
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {

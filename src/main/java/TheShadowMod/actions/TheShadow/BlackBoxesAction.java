@@ -36,18 +36,19 @@ public class BlackBoxesAction extends AbstractGameAction {
 
 
     public void update() {
-        if (AbstractDungeon.player.drawPile.isEmpty() || AbstractDungeon.player.hand.group.stream().noneMatch(card -> card instanceof AbstractTSCard)) {
+        if (AbstractDungeon.player.drawPile.isEmpty() || AbstractDungeon.player.hand.group.stream().noneMatch(card -> card instanceof AbstractTSCard) ) {
             this.isDone = true;
             return;
         }
 
 
-        if(this.currentScreen == CurrentScreen.Source){
+        if (this.currentScreen == CurrentScreen.Source) {
             if (firstUse) {
                 this.firstUse = false;
 
                 if (AbstractDungeon.player.drawPile.group.size() == 1) {
                     saveSourceCard = AbstractDungeon.player.drawPile.group.get(0);
+                    AbstractDungeon.player.drawPile.group.remove(saveSourceCard);
                     this.currentScreen = CurrentScreen.Target;
                     this.firstUse = true;
                     return;
@@ -59,8 +60,8 @@ public class BlackBoxesAction extends AbstractGameAction {
             }
 
             if (!AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
-                saveSourceCard =AbstractDungeon.gridSelectScreen.selectedCards.get(0);
-
+                saveSourceCard = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
+                AbstractDungeon.player.drawPile.group.remove(saveSourceCard);
                 this.currentScreen = CurrentScreen.Target;
                 this.firstUse = true;
 
@@ -69,12 +70,12 @@ public class BlackBoxesAction extends AbstractGameAction {
             }
         }
 
-        if(this.currentScreen == CurrentScreen.Target){
+        if (this.currentScreen == CurrentScreen.Target) {
             if (firstUse) {
                 this.firstUse = false;
 
                 for (AbstractCard c : AbstractDungeon.player.hand.group) {
-                    if (!(c instanceof AbstractTSCard) || c == saveSourceCard) {
+                    if (!(c instanceof AbstractTSCard)) {
                         cannotDuplicate.add(c);
                     }
                 }
@@ -89,6 +90,7 @@ public class BlackBoxesAction extends AbstractGameAction {
                     if (t.backCard instanceof AbstractTSCard) {
                         ((AbstractTSCard) t.backCard).backCard = null;
                     }
+
                     returnCards();
 
                     t.superFlash();

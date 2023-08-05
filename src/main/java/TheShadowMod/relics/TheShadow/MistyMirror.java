@@ -28,9 +28,8 @@ public class MistyMirror extends AbstractShadowModRelic implements OnPlayerDeath
 
     @Override
     public boolean onPlayerDeath(AbstractPlayer player, DamageInfo damageInfo) {
-        if ((AbstractDungeon.getCurrRoom()).monsters == null || (AbstractDungeon.getCurrRoom()).monsters
-                .areMonstersBasicallyDead() || AbstractDungeon.actionManager.turnHasEnded ||
-                (AbstractDungeon.getCurrRoom()).phase != AbstractRoom.RoomPhase.COMBAT) {
+        if ((AbstractDungeon.getCurrRoom()).monsters != null && !(AbstractDungeon.getCurrRoom()).monsters
+                .areMonstersBasicallyDead() && AbstractDungeon.actionManager.turnHasEnded) {
             return true;
         }
 
