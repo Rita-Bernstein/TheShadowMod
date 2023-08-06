@@ -11,7 +11,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
-public class BrokenMirror extends AbstractShadowModRelic implements OnPlayerDeathRelic {
+public class BrokenMirror extends AbstractShadowModRelic implements NotDeadRelic {
     public static final String ID = TheShadowMod.makeID(BrokenMirror.class.getSimpleName());
     private static final String imgName = BrokenMirror.class.getSimpleName() + ".png";
     private static final Texture texture = new Texture(TheShadowMod.assetPath("img/relics/") + imgName);
@@ -28,7 +28,7 @@ public class BrokenMirror extends AbstractShadowModRelic implements OnPlayerDeat
 
 
     @Override
-    public boolean onPlayerDeath(AbstractPlayer player, DamageInfo damageInfo) {
+    public boolean onDead(AbstractPlayer player, DamageInfo damageInfo) {
         if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT ) {
             if( this.counter > 0) {
                 addToTop(new RelicAboveCreatureAction(player, this));

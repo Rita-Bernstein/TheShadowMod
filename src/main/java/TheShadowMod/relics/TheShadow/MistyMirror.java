@@ -5,13 +5,16 @@ import TheShadowMod.relics.AbstractShadowModRelic;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.OnPlayerDeathPower;
 import com.evacipated.cardcrawl.mod.stslib.relics.OnPlayerDeathRelic;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
-public class MistyMirror extends AbstractShadowModRelic implements OnPlayerDeathRelic {
+public class MistyMirror extends AbstractShadowModRelic implements NotDeadRelic {
     public static final String ID = TheShadowMod.makeID(MistyMirror.class.getSimpleName());
     private static final String imgName = MistyMirror.class.getSimpleName() + ".png";
     private static final Texture texture = new Texture(TheShadowMod.assetPath("img/relics/") + imgName);
@@ -25,9 +28,8 @@ public class MistyMirror extends AbstractShadowModRelic implements OnPlayerDeath
         return this.DESCRIPTIONS[0];
     }
 
-
     @Override
-    public boolean onPlayerDeath(AbstractPlayer player, DamageInfo damageInfo) {
+    public boolean onDead(AbstractPlayer player, DamageInfo damageInfo) {
         if ((AbstractDungeon.getCurrRoom()).monsters != null && !(AbstractDungeon.getCurrRoom()).monsters
                 .areMonstersBasicallyDead() && AbstractDungeon.actionManager.turnHasEnded) {
             return true;
