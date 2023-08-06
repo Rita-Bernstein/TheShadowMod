@@ -39,7 +39,9 @@ public class DoubleBody extends AbstractTSCard {
     @Override
     public void onThisFlipInHand() {
         ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
-        list.removeIf(card -> card == this);
+        list.removeIf(card -> card == this ||
+                (card instanceof AbstractTSCard && ((AbstractTSCard) card).backCard == this));
+
         if(list.size()>1){
             addToTop(new AbstractGameAction() {
                          @Override

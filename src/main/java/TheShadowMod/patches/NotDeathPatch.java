@@ -14,20 +14,18 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+@SpirePatch(clz = AbstractPlayer.class, method = "damage", paramtypez = {DamageInfo.class})
 public class NotDeathPatch {
-    @SpirePatch(clz = AbstractPlayer.class, method = "damage", paramtypez = {DamageInfo.class})
-    public static class OnPlayerDeathPatch {
-        @SpireInsertPatch(rloc = 1853-1725)
-        public static SpireReturn<Void> Insert(AbstractPlayer __instance, DamageInfo info) {
-            for (AbstractRelic relic : __instance.relics) {
-                if (relic instanceof NotDeadRelic &&
-                        !((NotDeadRelic)relic).onDead(__instance, info)) {
-                    GameStatsPatch.notDeathCombatCounter++;
-                    return SpireReturn.Return(null);
-                }
+    @SpireInsertPatch(rloc = 1853-1725)
+    public static SpireReturn<Void> Insert(AbstractPlayer __instance, DamageInfo info) {
+        for (AbstractRelic relic : __instance.relics) {
+            if (relic instanceof NotDeadRelic &&
+                    !((NotDeadRelic)relic).onDead(__instance, info)) {
+                GameStatsPatch.notDeathCombatCounter++;
+                return SpireReturn.Return(null);
             }
-            return SpireReturn.Continue();
         }
-
+        return SpireReturn.Continue();
     }
+
 }
