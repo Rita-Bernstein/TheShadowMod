@@ -30,7 +30,8 @@ public class VoidPace extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeBlock(3);
+            upgradeBlock(1);
+            upgradeMagicNumber(1);
         }
     }
 }

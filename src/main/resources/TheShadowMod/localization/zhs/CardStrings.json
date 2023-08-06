@@ -41,7 +41,7 @@
   },
   "TheShadowMod:ShadowTouch": {
     "NAME": "暗影之触",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 手牌中翻面时，在本场战斗中耗能减少 [E] 。"
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL  the_shadow_mod:本质 ：对所有敌人造成 !M! 点伤害。"
   },
   "TheShadowMod:ScaldingColloid": {
     "NAME": "滚烫胶体",
@@ -107,7 +107,7 @@
   },
   "TheShadowMod:VoidPace": {
     "NAME": "虚空步伐",
-    "DESCRIPTION": "获得 !B! 点 格挡 两次。 NL 抽两张牌。"
+    "DESCRIPTION": "获得 !B! 点 格挡 两次。 NL 抽 !M! 张牌。"
   },
   "TheShadowMod:ShadowStrike": {
     "NAME": "影子打击",

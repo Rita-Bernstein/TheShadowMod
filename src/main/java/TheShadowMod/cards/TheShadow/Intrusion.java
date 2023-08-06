@@ -33,7 +33,7 @@ public class Intrusion extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeDamage(1);
+            upgradeDamage(3);
             upgradeMagicNumber(1);
         }
     }

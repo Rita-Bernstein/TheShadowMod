@@ -45,7 +45,19 @@ public class DoubleBody extends AbstractTSCard {
                          @Override
                          public void update() {
                              AbstractCard c = list.get(AbstractDungeon.cardRandomRng.random(list.size()-1));
-                             c.freeToPlayOnce = true;
+                             if (c instanceof AbstractTSCard) {
+                                 AbstractTSCard tsc = (AbstractTSCard) c;
+                                 if (!tsc.isFlip || tsc.backCard == null) {
+                                     c.freeToPlayOnce = true;
+                                     if (tsc.thisCopy != null) {
+                                         tsc.thisCopy.freeToPlayOnce = true;
+                                     }
+                                 } else {
+                                     tsc.backCard.freeToPlayOnce = true;
+                                 }
+                             } else {
+                                 c.freeToPlayOnce = true;
+                             }
                              AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
                              AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
                              isDone = true;
@@ -58,7 +70,19 @@ public class DoubleBody extends AbstractTSCard {
                          @Override
                          public void update() {
                              AbstractCard c = list.get(0);
-                             c.freeToPlayOnce = true;
+                             if (c instanceof AbstractTSCard) {
+                                 AbstractTSCard tsc = (AbstractTSCard) c;
+                                 if (!tsc.isFlip || tsc.backCard == null) {
+                                     c.freeToPlayOnce = true;
+                                     if (tsc.thisCopy != null) {
+                                         tsc.thisCopy.freeToPlayOnce = true;
+                                     }
+                                 } else {
+                                     tsc.backCard.freeToPlayOnce = true;
+                                 }
+                             } else {
+                                 c.freeToPlayOnce = true;
+                             }
                              AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
                              AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
                              isDone = true;
