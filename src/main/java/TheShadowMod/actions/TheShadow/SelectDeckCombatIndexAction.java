@@ -56,7 +56,7 @@ public class SelectDeckCombatIndexAction extends AbstractGameAction {
             for (AbstractCard card : AbstractDungeon.gridSelectScreen.selectedCards) {
                 if (IndexCardsPatches.getCardIndex(card) > 0) {
                     for(AbstractCard tmp : AbstractDungeon.player.masterDeck.group){
-                        IndexCardsPatches.addCardIndex(card,-1);
+                        IndexCardsPatches.addCardIndex(tmp,-1);
                     }
                     IndexCardsPatches.setCardIndex(card, maxIndex);
                 }else {
@@ -65,11 +65,9 @@ public class SelectDeckCombatIndexAction extends AbstractGameAction {
                 }
             }
 
-
-
-
+            AbstractDungeon.gridSelectScreen.selectedCards.clear();
         }
-        AbstractDungeon.gridSelectScreen.selectedCards.clear();
+
 
 
         tickDuration();

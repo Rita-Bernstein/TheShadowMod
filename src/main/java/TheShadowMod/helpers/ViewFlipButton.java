@@ -264,16 +264,55 @@ public class ViewFlipButton {
         }
 
 
-        AbstractCard girdHoverCard = ReflectionHacks.getPrivate(AbstractDungeon.gridSelectScreen, GridCardSelectScreen.class, "hoveredCard");
-        if (girdHoverCard instanceof AbstractTSCard && AbstractDungeon.gridSelectScreen.forUpgrade) {
-            ((AbstractTSCard) girdHoverCard).isViewingFlip = isViewingFlip;
-            ((AbstractTSCard) girdHoverCard).onViewingFlip();
-        }
 
+    }
 
 //        火堆升级
 
+    @SpirePatch(
+            clz = GridCardSelectScreen.class,
+            method = "update"
+    )
+    public static class CampfireCardPatch {
+        @SpireInsertPatch(rloc = 136)
+        public static void Insert(GridCardSelectScreen _instance) {
+            if (_instance.upgradePreviewCard instanceof AbstractTSCard) {
+                AbstractTSCard preCard = (AbstractTSCard) _instance.upgradePreviewCard;
+                preCard.isViewingFlip = isViewingFlip;
+                preCard.onViewingFlip();
 
+                if (AbstractDungeon.gridSelectScreen.forUpgrade && preCard.ifChangeToBackSide()) {
+                    if (preCard.backCard != null) {
+                        preCard.backCard.upgrade();
+                    }
+                }
+
+            }
+
+
+        }
+    }
+
+    @SpirePatch(
+            clz = GridCardSelectScreen.class,
+            method = "update"
+    )
+    public static class CampfireCardPatch2 {
+        @SpireInsertPatch(rloc = 199)
+        public static void Insert(GridCardSelectScreen _instance) {
+            if (_instance.upgradePreviewCard instanceof AbstractTSCard) {
+                AbstractTSCard preCard = (AbstractTSCard) _instance.upgradePreviewCard;
+                preCard.isViewingFlip = isViewingFlip;
+                preCard.onViewingFlip();
+
+                if (AbstractDungeon.gridSelectScreen.forUpgrade && preCard.ifChangeToBackSide()) {
+                    if (preCard.backCard != null) {
+                        preCard.backCard.upgrade();
+                    }
+                }
+
+            }
+        }
     }
 
     @SpirePatch(

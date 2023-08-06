@@ -253,6 +253,15 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         return super.canPlay(card);
     }
 
+    @Override
+    public boolean canUpgrade() {
+        if (this.backCard != null) {
+            return this.upgraded && this.backCard.upgraded;
+        }
+
+        return super.canUpgrade();
+    }
+
     public void initializeBackCard() {
         if (backCard == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
             if (this.rarity == CardRarity.BASIC || this.rarity == CardRarity.SPECIAL) {
@@ -275,10 +284,10 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             setBackCardFromIndex(backCardIndex);
 
 //            战斗中不印Healing
-            if(CardCrawlGame.dungeon != null)
+            if (CardCrawlGame.dungeon != null)
                 if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
                     if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
-                        while (this.backCard.hasTag(CardTags.HEALING)){
+                        while (this.backCard.hasTag(CardTags.HEALING)) {
                             switch (AbstractDungeon.rollRarity()) {
                                 case COMMON:
                                     backCardIndex = AbstractDungeon.cardRng.random(22);
@@ -296,7 +305,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                     }
 
 
-            if(this.backCard instanceof AbstractTSCard) {
+            if (this.backCard instanceof AbstractTSCard) {
                 ((AbstractTSCard) this.backCard).onInitializeBackCard(this);
             }
         }
@@ -360,7 +369,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     public AbstractCard makeCopy() {
         AbstractTSCard c = (AbstractTSCard) super.makeCopy();
         c.initializeBackCard();
-        c.thisCopy = this;
+        c.thisCopy = c;
         return c;
     }
 
@@ -370,7 +379,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         AbstractCard bcSave = backCard;
         AbstractTSCard c = (AbstractTSCard) super.makeStatEquivalentCopy();
 
-        if (backCard instanceof AbstractTSCard) {
+        if (bcSave instanceof AbstractTSCard) {
             try {
                 c.backCard = bcSave.getClass().newInstance();
                 setBackCardBackground((AbstractTSCard) c.backCard, true);
@@ -409,8 +418,8 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             card.misc = this.backCard.misc;
             card.freeToPlayOnce = this.backCard.freeToPlayOnce;
 
-        } else if (backCard != null) {
-            c.backCard = backCard.makeStatEquivalentCopy();
+        } else if (bcSave != null) {
+            c.backCard = bcSave.makeStatEquivalentCopy();
         }
         return c;
     }
@@ -482,7 +491,6 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
         if (!Settings.hideCards && (boolean) ReflectionHacks.getPrivate(this, AbstractCard.class, "renderTip"))
             if (this.backCard != null && this.backCard != this) {
-
                 renderCardPreviewBack(sb);
             }
     }
@@ -516,39 +524,31 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
         } else {
             if (this.thisCopy != null) {
+                AbstractCard renderCard = this.thisCopy.makeStatEquivalentCopy();
+                renderCard.targetDrawScale = this.targetDrawScale * 0.8f;
+                renderCard.drawScale = this.drawScale * 0.8f;
 
-                this.thisCopy.targetDrawScale = this.targetDrawScale * 0.8f;
-                this.thisCopy.drawScale = this.drawScale * 0.8f;
-
-                this.thisCopy.setAngle(0.0f);
-
-                this.thisCopy.targetDrawScale = this.targetDrawScale;
-                this.thisCopy.drawScale = this.drawScale;
-
-                this.thisCopy.targetAngle = this.targetAngle;
-                this.thisCopy.angle = this.angle;
-
+                renderCard.setAngle(0.0f);
 
                 if (this.current_x > Settings.WIDTH * 0.75F) {
-                    this.thisCopy.current_x = this.current_x + (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
+                    renderCard.current_x = this.current_x + (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
                 } else {
-                    this.thisCopy.current_x = this.current_x - (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
+                    renderCard.current_x = this.current_x - (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
                 }
 
                 if (this.cardsToPreview == null) {
-                    this.thisCopy.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
+                    renderCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
                 } else {
                     if (this.current_y < Settings.HEIGHT * 0.5F) {
-                        this.thisCopy.current_y = this.current_y + (IMG_HEIGHT / 2.0F + IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
+                        renderCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F + IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
                     } else {
-                        this.thisCopy.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT * 1.5F * 0.8F) * this.drawScale;
+                        renderCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT * 1.5F * 0.8F) * this.drawScale;
                     }
                 }
 
-                this.thisCopy.drawScale = this.drawScale * 0.8F;
-                this.thisCopy.setAngle(0.0f, true);
+                renderCard.render(sb);
 
-                this.thisCopy.render(sb);
+
             }
         }
     }
@@ -620,7 +620,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     public void update() {
         super.update();
 
-        if(this.backCard instanceof AbstractTSCard){
+        if (this.backCard instanceof AbstractTSCard) {
             ((AbstractTSCard) this.backCard).betterUpdate(this);
         }
     }

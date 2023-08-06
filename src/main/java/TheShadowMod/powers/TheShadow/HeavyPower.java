@@ -5,6 +5,7 @@ import TheShadowMod.cards.TheShadow.AbstractTSCard;
 import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.AbstractShadowModPower;
 import basemod.ReflectionHacks;
+import com.badlogic.gdx.Gdx;
 import com.evacipated.cardcrawl.modthespire.lib.ByRef;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
@@ -16,7 +17,12 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.rooms.EventRoom;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.combat.GainPowerEffect;
+
+import java.util.ArrayList;
 
 public class HeavyPower extends AbstractShadowModPower {
     public static final String POWER_ID = TheShadowMod.makeID(HeavyPower.class.getSimpleName());
@@ -24,6 +30,7 @@ public class HeavyPower extends AbstractShadowModPower {
     public static final String NAME = powerStrings.NAME;
     public static final String[] DESCRIPTIONS = powerStrings.DESCRIPTIONS;
 
+    private float timer;
 
     public HeavyPower(AbstractCreature owner, int amount) {
         this.name = NAME;
@@ -71,6 +78,20 @@ public class HeavyPower extends AbstractShadowModPower {
         return !GameStatsPatch.blackWorld || AbstractDungeon.player.hasPower(MourningPower.POWER_ID);
     }
 
+
+    @Override
+    public void update(int slot) {
+        super.update(slot);
+        if (canHeavyTrigger()){
+            if (this.timer <= 0F){
+                ArrayList<AbstractGameEffect> effect2 = (ArrayList<AbstractGameEffect>) ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
+                effect2.add(new GainPowerEffect(this));
+                this.timer = 1F;
+            } else {
+                this.timer -= Gdx.graphics.getDeltaTime();
+            }
+        }
+    }
 
     @Override
     public void updateDescription() {
