@@ -21,8 +21,10 @@ public class NotDeathPatch {
         public static SpireReturn<Void> Insert(AbstractPlayer __instance, DamageInfo info) {
             for (AbstractRelic relic : __instance.relics) {
                 if (relic instanceof NotDeadRelic &&
-                        !((NotDeadRelic)relic).onDead(__instance, info))
+                        !((NotDeadRelic)relic).onDead(__instance, info)) {
+                    GameStatsPatch.notDeathCombatCounter++;
                     return SpireReturn.Return(null);
+                }
             }
             return SpireReturn.Continue();
         }

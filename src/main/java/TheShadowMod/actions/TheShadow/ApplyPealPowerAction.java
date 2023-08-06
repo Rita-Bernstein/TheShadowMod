@@ -60,10 +60,9 @@ public class ApplyPealPowerAction extends AbstractGameAction {
         if (AbstractDungeon.player.hasRelic(VocalCords.ID)) {
             AbstractRelic r = AbstractDungeon.player.getRelic(VocalCords.ID);
             if (!r.grayscale) {
+                this.amount *= 2;
                 r.grayscale = true;
             }
-
-            this.amount *= 2;
         }
 
         if (!this.target.hasPower(ArtifactPower.POWER_ID)) {
