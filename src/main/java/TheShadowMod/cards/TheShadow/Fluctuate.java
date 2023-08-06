@@ -36,6 +36,9 @@ public class Fluctuate extends AbstractTSCard {
                     if (tsc.thisCopy != null) {
                         tsc.thisCopy.freeToPlayOnce = true;
                     }
+                    if (tsc.backCard != null) {
+                        tsc.backCard.freeToPlayOnce = true;
+                    }
                     AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
                 }
             }

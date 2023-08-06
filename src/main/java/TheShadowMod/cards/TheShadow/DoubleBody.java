@@ -47,12 +47,11 @@ public class DoubleBody extends AbstractTSCard {
                              AbstractCard c = list.get(AbstractDungeon.cardRandomRng.random(list.size()-1));
                              if (c instanceof AbstractTSCard) {
                                  AbstractTSCard tsc = (AbstractTSCard) c;
-                                 if (!tsc.isFlip || tsc.backCard == null) {
-                                     c.freeToPlayOnce = true;
-                                     if (tsc.thisCopy != null) {
-                                         tsc.thisCopy.freeToPlayOnce = true;
-                                     }
-                                 } else {
+                                 c.freeToPlayOnce = true;
+                                 if (tsc.thisCopy != null) {
+                                     tsc.thisCopy.freeToPlayOnce = true;
+                                 }
+                                 if (tsc.backCard != null) {
                                      tsc.backCard.freeToPlayOnce = true;
                                  }
                              } else {
@@ -72,12 +71,11 @@ public class DoubleBody extends AbstractTSCard {
                              AbstractCard c = list.get(0);
                              if (c instanceof AbstractTSCard) {
                                  AbstractTSCard tsc = (AbstractTSCard) c;
-                                 if (!tsc.isFlip || tsc.backCard == null) {
-                                     c.freeToPlayOnce = true;
-                                     if (tsc.thisCopy != null) {
-                                         tsc.thisCopy.freeToPlayOnce = true;
-                                     }
-                                 } else {
+                                 c.freeToPlayOnce = true;
+                                 if (tsc.thisCopy != null) {
+                                     tsc.thisCopy.freeToPlayOnce = true;
+                                 }
+                                 if (tsc.backCard != null) {
                                      tsc.backCard.freeToPlayOnce = true;
                                  }
                              } else {
