@@ -256,7 +256,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     @Override
     public boolean canUpgrade() {
         if (this.backCard != null) {
-            return this.upgraded && this.backCard.upgraded;
+            return !this.upgraded || !this.backCard.upgraded;
         }
 
         return super.canUpgrade();
