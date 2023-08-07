@@ -238,6 +238,7 @@ public class TheShadowMod implements
         cards.add(new Wallcovering());
         cards.add(new IllusionVul());
         cards.add(new IllusionWeak());
+        cards.add(new Execute());
 
 
         for (CustomCard card : cards) {

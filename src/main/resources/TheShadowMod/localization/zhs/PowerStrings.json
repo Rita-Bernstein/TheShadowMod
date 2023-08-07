@@ -135,10 +135,9 @@
     ]
   },
   "TheShadowMod:PeelPower": {
-    "NAME": "剥离",
+    "NAME": "拷问",
     "DESCRIPTIONS": [
-      "每次获得 #y颠倒 时，对所有敌人造成等同其层数的伤害。",
-      "每次获得 #y颠倒 时，对所有敌人造成等同其层数 #b%d 倍的伤害。"
+      "下回合开始时，将 #b%d 张行刑加入手牌。"
     ]
   },
   "TheShadowMod:GatheringDarknessPower": {

@@ -23,8 +23,6 @@ public class EnucleationHeart extends AbstractTSCard {
         this.baseDamage = 13;
         this.magicNumber = this.baseMagicNumber = 1;
         this.secondaryM = this.baseSecondaryM = 1;
-        this.tags.add(CardTags.STRIKE);
-
     }
 
 

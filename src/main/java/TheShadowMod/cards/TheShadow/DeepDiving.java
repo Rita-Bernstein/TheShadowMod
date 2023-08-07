@@ -36,7 +36,6 @@ public class DeepDiving extends AbstractTSCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);
-            upgradeSecondM(1);
         }
     }
 }

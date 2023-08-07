@@ -17,17 +17,8 @@ public class GainFlipPowerAction extends AbstractGameAction {
 
     @Override
     public void update() {
-        if(AbstractDungeon.player.hasPower(PeelPower.POWER_ID)){
-            AbstractPower p = AbstractDungeon.player.getPower(PeelPower.POWER_ID);
-            p.flash();
-            addToTop(new DamageAllEnemiesAction(AbstractDungeon.player, DamageInfo.createDamageMatrix(this.amount*p.amount,true),
-                    this.damageType, AttackEffect.FIRE, true));
-        }
-
         addToTop(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new FlipPower(AbstractDungeon.player, this.amount), this.amount));
         addToTop(new FlipCombatCardsAction());
-
-
 
         isDone = true;
 

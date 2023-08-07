@@ -329,9 +329,12 @@
     "UPGRADE_DESCRIPTION": "在本回合获得 !M! 层 *坚不可摧 。"
   },
   "TheShadowMod:Peel": {
-    "NAME": "剥离",
-    "DESCRIPTION": "每次获得 the_shadow_mod:颠倒 时，对所有敌人造成等同其层数的伤害",
-    "UPGRADE_DESCRIPTION": "每次获得 the_shadow_mod:颠倒 时，对所有敌人造成等同其层数2倍的伤害"
+    "NAME": "拷问",
+    "DESCRIPTION": "造成 !D! 点伤害，给予1层 易伤 。 NL 下回合开始时，获得 !M! 张 *行刑 。"
+  },
+  "TheShadowMod:Execute": {
+    "NAME": "行刑",
+    "DESCRIPTION": "造成 !D! 点伤害3次。 NL  消耗 。"
   },
   "TheShadowMod:GatheringDarkness": {
     "NAME": "夜幕",

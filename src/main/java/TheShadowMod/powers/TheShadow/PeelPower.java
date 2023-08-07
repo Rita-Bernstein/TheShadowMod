@@ -1,7 +1,12 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.cards.TheShadow.Execute;
+import TheShadowMod.cards.TheShadow.Wallcovering;
 import TheShadowMod.powers.AbstractShadowModPower;
+import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -20,13 +25,23 @@ public class PeelPower extends AbstractShadowModPower {
         this.ID = POWER_ID;
         this.amount = amount;
         this.owner = owner;
+        this.priority = 12;
         updateDescription();
 
         loadShadowRegion("PeelPower");
     }
 
     @Override
+    public void atStartOfTurn() {
+        flash();
+        for (int i = 0; i < this.amount; i++) {
+            addToTop(new MakeTempCardInHandAction(new Execute()));
+        }
+        addToTop(new RemoveSpecificPowerAction(this.owner,this.owner,POWER_ID));
+    }
+
+    @Override
     public void updateDescription() {
-        this.description = this.amount > 1 ? String.format(DESCRIPTIONS[1], this.amount) : DESCRIPTIONS[0];
+        this.description = String.format(DESCRIPTIONS[0], this.amount);
     }
 }

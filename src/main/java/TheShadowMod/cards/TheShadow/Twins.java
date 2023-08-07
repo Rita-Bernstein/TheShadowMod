@@ -17,7 +17,7 @@ public class Twins extends AbstractTSCard {
 
     public Twins() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 5;
+        this.magicNumber = this.baseMagicNumber = 4;
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {

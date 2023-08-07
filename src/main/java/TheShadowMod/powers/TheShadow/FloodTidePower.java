@@ -24,6 +24,7 @@ public class FloodTidePower extends AbstractShadowModPower {
         this.ID = POWER_ID;
         this.amount = amount;
         this.owner = owner;
+        this.priority = 10;
         updateDescription();
 
         loadShadowRegion("FloodTidePower");
