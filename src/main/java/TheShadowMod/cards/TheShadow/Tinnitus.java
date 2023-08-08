@@ -40,7 +40,7 @@ public class Tinnitus extends AbstractTSCard {
                     new StrengthPower(mo, -this.secondaryM), -this.secondaryM,
                     true, AbstractGameAction.AttackEffect.NONE));
         for (AbstractMonster mo : (AbstractDungeon.getCurrRoom()).monsters.monsters) {
-            if (!mo.hasPower("Artifact"))
+            if (!mo.hasPower("Artifact") || (mo.getPower("Artifact").amount < 2))
                 addToBot(new ApplyPowerAction(mo, p, new GainStrengthPower(mo, this.secondaryM),
                         this.secondaryM, true, AbstractGameAction.AttackEffect.NONE));
         }

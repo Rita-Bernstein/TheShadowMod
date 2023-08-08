@@ -5,6 +5,7 @@ import TheShadowMod.powers.TheShadow.PealPower;
 import basemod.patches.com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue.Save;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -31,11 +32,20 @@ public class GameStatsPatch {
     public static void combatBaseReset() {
         blackWorld = false;
         notDeathCombatCounter = 0;
-        SaveHelper.noPotion = false;
-        SaveHelper.saveNoPotion();
         trueDamageReceivedThisCombat = 0;
     }
 
+    @SpirePatch(
+            clz = AbstractPlayer.class,
+            method = "applyStartOfCombatLogic"
+    )
+    public static class NoPotionResetPatch {
+        @SpirePostfixPatch
+        public static void Postfix(AbstractPlayer __instance) {
+            SaveHelper.noPotion = false;
+            SaveHelper.saveNoPotion();
+        }
+    }
 
     @SpirePatch(
             clz = AbstractPlayer.class,

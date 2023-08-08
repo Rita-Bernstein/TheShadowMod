@@ -1,5 +1,6 @@
 package TheShadowMod.patches;
 
+import TheShadowMod.powers.AbstractShadowModPower;
 import TheShadowMod.relics.TheShadow.BrokenMirror;
 import TheShadowMod.relics.TheShadow.MistyMirror;
 import TheShadowMod.relics.TheShadow.NotDeadRelic;
@@ -12,6 +13,7 @@ import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 @SpirePatch(clz = AbstractPlayer.class, method = "damage", paramtypez = {DamageInfo.class})
@@ -22,6 +24,11 @@ public class NotDeathPatch {
             if (relic instanceof NotDeadRelic &&
                     !((NotDeadRelic)relic).onDead(__instance, info)) {
                 GameStatsPatch.notDeathCombatCounter++;
+                for (AbstractPower p : AbstractDungeon.player.powers) {
+                    if (p instanceof AbstractShadowModPower) {
+                        ((AbstractShadowModPower) p).onNotDeath();
+                    }
+                }
                 return SpireReturn.Return(null);
             }
         }

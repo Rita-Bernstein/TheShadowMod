@@ -6,10 +6,7 @@ import TheShadowMod.helpers.SaveHelper;
 import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.AbstractShadowModPower;
 import TheShadowMod.powers.TheShadow.PealPower;
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -50,12 +47,13 @@ public class Promise extends AbstractTSCard {
             paramtypez = {}
     )
     public static class NoPotionPatch {
-        @SpireInsertPatch(rloc = 23, localvars = {"chance"})
+        @SpireInsertPatch(rloc = 789-765, localvars = {"chance"})
         public static SpireReturn<Void> Insert(AbstractRoom __instance, @ByRef int[] chance) {
             SaveHelper.loadNoPotion();
             if (SaveHelper.noPotion) {
                 chance[0] = 0;
             }
+            System.out.println("QAQQQQQ POTION CHANCE: " + chance[0]);
             return SpireReturn.Continue();
         }
     }
