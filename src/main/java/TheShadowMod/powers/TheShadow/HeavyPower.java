@@ -75,7 +75,7 @@ public class HeavyPower extends AbstractShadowModPower {
     }
 
     public static boolean canHeavyTrigger() {
-        return !GameStatsPatch.blackWorld || AbstractDungeon.player.hasPower(MourningPower.POWER_ID);
+        return (!GameStatsPatch.blackWorld || AbstractDungeon.player.hasPower(MourningPower.POWER_ID)) && !AbstractDungeon.actionManager.turnHasEnded;
     }
 
 

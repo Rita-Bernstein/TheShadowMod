@@ -34,6 +34,13 @@ public class ApplyPealPowerAction extends AbstractGameAction {
 
     @Override
     public void update() {
+        if (this.target == null) {
+            this.target = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+            if (this.target == null) {
+                this.isDone = true;
+                return;
+            }
+        }
         if (PealPower.getPealCounter(this.target) >= getMaxPealAmount()) {
             if (this.target.hasPower(PealPower.POWER_ID) &&
                     this.target.getPower(PealPower.POWER_ID).amount > 0) {

@@ -6,6 +6,8 @@ import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
+import java.lang.reflect.Field;
+
 public class UltimateReaction extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(UltimateReaction.class.getSimpleName());
     public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/UltimateReaction.png");
@@ -20,8 +22,25 @@ public class UltimateReaction extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        if (m.getIntentDmg() > p.currentHealth)
-            addToBot(new DoublePlayDrawPileAction());
+        try {
+            Field fi = AbstractMonster.class.getDeclaredField("isMultiDmg");
+            fi.setAccessible(true);
+            boolean isMultiDmg = fi.getBoolean(m);
+            if (isMultiDmg) {
+                fi = AbstractMonster.class.getDeclaredField("intentMultiAmt");
+                fi.setAccessible(true);
+                int intentMultiAmt = fi.getInt(m);
+                if (m.getIntentDmg() * intentMultiAmt >= p.currentHealth) {
+                    addToBot(new DoublePlayDrawPileAction());
+                }
+            } else {
+                if (m.getIntentDmg() >= p.currentHealth) {
+                    addToBot(new DoublePlayDrawPileAction());
+                }
+            }
+        } catch (Exception exception) {
+
+        }
 
     }
 

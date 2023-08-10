@@ -103,7 +103,7 @@
   },
   "TheShadowMod:FightToDeath": {
     "NAME": "死斗",
-    "DESCRIPTION": "翻倍你的 the_shadow_mod:沉重 。 NL 消耗 。"
+    "DESCRIPTION": "获得 !M! 层 the_shadow_mod:沉重 ，所有敌人获得 !TheShadowSM! 点力量。 NL 消耗 。"
   },
   "TheShadowMod:VoidPace": {
     "NAME": "虚空步伐",
@@ -279,7 +279,7 @@
   },
   "TheShadowMod:UnmarkedCommonGraves": {
     "NAME": "乱葬岗",
-    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 斩杀 时，从牌组选择一张牌，其在战斗开始时处于抽牌堆底部。 消耗 。"
+    "DESCRIPTION": "随机对你或敌人造成 !D! 点伤害 !M! 次。"
   },
   "TheShadowMod:PerfectImitation": {
     "NAME": "完美模仿",
@@ -304,7 +304,7 @@
   },
   "TheShadowMod:UltimateReaction": {
     "NAME": "极限反应",
-    "DESCRIPTION": "目标的攻击意图数值超过你的生命值时，打出抽牌堆的一张牌并触发它的另一面。"
+    "DESCRIPTION": "目标的攻击意图数值不低于你的生命值时，打出抽牌堆的一张牌并触发它的另一面。"
   },
   "TheShadowMod:RealityForm": {
     "NAME": "真实形态",
@@ -320,8 +320,8 @@
   },
   "TheShadowMod:Contemplate": {
     "NAME": "思忖",
-    "DESCRIPTION": "每回合开始时，至多用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）",
-    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合开始时，至多用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）"
+    "DESCRIPTION": "回合开始时可用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 回合开始时可用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）"
   },
   "TheShadowMod:Eclipse": {
     "NAME": "日蚀",

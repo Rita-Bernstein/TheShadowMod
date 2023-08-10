@@ -13,7 +13,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 public class Phoenix extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(Phoenix.class.getSimpleName());
     public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/Phoenix.png");
-    private static final int COST = 2;
+    private static final int COST = 1;
     private static final CardType TYPE = CardType.ATTACK;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.ENEMY;

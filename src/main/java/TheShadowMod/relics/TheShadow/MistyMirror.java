@@ -8,10 +8,12 @@ import com.evacipated.cardcrawl.mod.stslib.relics.OnPlayerDeathRelic;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 public class MistyMirror extends AbstractShadowModRelic implements NotDeadRelic {
@@ -39,6 +41,7 @@ public class MistyMirror extends AbstractShadowModRelic implements NotDeadRelic 
         addToTop(new RelicAboveCreatureAction(player, this));
         flash();
         player.heal(player.maxHealth / 2);
+        addToTop(new ApplyPowerAction(player,player,new VulnerablePower(player,1,false),1));
         return false;
     }
 }

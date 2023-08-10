@@ -20,7 +20,7 @@ public class BlackBoxes extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new BlackBoxesAction());
+        addToTop(new BlackBoxesAction());
     }
 
 

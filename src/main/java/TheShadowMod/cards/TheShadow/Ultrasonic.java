@@ -17,7 +17,7 @@ public class Ultrasonic extends AbstractTSCard {
 
     public Ultrasonic() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 5;
+        this.magicNumber = this.baseMagicNumber = 4;
 
     }
 

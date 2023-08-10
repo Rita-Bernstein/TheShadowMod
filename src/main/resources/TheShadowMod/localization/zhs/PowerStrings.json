@@ -14,7 +14,7 @@
   "TheShadowMod:HeavyPower": {
     "NAME": "沉重",
     "DESCRIPTIONS": [
-      "所有人失去生命时额外失去 #b%d 点。 NL 仅在表世界生效。"
+      "你的回合内处于表世界时，所有人失去生命时额外失去 #b%d 点。"
     ]
   },
   "TheShadowMod:BackStrikePower": {

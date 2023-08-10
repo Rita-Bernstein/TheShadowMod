@@ -25,8 +25,7 @@ public class BloodyPath extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DrawCardAction(this.magicNumber));
-        addToBot(new ApplyPowerAction(p,p,new BloodyPathPower(p,this.magicNumber)));
-
+        addToBot(new ApplyPowerAction(p,p,new BloodyPathPower(p,this.secondaryM)));
     }
 
 

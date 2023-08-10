@@ -31,7 +31,7 @@ public class TheShadowCharacter extends CustomPlayer {
     public static final CharacterStrings charStrings = CardCrawlGame.languagePack.getCharacterString(TheShadowMod.makeID(TheShadowCharacter.class.getSimpleName()));
 
     public static final int ENERGY_PER_TURN = 3;
-    public static final int START_HP = 52;
+    public static final int START_HP = 62;
     public static final int START_GOLD = 99;
 
 
@@ -131,7 +131,7 @@ public class TheShadowCharacter extends CustomPlayer {
 
     @Override
     public int getAscensionMaxHPLoss() {
-        return 2;
+        return 4;
     }
 
     @Override

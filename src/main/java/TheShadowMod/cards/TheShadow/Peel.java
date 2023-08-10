@@ -24,6 +24,7 @@ public class Peel extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseDamage = 6;
         this.magicNumber = this.baseMagicNumber = 1;
+        this.cardsToPreview = new Execute();
     }
 
 
