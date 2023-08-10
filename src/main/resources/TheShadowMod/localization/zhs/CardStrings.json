@@ -304,7 +304,7 @@
   },
   "TheShadowMod:UltimateReaction": {
     "NAME": "极限反应",
-    "DESCRIPTION": "目标的攻击意图数值不低于你的生命值时，打出抽牌堆的一张牌并触发它的另一面。"
+    "DESCRIPTION": "若目标的攻击意图数值不低于你的生命值，打出抽牌堆的一张牌并触发它的另一面。"
   },
   "TheShadowMod:RealityForm": {
     "NAME": "真实形态",
