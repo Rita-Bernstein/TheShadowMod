@@ -59,7 +59,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         this.type = c.type;
         this.rarity = c.rarity;
         this.target = c.target;
-        this.isMultiDamage = ((AbstractTSCard) c).isMultiDamage;
+        this.isMultiDamage = ReflectionHacks.getPrivate(c, AbstractCard.class, "isMultiDamage");
 
         this.isInnate = c.isInnate;
         this.selfRetain = c.selfRetain;
