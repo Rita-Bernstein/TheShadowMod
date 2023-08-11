@@ -79,19 +79,19 @@ public class HeavyPower extends AbstractShadowModPower {
     }
 
 
-    @Override
-    public void update(int slot) {
-        super.update(slot);
-        if (canHeavyTrigger()){
-            if (this.timer <= 0F){
-                ArrayList<AbstractGameEffect> effect2 = (ArrayList<AbstractGameEffect>) ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
-                effect2.add(new GainPowerEffect(this));
-                this.timer = 1F;
-            } else {
-                this.timer -= Gdx.graphics.getDeltaTime();
-            }
-        }
-    }
+//    @Override
+//    public void update(int slot) {
+//        super.update(slot);
+//        if (canHeavyTrigger()){
+//            if (this.timer <= 0F){
+//                ArrayList<AbstractGameEffect> effect2 = (ArrayList<AbstractGameEffect>) ReflectionHacks.getPrivate(this, AbstractPower.class, "effect");
+//                effect2.add(new GainPowerEffect(this));
+//                this.timer = 1F;
+//            } else {
+//                this.timer -= Gdx.graphics.getDeltaTime();
+//            }
+//        }
+//    }
 
     @Override
     public void updateDescription() {
