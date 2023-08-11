@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
@@ -22,6 +23,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public abstract class AbstractTSCard extends AbstractShadowModCard implements CustomSavable<Integer> {
     public AbstractCard backCard;
@@ -496,7 +498,6 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
     }
 
-
     @Override
     public void renderCardTip(SpriteBatch sb) {
         super.renderCardTip(sb);
@@ -581,6 +582,22 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         }
     }
 
+    @SpirePatch(
+            clz = CardGroup.class,
+            method = "initializeDeck"
+    )
+    public static class InitializeDeckPatch {
+        @SpireInsertPatch(rloc = 1036 - 1029, localvars = {"c", "placeOnTop"})
+        public static void Insert(CardGroup _instance, CardGroup masterDeck,
+                                  AbstractCard c, ArrayList<AbstractCard> placeOnTop) {
+            if (c instanceof AbstractTSCard) {
+                AbstractTSCard tsc = (AbstractTSCard)c;
+                if (tsc.backCard != null && tsc.backCard.isInnate) {
+                    placeOnTop.add(tsc);
+                }
+            }
+        }
+    }
 
     @SpirePatch(
             clz = SingleCardViewPopup.class,
