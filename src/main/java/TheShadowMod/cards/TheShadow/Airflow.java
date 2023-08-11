@@ -19,6 +19,7 @@ public class Airflow extends AbstractTSCard {
         this.baseBlock = 8;
         this.magicNumber = this.baseMagicNumber = 4;
         this.exhaust = true;
+        this.exhaustOriginal = true;
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {

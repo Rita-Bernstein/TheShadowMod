@@ -18,7 +18,7 @@ public class FloodTide extends AbstractTSCard {
     public FloodTide() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.exhaust = true;
-
+        this.exhaustOriginal = true;
     }
 
 
@@ -31,6 +31,7 @@ public class FloodTide extends AbstractTSCard {
         if (!this.upgraded) {
             upgradeName();
             this.exhaust = false;
+            this.exhaustOriginal = false;
             this.rawDescription = UPGRADE_DESCRIPTION;
             initializeDescription();
         }

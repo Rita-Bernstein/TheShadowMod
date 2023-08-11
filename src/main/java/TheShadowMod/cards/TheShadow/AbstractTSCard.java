@@ -11,6 +11,7 @@ import basemod.abstracts.CustomSavable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -26,6 +27,8 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     public AbstractCard backCard;
     public AbstractCard thisCopy;
     public int backCardIndex = -1;
+    public CardType cardTypeOriginal;
+    public boolean exhaustOriginal;
 
     public boolean isViewingFlip = false;
     public boolean isFlip = false;
@@ -34,6 +37,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     public AbstractTSCard(String id, String img, int cost, AbstractCard.CardType type, AbstractCard.CardRarity rarity, AbstractCard.CardTarget target) {
         super(id, img, cost, type, rarity, target);
+        cardTypeOriginal = type;
         this.color = CardColorEnum.TheShadow_LIME;
     }
 
@@ -113,6 +117,15 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
         if (canDoubleTrigger()) {
             doubleOnUseOnce = false;
+
+            if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
+                AbstractTSCard bc = (AbstractTSCard)this.backCard;
+                if  (bc.exhaust || exhaustOriginal) {
+                    this.exhaust = true;
+                } else if (bc.cardTypeOriginal == CardType.POWER || cardTypeOriginal == CardType.POWER) {
+                    this.purgeOnUse = true;
+                }
+            }
 
             if (m == null) {
                 m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);

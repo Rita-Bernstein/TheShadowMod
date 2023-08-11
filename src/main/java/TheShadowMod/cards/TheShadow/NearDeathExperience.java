@@ -24,6 +24,7 @@ public class NearDeathExperience extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 5;
         this.secondaryM = this.baseSecondaryM = 5;
         this.exhaust = true;
+        this.exhaustOriginal = true;
     }
 
 

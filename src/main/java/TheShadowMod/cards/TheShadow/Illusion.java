@@ -28,6 +28,7 @@ public class Illusion extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 2;
         this.secondaryM = this.baseSecondaryM = 1;
         this.exhaust = true;
+        this.exhaustOriginal = true;
     }
 
 
