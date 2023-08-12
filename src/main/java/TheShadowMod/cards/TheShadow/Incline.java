@@ -2,9 +2,11 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.Common.SelectHandCardAction;
+import TheShadowMod.actions.TheShadow.GainFlipPowerAction;
 import TheShadowMod.actions.TheShadow.InclineAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -20,11 +22,12 @@ public class Incline extends AbstractTSCard {
 
     public Incline() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-
+        this.baseMagicNumber = this.magicNumber = 1;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new InclineAction());
+    @Override
+    public void useCommon(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new GainFlipPowerAction(this.magicNumber));
     }
 
     @Override

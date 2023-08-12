@@ -73,8 +73,8 @@
   },
   "TheShadowMod:Incline": {
     "NAME": "倾斜",
-    "DESCRIPTION": "用一张手牌覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
-    "UPGRADE_DESCRIPTION": "用一张手牌覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
+    "DESCRIPTION": " the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
+    "UPGRADE_DESCRIPTION": " the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
   },
   "TheShadowMod:DeadAngle": {
     "NAME": "死角",
