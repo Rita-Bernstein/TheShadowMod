@@ -82,7 +82,7 @@ public class EveningBreeze extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(3);
+            upgradeMagicNumber(4);
         }
     }
 }

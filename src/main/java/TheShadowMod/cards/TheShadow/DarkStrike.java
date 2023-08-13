@@ -55,17 +55,28 @@ public class DarkStrike extends AbstractTSCard {
     public static class OnEnterRoomPatch {
         @SpireInsertPatch(rloc = 89)
         public static SpireReturn<Void> Insert(AbstractDungeon _instance, SaveFile saveFile) {
-            SaveHelper.loadSettings();
+            System.out.println("DARKKK STRIIIIIKE1: " + SaveHelper.increaseMaxHP);
+
+            if (SaveHelper.clearIncreaseMaxHPFloorNum == AbstractDungeon.floorNum) {
+                SaveHelper.clearIncreaseMaxHPFloorNum = -1;
+                SaveHelper.saveIncreaseMaxHP();
+                System.out.println("DARKKK STRIIIIIKE2: " + SaveHelper.increaseMaxHP);
+                return SpireReturn.Continue();
+            } else {
+                SaveHelper.loadSettings();
+            }
 
             if (AbstractDungeon.nextRoom.room instanceof com.megacrit.cardcrawl.rooms.RestRoom) {
                 AbstractDungeon.player.increaseMaxHp(SaveHelper.increaseMaxHP, true);
                 SaveHelper.increaseMaxHP = 0;
-            }else {
+                SaveHelper.clearIncreaseMaxHPFloorNum = AbstractDungeon.floorNum + 1;
+
+            } else {
                 SaveHelper.saveIncreaseMaxHP();
             }
 
-
-                return SpireReturn.Continue();
+            System.out.println("DARKKK STRIIIIIKE3: " + SaveHelper.increaseMaxHP);
+            return SpireReturn.Continue();
         }
     }
 

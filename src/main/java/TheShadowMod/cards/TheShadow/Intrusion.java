@@ -26,15 +26,14 @@ public class Intrusion extends AbstractTSCard {
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
-        addToBot(new DrawCardAction(1));
-        addToBot(new GainFlipPowerAction(this.magicNumber));
+        addToBot(new DrawCardAction(this.magicNumber));
+        addToBot(new GainFlipPowerAction(1));
     }
 
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);
-            upgradeMagicNumber(1);
         }
     }
 }

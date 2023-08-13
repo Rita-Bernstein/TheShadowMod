@@ -26,7 +26,7 @@ public class Shroud extends AbstractTSCard {
     public Shroud() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseDamage = 7;
-        this.magicNumber = this.baseMagicNumber = 7;
+        this.magicNumber = this.baseMagicNumber = 6;
         this.isMultiDamage = true;
     }
 

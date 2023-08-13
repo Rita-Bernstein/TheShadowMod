@@ -45,12 +45,14 @@ public class Bone extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
-                if (c == this) {
-                    this.misc += 5;
-                    this.baseBlock = this.misc;
-                    this.upgradedBlock = true;
-                    return;
+            if (AbstractDungeon.player != null) {
+                for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
+                    if (c == this) {
+                        this.misc += 5;
+                        this.baseBlock = this.misc;
+                        this.upgradedBlock = true;
+                        return;
+                    }
                 }
             }
 

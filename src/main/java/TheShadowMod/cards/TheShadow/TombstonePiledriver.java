@@ -7,7 +7,9 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.WeakPower;
 
 public class TombstonePiledriver extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(TombstonePiledriver.class.getSimpleName());
@@ -19,15 +21,16 @@ public class TombstonePiledriver extends AbstractTSCard {
 
     public TombstonePiledriver() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseDamage = 14;
-        this.magicNumber = this.baseMagicNumber = 14;
-
+        this.baseDamage = 12;
+        this.magicNumber = this.baseMagicNumber = 12;
+        this.secondaryM = this.baseSecondaryM = 1;
     }
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
         addToBot(new ApplyPowerAction(m,p,new NextTurnPealPower(m,this.magicNumber)));
+        addToTop(new ApplyPowerAction(m, AbstractDungeon.player, new WeakPower(m, this.secondaryM, false)));
     }
 
     public void thisUpgrade() {

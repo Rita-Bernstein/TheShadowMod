@@ -21,7 +21,7 @@ public class DeepDiving extends AbstractTSCard {
     public DeepDiving() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 2;
-        this.secondaryM = this.baseSecondaryM = 2;
+        this.secondaryM = this.baseSecondaryM = 1;
     }
 
 
