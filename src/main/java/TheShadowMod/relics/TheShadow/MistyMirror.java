@@ -30,18 +30,22 @@ public class MistyMirror extends AbstractShadowModRelic implements NotDeadRelic 
         return this.DESCRIPTIONS[0];
     }
 
+
     @Override
     public boolean onDead(AbstractPlayer player, DamageInfo damageInfo) {
+        if (AbstractDungeon.currMapNode == null || (AbstractDungeon.getCurrRoom()).phase != AbstractRoom.RoomPhase.COMBAT) {
+            return true;
+        }
+
         if ((AbstractDungeon.getCurrRoom()).monsters != null && !(AbstractDungeon.getCurrRoom()).monsters
                 .areMonstersBasicallyDead() && AbstractDungeon.actionManager.turnHasEnded) {
             return true;
         }
 
-
         addToTop(new RelicAboveCreatureAction(player, this));
         flash();
         player.heal(player.maxHealth / 2);
-        addToTop(new ApplyPowerAction(player,player,new VulnerablePower(player,1,false),1));
+        addToTop(new ApplyPowerAction(player, player, new VulnerablePower(player, 1, false), 1));
         return false;
     }
 }

@@ -120,9 +120,13 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         if (canDoubleTrigger()) {
             doubleOnUseOnce = false;
 
+            if (this.backCard != null) {
+                this.backCard.freeToPlayOnce = true;
+            }
+
             if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
-                AbstractTSCard bc = (AbstractTSCard)this.backCard;
-                if  (bc.exhaust || exhaustOriginal) {
+                AbstractTSCard bc = (AbstractTSCard) this.backCard;
+                if (bc.exhaust || exhaustOriginal) {
                     this.exhaust = true;
                 } else if (bc.cardTypeOriginal == CardType.POWER || cardTypeOriginal == CardType.POWER) {
                     this.purgeOnUse = true;
@@ -591,7 +595,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         public static void Insert(CardGroup _instance, CardGroup masterDeck,
                                   AbstractCard c, ArrayList<AbstractCard> placeOnTop) {
             if (c instanceof AbstractTSCard) {
-                AbstractTSCard tsc = (AbstractTSCard)c;
+                AbstractTSCard tsc = (AbstractTSCard) c;
                 if (tsc.backCard != null && tsc.backCard.isInnate) {
                     placeOnTop.add(tsc);
                 }

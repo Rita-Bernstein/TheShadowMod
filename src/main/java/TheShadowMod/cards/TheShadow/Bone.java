@@ -25,20 +25,17 @@ public class Bone extends AbstractTSCard {
     }
 
     public void applyPowers() {
-        for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
-            if (c.uuid.equals(this.uuid)) {
-                this.baseBlock = c.misc;
-                super.applyPowers();
-                initializeDescription();
-                return;
-            }
-        }
+        this.baseBlock = this.misc;
+        if (this.upgraded)
+            this.baseBlock += 5;
+        super.applyPowers();
+        initializeDescription();
     }
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
         addToBot(new GainBlockAction(p, p, this.block));
         addToBot(new BetterIncreaseMiscAction(this.uuid, -this.magicNumber, card -> {
-            baseBlock = card.misc;
+            card.baseBlock = card.misc;
             card.applyPowers();
             card.initializeDescription();
         }));
@@ -49,14 +46,15 @@ public class Bone extends AbstractTSCard {
         if (!this.upgraded) {
             upgradeName();
             for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
-                if (c.uuid.equals(this.uuid)) {
-                    c.misc += 5;
+                if (c == this) {
+                    this.misc += 5;
+                    this.baseBlock = this.misc;
+                    this.upgradedBlock = true;
+                    return;
                 }
             }
 
-            for (AbstractCard c : GetAllInBattleInstances.get(this.uuid)) {
-                c.misc += 5;
-            }
+            upgradeBlock(5);
         }
     }
 }
