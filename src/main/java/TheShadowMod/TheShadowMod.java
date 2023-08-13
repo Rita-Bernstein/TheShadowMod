@@ -21,6 +21,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
@@ -125,11 +126,15 @@ public class TheShadowMod implements
     public void receiveStartAct() {
         SaveHelper.rewardNewAct = true;
         SaveHelper.SaveRewardCard();
+
+        if (AbstractDungeon.floorNum == 0) {
+            SaveHelper.increaseMaxHP = 0;
+            SaveHelper.saveIncreaseMaxHP();
+        }
     }
 
     @Override
     public void receiveStartGame() {
-//        usingExtinguish = false;
     }
 
     @Override
@@ -246,8 +251,8 @@ public class TheShadowMod implements
             UnlockTracker.unlockCard(card.cardID);
 
             if (card instanceof AbstractTSCard) {
-                if(card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL)
-                shadowCardPool.add(card);
+                if (card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL)
+                    shadowCardPool.add(card);
             }
 
 
