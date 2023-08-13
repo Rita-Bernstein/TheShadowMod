@@ -20,6 +20,8 @@ public class SaveHelper {
     public static boolean noPotion = false;
     public static int nextCombatDamage = 0;
     public static int increaseMaxHP = 0;
+    // 进入这一层时，清除信息并保存
+    public static int clearIncreaseMaxHPFloorNum = -1;
     public static boolean rewardNewAct = true;
 
     public static void saveNoPotion() {
@@ -65,6 +67,7 @@ public class SaveHelper {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
             config.load();
 
+            clearIncreaseMaxHPFloorNum = -1;
             nextCombatDamage = config.getInt(CardCrawlGame.saveSlot + "nextCombatDamage");
             increaseMaxHP = config.getInt(CardCrawlGame.saveSlot + "increaseMaxHP");
 

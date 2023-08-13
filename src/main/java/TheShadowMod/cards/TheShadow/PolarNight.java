@@ -18,8 +18,8 @@ public class PolarNight extends AbstractTSCard {
 
     public PolarNight() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 15;
-        this.secondaryM = this.baseSecondaryM = 7;
+        this.magicNumber = this.baseMagicNumber = 13;
+        this.secondaryM = this.baseSecondaryM = 6;
     }
 
 
@@ -32,8 +32,8 @@ public class PolarNight extends AbstractTSCard {
     public void thisUpgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(5);
-            upgradeSecondM(3);
+            upgradeMagicNumber(4);
+            upgradeSecondM(2);
         }
     }
 }

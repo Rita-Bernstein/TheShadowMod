@@ -21,7 +21,7 @@
   },
   "TheShadowMod:Intrusion": {
     "NAME": "入侵",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 抽一张牌。 NL 获得 !M! 层 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 抽 !M! 张牌。 NL 获得1层 the_shadow_mod:颠倒 。"
   },
   "TheShadowMod:Shroud": {
     "NAME": "笼罩",
@@ -115,7 +115,7 @@
   },
   "TheShadowMod:TombstonePiledriver": {
     "NAME": "墓碑石钉头",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 下回合开始时，给予 !M! 层 the_shadow_mod:鸣响 。"
+    "DESCRIPTION": "造成 !D! 点伤害，给予 !TheShadowSM! 层虚弱。 NL 下回合开始时，给予 !M! 层 the_shadow_mod:鸣响 。"
   },
   "TheShadowMod:Phoenix": {
     "NAME": "不死鸟",
