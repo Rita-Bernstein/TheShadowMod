@@ -3,6 +3,7 @@ package TheShadowMod.cards.TheShadow;
 import TheShadowMod.TheShadowMod;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
@@ -27,6 +28,10 @@ public class HiddenDoor extends AbstractTSCard {
         addToBot(new MakeTempCardInHandAction(new Wallcovering()));
     }
 
+    @Override
+    public void cloneFieldCommon(AbstractCard ori) {
+        ori.selfRetain = true;
+    }
 
     public void thisUpgrade() {
         if (!this.upgraded) {

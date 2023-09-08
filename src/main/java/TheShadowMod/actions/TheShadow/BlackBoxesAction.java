@@ -2,6 +2,7 @@ package TheShadowMod.actions.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -36,7 +37,7 @@ public class BlackBoxesAction extends AbstractGameAction {
 
 
     public void update() {
-        if (AbstractDungeon.player.drawPile.isEmpty() || AbstractDungeon.player.hand.group.stream().noneMatch(card -> card instanceof AbstractTSCard) ) {
+        if (AbstractDungeon.player.drawPile.isEmpty() || AbstractDungeon.player.hand.group.isEmpty()) {
             this.isDone = true;
             return;
         }
@@ -74,24 +75,8 @@ public class BlackBoxesAction extends AbstractGameAction {
             if (firstUse) {
                 this.firstUse = false;
 
-                for (AbstractCard c : AbstractDungeon.player.hand.group) {
-                    if (!(c instanceof AbstractTSCard)) {
-                        cannotDuplicate.add(c);
-                    }
-                }
-
-
-                AbstractDungeon.player.hand.group.removeAll(cannotDuplicate);
-
-
                 if (AbstractDungeon.player.hand.group.size() == 1) {
-                    AbstractTSCard t = (AbstractTSCard) AbstractDungeon.player.hand.group.get(0);
-                    t.backCard = saveSourceCard.makeStatEquivalentCopy();
-                    if (t.backCard instanceof AbstractTSCard) {
-                        ((AbstractTSCard) t.backCard).backCard = null;
-                    }
-
-                    returnCards();
+                    AbstractCard t = BackCardManager.setCardToBackCard(saveSourceCard,  AbstractDungeon.player.hand.group.get(0), true);
 
                     t.superFlash();
                     AbstractDungeon.player.hand.refreshHandLayout();
@@ -105,16 +90,10 @@ public class BlackBoxesAction extends AbstractGameAction {
             }
 
             if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved) {
+                AbstractCard t = BackCardManager.setCardToBackCard(saveSourceCard, AbstractDungeon.handCardSelectScreen.selectedCards.group.get(0), true);
 
-                AbstractTSCard t = (AbstractTSCard) AbstractDungeon.handCardSelectScreen.selectedCards.group.get(0);
-                t.backCard = saveSourceCard.makeStatEquivalentCopy();
-                if (t.backCard instanceof AbstractTSCard) {
-                    ((AbstractTSCard) t.backCard).backCard = null;
-                }
                 t.superFlash();
                 AbstractDungeon.player.hand.addToTop(t);
-
-                returnCards();
 
                 AbstractDungeon.player.hand.refreshHandLayout();
 
@@ -125,13 +104,6 @@ public class BlackBoxesAction extends AbstractGameAction {
         }
     }
 
-    private void returnCards() {
-        for (AbstractCard c : this.cannotDuplicate) {
-            AbstractDungeon.player.hand.addToTop(c);
-        }
-
-        AbstractDungeon.player.hand.refreshHandLayout();
-    }
 }
 
 

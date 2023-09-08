@@ -37,7 +37,7 @@ public class DominatingFuture extends AbstractTSCard {
     public DominatingFuture() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.exhaust = true;
-        this.exhaustOriginal = true;
+
     }
 
 

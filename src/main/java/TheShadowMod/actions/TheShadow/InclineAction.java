@@ -22,6 +22,7 @@ public class InclineAction extends AbstractGameAction {
 
     private AbstractCard saveSourceCard;
 
+    @Deprecated
     public InclineAction() {
 
         this.actionType = ActionType.CARD_MANIPULATION;

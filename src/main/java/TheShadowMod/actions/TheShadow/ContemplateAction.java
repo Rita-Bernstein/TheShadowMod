@@ -2,6 +2,7 @@ package TheShadowMod.actions.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -17,8 +18,6 @@ public class ContemplateAction extends AbstractGameAction {
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(TheShadowMod.makeID(ContemplateAction.class.getSimpleName()));
     public static final String[] TEXT = uiStrings.TEXT;
 
-
-    private ArrayList<AbstractCard> cannotDuplicate = new ArrayList<>();
     private CurrentScreen currentScreen;
     private boolean firstUse = true;
 
@@ -38,7 +37,7 @@ public class ContemplateAction extends AbstractGameAction {
 
 
     public void update() {
-        if (AbstractDungeon.player.hand.isEmpty() || AbstractDungeon.player.drawPile.group.stream().noneMatch(card -> card instanceof AbstractTSCard)) {
+        if (AbstractDungeon.player.hand.isEmpty() || AbstractDungeon.player.drawPile.group.isEmpty()) {
             this.isDone = true;
             return;
         }
@@ -47,6 +46,14 @@ public class ContemplateAction extends AbstractGameAction {
         if (this.currentScreen == CurrentScreen.Source) {
             if (firstUse) {
                 this.firstUse = false;
+
+                if (AbstractDungeon.player.hand.group.size() == 1) {
+                    saveSourceCard = AbstractDungeon.player.hand.group.get(0);
+                    AbstractDungeon.player.hand.group.remove(saveSourceCard);
+                    this.currentScreen = CurrentScreen.Target;
+                    this.firstUse = true;
+                    return;
+                }
 
                 AbstractDungeon.handCardSelectScreen.open(TEXT[0], 1, true, true);
                 return;
@@ -72,23 +79,12 @@ public class ContemplateAction extends AbstractGameAction {
             if (firstUse) {
                 this.firstUse = false;
 
-                CardGroup temp = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
-                for (AbstractCard c : AbstractDungeon.player.drawPile.group) {
-                    if (c instanceof AbstractTSCard) {
-                        temp.addToTop(c);
-                    }
-                }
+                if (AbstractDungeon.player.drawPile.group.size() == 1) {
 
-                temp.sortAlphabetically(true);
-                temp.sortByRarityPlusStatusCardType(false);
+                    AbstractTSCard t = BackCardManager.setCardToBackCard(saveSourceCard, AbstractDungeon.player.drawPile.group.get(0), true);
 
+                    AbstractDungeon.player.drawPile.group.set(0, t);
 
-                if (temp.group.size() == 1) {
-                    AbstractTSCard t = (AbstractTSCard) temp.group.get(0);
-                    t.backCard = saveSourceCard.makeStatEquivalentCopy();
-                    if (t.backCard instanceof AbstractTSCard) {
-                        ((AbstractTSCard) t.backCard).backCard = null;
-                    }
 
                     AbstractDungeon.player.hand.refreshHandLayout();
 
@@ -105,11 +101,9 @@ public class ContemplateAction extends AbstractGameAction {
 
             if (!AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 
-                AbstractTSCard t = (AbstractTSCard) AbstractDungeon.gridSelectScreen.selectedCards.get(0);
-                t.backCard = saveSourceCard.makeStatEquivalentCopy();
-                if (t.backCard instanceof AbstractTSCard) {
-                    ((AbstractTSCard) t.backCard).backCard = null;
-                }
+                AbstractCard t = BackCardManager.setCardToBackCard(saveSourceCard, AbstractDungeon.gridSelectScreen.selectedCards.get(0), true);
+
+                AbstractDungeon.player.drawPile.group.set(AbstractDungeon.player.drawPile.group.indexOf(t), t);
 
                 addToTop(new DrawCardAction(1));
 

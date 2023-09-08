@@ -9,7 +9,7 @@
   },
   "TheShadowMod:CrossExamine": {
     "NAME": "诘问",
-    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
+    "DESCRIPTION": "对你和所有敌人造成 !D! 点伤害。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
   },
   "TheShadowMod:Merge": {
     "NAME": "融入",
@@ -17,13 +17,13 @@
   },
   "TheShadowMod:BackStrike": {
     "NAME": "背后打击",
-    "DESCRIPTION": "这张牌造成的伤害总是额外增加50%。 NL 造成 !D! 点伤害。 NL 本回合内下次目标额外受到50%攻击伤害。"
+    "DESCRIPTION": "这张牌的伤害增加50%，造成 !D! 点伤害。 NL 本回合内下次目标额外受到50%攻击伤害。"
   },
   "TheShadowMod:Intrusion": {
     "NAME": "入侵",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 抽一张牌。 NL 获得 !M! 层 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 抽 !M! 张牌。 NL 获得1层 the_shadow_mod:颠倒 。"
   },
-    "TheShadowMod:Shroud": {
+  "TheShadowMod:Shroud": {
     "NAME": "笼罩",
     "DESCRIPTION": "对所有敌人 !D! 点伤害并给予 !M! 层 the_shadow_mod:鸣响 。"
   },
@@ -33,16 +33,15 @@
   },
   "TheShadowMod:Promise": {
     "NAME": "承诺",
-    "DESCRIPTION": "给予 !D! 点伤害。 NL 给予 !M! 层 the_shadow_mod:鸣响 。 NL 本次战斗不会掉落药水。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 给予 !M! 层 the_shadow_mod:鸣响 。 NL 本次战斗不会掉落药水。"
   },
   "TheShadowMod:Annihilate": {
     "NAME": "湮灭",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 本回合你打出的下张牌会同时生效它的另一面。",
-    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害。 NL 本回合你打出的下 !M! 张牌会同时生效它的另一面。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 本回合你打出的下张牌会同时生效它的另一面。"
   },
   "TheShadowMod:ShadowTouch": {
     "NAME": "暗影之触",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 手牌中的这张牌翻面时，在本场战斗中耗能减少 [E] 。"
+    "DESCRIPTION": "对所有敌人造成 !D! 点伤害。 NL  the_shadow_mod:本质 ：对所有敌人造成 !M! 点伤害。"
   },
   "TheShadowMod:ScaldingColloid": {
     "NAME": "滚烫胶体",
@@ -50,7 +49,7 @@
   },
   "TheShadowMod:EternalPunishment": {
     "NAME": "永恒惩罚",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 每回合开始时，再对其造成 !M! 点伤害。（重复效果将单独计算）"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 每回合开始时，再对其造成 !M! 点伤害1次。"
   },
   "TheShadowMod:Idealistic": {
     "NAME": "唯心",
@@ -58,11 +57,11 @@
   },
   "TheShadowMod:HiddenDoor": {
     "NAME": "暗门",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 将一张 *剥落墙皮 加入手牌。 NL the_shadow_mod:本质 ： 保留 。"
+    "DESCRIPTION": "保留 。 NL 获得 !B! 点 格挡 。 NL 将一张 *剥落墙皮 加入手牌。"
   },
   "TheShadowMod:Wallcovering": {
     "NAME": "剥落墙皮",
-    "DESCRIPTION": " 保留 。 NL 获得 !M! 层 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": " 保留 。 NL 获得 !M! 层 the_shadow_mod:颠倒 。 NL 消耗 。"
   },
   "TheShadowMod:Tinnitus": {
     "NAME": "耳鸣",
@@ -74,8 +73,8 @@
   },
   "TheShadowMod:Incline": {
     "NAME": "倾斜",
-    "DESCRIPTION": "用一张手牌的当前面覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
-    "UPGRADE_DESCRIPTION": "用一张手牌的当前面覆盖另一张手牌的另一面。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
+    "DESCRIPTION": " the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
+    "UPGRADE_DESCRIPTION": " the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
   },
   "TheShadowMod:DeadAngle": {
     "NAME": "死角",
@@ -104,11 +103,11 @@
   },
   "TheShadowMod:FightToDeath": {
     "NAME": "死斗",
-    "DESCRIPTION": "翻倍你的 the_shadow_mod:沉重 。 NL 消耗 。"
+    "DESCRIPTION": "获得 !M! 层 the_shadow_mod:沉重 ，所有敌人获得 !TheShadowSM! 点力量。 NL 消耗 。"
   },
   "TheShadowMod:VoidPace": {
     "NAME": "虚空步伐",
-    "DESCRIPTION": "获得 !B! 点 格挡 两次。 NL 抽两张牌。"
+    "DESCRIPTION": "获得 !B! 点 格挡 两次。 NL 抽 !M! 张牌。"
   },
   "TheShadowMod:ShadowStrike": {
     "NAME": "影子打击",
@@ -116,16 +115,16 @@
   },
   "TheShadowMod:TombstonePiledriver": {
     "NAME": "墓碑石钉头",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 下回合开始时，给予 !M! 层 the_shadow_mod:鸣响 。"
+    "DESCRIPTION": "造成 !D! 点伤害，给予 !TheShadowSM! 层虚弱。 NL 下回合开始时，给予 !M! 层 the_shadow_mod:鸣响 。"
   },
   "TheShadowMod:Phoenix": {
     "NAME": "不死鸟",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中每免死过一次，伤害翻倍。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL 本场战斗中每当免死时，伤害翻倍。"
   },
   "TheShadowMod:DarkStrike": {
     "NAME": "黑暗打击",
-    "DESCRIPTION": "失去 !M! 点生命。 NL 造成 !D! 点伤害。 NL 手牌中所有攻击牌的当前面变为 *黑暗打击 。",
-    "UPGRADE_DESCRIPTION": "失去 !M! 点生命。 NL 造成 !D! 点伤害。 NL 手牌中所有攻击牌的当前面变为 *黑暗打击+ 。"
+    "DESCRIPTION": "直到休息处前失去 !M! 点生命和最大生命。 NL 造成 !D! 点伤害。",
+    "UPGRADE_DESCRIPTION": "直到休息处前失去 !M! 点生命和最大生命。 NL 造成 !D! 点伤害。"
   },
   "TheShadowMod:Assassin": {
     "NAME": "刺杀",
@@ -160,8 +159,8 @@
   },
   "TheShadowMod:Hidden": {
     "NAME": "隐藏",
-    "DESCRIPTION": "不能被打出 。 NL 手牌中翻面时， NL 抽一张牌。",
-    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 手牌中翻面时， NL 抽两张牌。"
+    "DESCRIPTION": "不能被打出 。 NL 手牌中从这一面翻面时， NL 抽一张牌。",
+    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 手牌中从这一面翻面时， NL 抽两张牌。"
   },
   "TheShadowMod:PolarNight": {
     "NAME": "极夜",
@@ -170,6 +169,14 @@
   "TheShadowMod:Illusion": {
     "NAME": "幻象",
     "DESCRIPTION": "给予所有敌人 !M! 层 易伤 或 虚弱 。 NL 抽一张牌。 NL 消耗 。"
+  },
+  "TheShadowMod:IllusionVul": {
+    "NAME": "幻象",
+    "DESCRIPTION": "给予所有敌人 !M! 层 易伤 。 NL 抽一张牌。 NL 消耗 。"
+  },
+  "TheShadowMod:IllusionWeak": {
+    "NAME": "幻象",
+    "DESCRIPTION": "给予所有敌人 !M! 层 虚弱 。 NL 抽一张牌。 NL 消耗 。"
   },
   "TheShadowMod:DominatingFuture": {
     "NAME": "支配未来",
@@ -185,11 +192,14 @@
   },
   "TheShadowMod:Fluctuate": {
     "NAME": "波动",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 打出一张手牌的另一面。"
+    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 打出一张手牌的另一面。",
+    "EXTENDED_DESCRIPTION": [
+      "打出一张牌的另一面"
+    ]
   },
   "TheShadowMod:Twins": {
-    "NAME": "移形换影",
-    "DESCRIPTION": "给予所有敌人 !M! 层 the_shadow_mod:鸣响 。若另一面不是 *移形换影 ，则触发这张牌的另一面。"
+    "NAME": "残像",
+    "DESCRIPTION": "每回合开始时，给予所有敌人 !M! 层 the_shadow_mod:鸣响 。"
   },
   "TheShadowMod:BlackBoxes": {
     "NAME": "暗箱操作",
@@ -197,7 +207,7 @@
   },
   "TheShadowMod:BloodyPath": {
     "NAME": "血路",
-    "DESCRIPTION": "获得 !M! 层 the_shadow_mod:沉重 。 NL 本回合结束前，每打出一张攻击牌，失去 !TheShadowSM! 点生命。"
+    "DESCRIPTION": "抽 !M! 张牌。 NL 本回合结束前，每打出一张攻击牌，失去 !TheShadowSM! 点生命。"
   },
   "TheShadowMod:FloodTide": {
     "NAME": "涨潮",
@@ -206,8 +216,8 @@
   },
   "TheShadowMod:SonicBoom": {
     "NAME": "音爆",
-    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 受 the_shadow_mod:沉重 的2倍加成。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。",
-    "UPGRADE_DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 受 the_shadow_mod:沉重 的3倍加成。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。"
+    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。",
+    "UPGRADE_DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 NL 若目标身上有至少 !TheShadowSM! 层 the_shadow_mod:鸣响 ，抽两张牌并获得 [E] 。"
   },
   "TheShadowMod:Separation": {
     "NAME": "分身",
@@ -215,8 +225,8 @@
   },
   "TheShadowMod:Reconfiguration": {
     "NAME": "重构",
-    "DESCRIPTION": "保留 。 NL 受到 !TheShadowSM! 点伤害。 消耗 。",
-    "UPGRADE_DESCRIPTION": "保留 。 NL 受到 !TheShadowSM! 点伤害。 NL 获得 !M! 层沉重。 消耗 。"
+    "DESCRIPTION": "受到 !M! 点伤害。 消耗 。",
+    "UPGRADE_DESCRIPTION": "保留 。 NL 受到 !M! 点伤害。 消耗 。"
   },
   "TheShadowMod:Echo": {
     "NAME": "回声",
@@ -249,7 +259,8 @@
   },
   "TheShadowMod:RootSystem": {
     "NAME": "根系",
-    "DESCRIPTION": "在 the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 也提高 !M! 倍的 the_shadow_mod:沉重 。"
+    "DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。",
+    "UPGRADE_DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。 NL 获得1层 the_shadow_mod:沉重 。"
   },
   "TheShadowMod:BothDestruction": {
     "NAME": "两败俱伤",
@@ -268,16 +279,16 @@
   },
   "TheShadowMod:UnmarkedCommonGraves": {
     "NAME": "乱葬岗",
-    "DESCRIPTION": "给予 !M! 层 the_shadow_mod:鸣响 。 斩杀 时，从牌组选择一张牌，其在战斗开始时处于抽牌堆底部。 NL 消耗 。"
+    "DESCRIPTION": "随机对你或敌人造成 !D! 点伤害 !M! 次。"
   },
   "TheShadowMod:PerfectImitation": {
     "NAME": "完美模仿",
-    "DESCRIPTION": "随机复制 !M! 瓶药水。 NL 消耗 。"
+    "DESCRIPTION": "随机复制 !M! 瓶药水。 NL 消耗 。 NL  虚无 。"
   },
   "TheShadowMod:DoubleBody": {
     "NAME": "二重身",
-    "DESCRIPTION": "不能被打出 。 虚无 。 NL 手牌中翻面时，随机打出一张其他手牌。",
-    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 手牌中翻面时，随机打出一张其他手牌。"
+    "DESCRIPTION": "不能被打出 。 虚无 。 NL 手牌中从这一面翻面时，随机打出一张其他手牌。",
+    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 手牌中从这一面翻面时，随机打出一张其他手牌。"
   },
   "TheShadowMod:VisceralDestruction": {
     "NAME": "内脏破坏",
@@ -293,7 +304,7 @@
   },
   "TheShadowMod:UltimateReaction": {
     "NAME": "极限反应",
-    "DESCRIPTION": "目标的攻击意图数值超过你的生命值时，打出抽牌堆的一张牌并触发它的另一面。"
+    "DESCRIPTION": "若目标的攻击意图数值不低于你的生命值，打出抽牌堆的一张牌并触发它的另一面。"
   },
   "TheShadowMod:RealityForm": {
     "NAME": "真实形态",
@@ -309,21 +320,30 @@
   },
   "TheShadowMod:Contemplate": {
     "NAME": "思忖",
-    "DESCRIPTION": "每回合开始时，用至多一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。",
-    "UPGRADE_DESCRIPTION": "固有 。 NL 每回合开始时，用至多一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。"
+    "DESCRIPTION": "回合开始时可用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）",
+    "UPGRADE_DESCRIPTION": "固有 。 NL 回合开始时可用一张手牌覆盖抽牌堆一张牌的另一面并抽一张牌。（不可叠加）"
   },
   "TheShadowMod:Eclipse": {
     "NAME": "日蚀",
-    "DESCRIPTION": "获得 !M! 层 *坚不可摧 。 NL the_shadow_mod:本质 ： 固有 ， 虚无 。",
-    "UPGRADE_DESCRIPTION": "获得 !M! 层 *坚不可摧 。"
+    "DESCRIPTION": "在本回合获得 !M! 层 *坚不可摧 。 NL the_shadow_mod:本质 ： 固有 ， 虚无 。",
+    "UPGRADE_DESCRIPTION": "在本回合获得 !M! 层 *坚不可摧 。"
   },
   "TheShadowMod:Peel": {
-    "NAME": "剥离",
-    "DESCRIPTION": "每次获得 the_shadow_mod:颠倒 时，对所有敌人造成等同其层数的伤害",
-    "UPGRADE_DESCRIPTION": "每次获得 the_shadow_mod:颠倒 时，对所有敌人造成等同其层数2倍的伤害"
+    "NAME": "拷问",
+    "DESCRIPTION": "造成 !D! 点伤害，给予1层 易伤 。 NL 下回合开始时，获得 !M! 张 *行刑 。"
+  },
+  "TheShadowMod:Execute": {
+    "NAME": "行刑",
+    "DESCRIPTION": "造成 !D! 点伤害3次。 NL  消耗 。"
   },
   "TheShadowMod:GatheringDarkness": {
     "NAME": "夜幕",
-    "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数一半的 格挡 。"
+    "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数50%的 格挡 。",
+    "UPGRADE_DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数的 格挡 。"
+  },
+  "TheShadowMod:PlaceHolderCard": {
+    "NAME": "占位",
+    "DESCRIPTION": "看到这个请联系模组作者",
+    "UPGRADE_DESCRIPTION": "看到这个请联系模组作者"
   }
 }

@@ -21,7 +21,6 @@ public class SpiralStaircase extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 6;
         this.secondaryM = this.baseSecondaryM = 1;
         this.exhaust = true;
-        this.exhaustOriginal = true;
     }
 
 

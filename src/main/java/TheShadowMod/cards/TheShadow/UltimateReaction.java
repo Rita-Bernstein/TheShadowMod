@@ -2,6 +2,7 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.TheShadow.DoublePlayDrawPileAction;
+import basemod.ReflectionHacks;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -22,26 +23,19 @@ public class UltimateReaction extends AbstractTSCard {
 
 
     public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        try {
-            Field fi = AbstractMonster.class.getDeclaredField("isMultiDmg");
-            fi.setAccessible(true);
-            boolean isMultiDmg = fi.getBoolean(m);
-            if (isMultiDmg) {
-                fi = AbstractMonster.class.getDeclaredField("intentMultiAmt");
-                fi.setAccessible(true);
-                int intentMultiAmt = fi.getInt(m);
-                if (m.getIntentDmg() * intentMultiAmt >= p.currentHealth) {
-                    addToBot(new DoublePlayDrawPileAction());
-                }
-            } else {
-                if (m.getIntentDmg() >= p.currentHealth) {
-                    addToBot(new DoublePlayDrawPileAction());
-                }
+        boolean isMultiDmg = ReflectionHacks.getPrivate(m,AbstractMonster.class,"isMultiDmg");
+
+        if(isMultiDmg){
+            int intentMultiAmt = ReflectionHacks.getPrivate(m,AbstractMonster.class,"intentMultiAmt");
+
+            if (m.getIntentDmg() * intentMultiAmt >= p.currentHealth) {
+                addToBot(new DoublePlayDrawPileAction());
             }
-        } catch (Exception exception) {
-
+        }else {
+            if (m.getIntentDmg() >= p.currentHealth) {
+                addToBot(new DoublePlayDrawPileAction());
+            }
         }
-
     }
 
 

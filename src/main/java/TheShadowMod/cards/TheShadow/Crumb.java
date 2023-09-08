@@ -25,7 +25,7 @@ public class Crumb extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseDamage = 40;
         this.exhaust = true;
-        this.exhaustOriginal = true;
+
     }
 
 

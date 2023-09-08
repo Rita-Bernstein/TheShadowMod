@@ -2,35 +2,32 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.AbstractShadowModCard;
+import TheShadowMod.helpers.BackCardManager;
 import TheShadowMod.helpers.ViewFlipButton;
 import TheShadowMod.patches.CardColorEnum;
 import TheShadowMod.powers.TheShadow.AnnihilatePower;
 import TheShadowMod.powers.TheShadow.RealityFormPower;
 import basemod.ReflectionHacks;
-import basemod.abstracts.CustomSavable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.utility.ShowCardAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
-public abstract class AbstractTSCard extends AbstractShadowModCard implements CustomSavable<Integer> {
+public abstract class AbstractTSCard extends AbstractShadowModCard {
     public AbstractCard backCard;
     public AbstractCard thisCopy;
-    public int backCardIndex = -1;
-    public CardType cardTypeOriginal;
-    public boolean exhaustOriginal;
 
     public boolean isViewingFlip = false;
     public boolean isFlip = false;
@@ -39,69 +36,41 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     public AbstractTSCard(String id, String img, int cost, AbstractCard.CardType type, AbstractCard.CardRarity rarity, AbstractCard.CardTarget target) {
         super(id, img, cost, type, rarity, target);
-        cardTypeOriginal = type;
         this.color = CardColorEnum.TheShadow_LIME;
     }
 
 
-    public void onFlip() {
-        onViewingFlip();
+    public void onFlipView() {
         if (this.isFlip) {
             this.thisCopy = this.makeStatEquivalentCopy();
             ((AbstractTSCard) this.thisCopy).backCard = null;
 
             if (this.backCard != null) {
-                cloneFieldToCard(this.backCard);
+                BackCardManager.cloneFieldToCard(this, this.backCard);
             }
-
         } else {
             if (this.thisCopy != null) {
-                cloneFieldToCard(this.thisCopy);
+                BackCardManager.cloneFieldToCard(this, this.thisCopy);
             }
         }
+
+        onViewingFlip();
     }
 
-    public void cloneFieldToCard(AbstractCard c) {
-        this.type = c.type;
-        this.rarity = c.rarity;
-        this.target = c.target;
-        this.isMultiDamage = ReflectionHacks.getPrivate(c, AbstractCard.class, "isMultiDamage");
 
-        this.isInnate = c.isInnate;
-        this.selfRetain = c.selfRetain;
-        this.isEthereal = c.isEthereal;
-        this.exhaust = c.exhaust;
+    public void onFlip(AbstractTSCard thisCard,boolean flipThisSide) {
 
-        this.costForTurn = c.costForTurn;
-        this.cost = c.cost;
-        this.isCostModified = c.isCostModified;
-        this.isCostModifiedForTurn = c.isCostModifiedForTurn;
-
-        this.freeToPlayOnce = c.freeToPlayOnce;
     }
 
-    public void onFlipInHand(boolean isBack) {
-        if (!isBack) {
-            if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
-                ((AbstractTSCard) this.backCard).onFlipInHand(true);
-            }
-//        翻转后
-            if (this.isFlip) {
-                onThisFlipInHand();
-            } else {
-                if (this.backCard != null && this.backCard instanceof AbstractTSCard)
-                    ((AbstractTSCard) this.backCard).onThisFlipInHand();
-            }
-        }
+    public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
     }
 
-    public void onThisFlipInHand() {
-    }
 
     public void onViewingFlip() {
-        if (this.rarity == CardRarity.BASIC || this.rarity == CardRarity.SPECIAL) {
-            setBackCardBackground(this, ifChangeToBackSide());
-        }
+        if (this.backCard instanceof AbstractTSCard && this.thisCopy instanceof AbstractTSCard)
+            if (this.backCard.rarity == CardRarity.BASIC && this.thisCopy.rarity == CardRarity.BASIC) {
+                setBackCardBackground(this, ifChangeToBackSide());
+            }
     }
 
     @Override
@@ -110,8 +79,13 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             this.backCard.freeToPlayOnce = this.freeToPlayOnce;
             this.backCard.energyOnUse = this.energyOnUse;
         }
-        useCommon(p, m);
 
+        if (this.thisCopy != null) {
+            this.thisCopy.freeToPlayOnce = this.freeToPlayOnce;
+            this.thisCopy.energyOnUse = this.energyOnUse;
+        }
+
+        useCommon(p, m);
 
         if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
             ((AbstractTSCard) this.backCard).useCommon(p, m);
@@ -120,36 +94,40 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         if (canDoubleTrigger()) {
             doubleOnUseOnce = false;
 
-            if (this.backCard != null) {
-                this.backCard.freeToPlayOnce = true;
-            }
-
-            if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
-                AbstractTSCard bc = (AbstractTSCard) this.backCard;
-                if (bc.exhaust || exhaustOriginal) {
-                    this.exhaust = true;
-                } else if (bc.cardTypeOriginal == CardType.POWER || cardTypeOriginal == CardType.POWER) {
-                    this.purgeOnUse = true;
-                }
-            }
-
-            if (m == null) {
-                m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
-            }
-            useThisCard(p, m);
-
-            AbstractMonster rm = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
-            useBackCard(p, rm);
-
             useCommon(p, m);
 
             if (this.backCard != null && this.backCard instanceof AbstractTSCard) {
                 ((AbstractTSCard) this.backCard).useCommon(p, m);
             }
 
+
+            if (!isFlip) {
+                if (this.backCard != null) {
+                    this.backCard.freeToPlayOnce = true;
+                }
+            } else {
+                if (this.thisCopy != null) {
+                    this.thisCopy.freeToPlayOnce = true;
+                }
+            }
+
+
+            if (m == null) {
+                m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
+            }
+
+            if (this.isFlip) {
+                useBackCard(p, m);
+                useThisCard(p, m);
+            } else {
+                useThisCard(p, m);
+                useBackCard(p, m);
+            }
+
+
             if (flipOnUseOnce) {
                 this.isFlip = !this.isFlip;
-                this.onFlip();
+                this.onFlipView();
                 flipOnUseOnce = false;
             }
 
@@ -165,8 +143,109 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
         if (flipOnUseOnce) {
             this.isFlip = !this.isFlip;
-            this.onFlip();
+            this.onFlipView();
             flipOnUseOnce = false;
+        }
+    }
+
+
+    @SpirePatch(
+            clz = UseCardAction.class,
+            method = "update"
+    )
+    public static class BackPowerCardPowerPatch {
+        @SpireInsertPatch(rloc = 25)
+        public static SpireReturn<Void> Insert(UseCardAction _instance) {
+            AbstractCard targetCard = ReflectionHacks.getPrivate(_instance, UseCardAction.class, "targetCard");
+
+
+            boolean isPower = (targetCard.type == CardType.POWER);
+
+            if (targetCard instanceof AbstractTSCard) {
+                AbstractTSCard c = (AbstractTSCard) targetCard;
+                if (c.canDoubleTrigger()) {
+                    if (c.backCard != null && c.backCard.type == AbstractCard.CardType.POWER) {
+                        isPower = true;
+                    }
+                    if (c.thisCopy != null && c.thisCopy.type == AbstractCard.CardType.POWER) {
+                        isPower = true;
+                    }
+                } else {
+                    if (c.isFlip) {
+                        if (c.backCard != null && c.backCard.type == AbstractCard.CardType.POWER) {
+                            isPower = true;
+                        }
+                    } else {
+                        if (c.thisCopy != null && c.thisCopy.type == AbstractCard.CardType.POWER) {
+                            isPower = true;
+                        }
+                    }
+                }
+            }
+
+
+            if (isPower) {
+                AbstractDungeon.actionManager.addToTop(new ShowCardAction(targetCard));
+                if (Settings.FAST_MODE) {
+                    AbstractDungeon.actionManager.addToTop(new WaitAction(0.1F));
+                } else {
+                    AbstractDungeon.actionManager.addToTop(new WaitAction(0.7F));
+                }
+                AbstractDungeon.player.hand.empower(targetCard);
+                _instance.isDone = true;
+                AbstractDungeon.player.hand.applyPowers();
+                AbstractDungeon.player.hand.glowCheck();
+                AbstractDungeon.player.cardInUse = null;
+
+                return SpireReturn.Return();
+            }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = UseCardAction.class,
+            method = SpirePatch.CONSTRUCTOR,
+            paramtypez = {AbstractCard.class, AbstractCreature.class}
+    )
+    public static class BackPowerCardExhaustPatch {
+        @SpireInsertPatch(rloc = 25)
+        public static SpireReturn<Void> Insert(UseCardAction _instance, AbstractCard card, AbstractCreature target) {
+            if (card instanceof AbstractTSCard) {
+                AbstractTSCard c = (AbstractTSCard) card;
+                if (!c.canDoubleTrigger()) {
+                    if (c.isFlip) {
+                        if (c.backCard != null) {
+                            if (c.backCard.exhaust || c.backCard.exhaustOnUseOnce) {
+                                _instance.exhaustCard = true;
+                            }
+                        }
+                    } else {
+                        if (c.thisCopy != null) {
+                            if (c.thisCopy.exhaust || c.thisCopy.exhaustOnUseOnce) {
+                                _instance.exhaustCard = true;
+                            }
+                        }
+                    }
+                } else {
+                    if (c.backCard != null) {
+                        if (c.backCard.exhaust || c.backCard.exhaustOnUseOnce) {
+                            _instance.exhaustCard = true;
+                        }
+                    }
+
+                    if (c.thisCopy != null) {
+                        if (c.thisCopy.exhaust || c.thisCopy.exhaustOnUseOnce) {
+                            _instance.exhaustCard = true;
+                        }
+                    }
+                }
+            }
+
+            return SpireReturn.Continue();
         }
     }
 
@@ -215,14 +294,22 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     @Override
     public void applyPowers() {
         super.applyPowers();
-        if (this.backCard != null)
+
+        if (this.thisCopy != null && this.thisCopy != this)
+            this.thisCopy.applyPowers();
+
+        if (this.backCard != null && this.backCard != this)
             this.backCard.applyPowers();
     }
 
     @Override
     public void calculateCardDamage(AbstractMonster mo) {
         super.calculateCardDamage(mo);
-        if (this.backCard != null)
+
+        if (this.thisCopy != null && this.thisCopy != this)
+            this.thisCopy.calculateCardDamage(mo);
+
+        if (this.backCard != null && this.backCard != this)
             this.backCard.calculateCardDamage(mo);
     }
 
@@ -255,7 +342,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             return false;
         }
 
-        if (this.isFlip && this.backCard != null) {
+        if (this.isFlip && this.backCard != null && !this.backCard.cardID.equals(this.cardID)) {
             return this.backCard.canUse(p, m);
         }
 
@@ -264,10 +351,16 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     @Override
     public boolean canPlay(AbstractCard card) {
-        if (this.isViewingFlip) {
+        AbstractTSCard t = (AbstractTSCard) card;
+        if (t.isViewingFlip) {
             this.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:ViewingFlip").TEXT[0];
             return false;
         }
+
+        if (t.isFlip && t.backCard != null && !t.backCard.cardID.equals(t.cardID)) {
+            return t.backCard.canPlay(t.backCard);
+        }
+
 
         return super.canPlay(card);
     }
@@ -275,7 +368,7 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     @Override
     public boolean canUpgrade() {
         if (this.backCard != null) {
-            return !this.upgraded || !this.backCard.upgraded;
+            return super.canUpgrade() || this.backCard.canUpgrade();
         }
 
         return super.canUpgrade();
@@ -283,65 +376,63 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
     public void initializeBackCard() {
         if (backCard == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
-            if (this.rarity == CardRarity.BASIC || this.rarity == CardRarity.SPECIAL) {
+            if (this.rarity == CardRarity.BASIC) {
                 this.backCard = this;
                 return;
             }
 
-            switch (AbstractDungeon.rollRarity()) {
-                case COMMON:
-                    backCardIndex = AbstractDungeon.cardRng.random(22);
-                    break;
-                case UNCOMMON:
-                    backCardIndex = AbstractDungeon.cardRng.random(23, 53);
-                    break;
-                case RARE:
-                    backCardIndex = AbstractDungeon.cardRng.random(54, 70);
-                    break;
-            }
+            int index = 0;
 
-            setBackCardFromIndex(backCardIndex);
-
-//            战斗中不印Healing
-            if (CardCrawlGame.dungeon != null)
+            if (CardCrawlGame.dungeon != null) {
                 if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT)
                     if (!AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
-                        while (this.backCard.hasTag(CardTags.HEALING)) {
+                        while (TheShadowMod.shadowCardPool.get(index).hasTag(AbstractCard.CardTags.HEALING)) {
                             switch (AbstractDungeon.rollRarity()) {
                                 case COMMON:
-                                    backCardIndex = AbstractDungeon.cardRng.random(22);
+                                    index = AbstractDungeon.cardRng.random(22);
                                     break;
                                 case UNCOMMON:
-                                    backCardIndex = AbstractDungeon.cardRng.random(23, 53);
+                                    index = AbstractDungeon.cardRng.random(23, 53);
                                     break;
                                 case RARE:
-                                    backCardIndex = AbstractDungeon.cardRng.random(54, 70);
+                                    index = AbstractDungeon.cardRng.random(54, 70);
                                     break;
                             }
-
-                            setBackCardFromIndex(backCardIndex);
                         }
+
+                        setBackCardFromID(this, TheShadowMod.shadowCardPool.get(index).cardID, 0, TheShadowMod.shadowCardPool.get(index).misc);
+                        return;
                     }
-
-
-            if (this.backCard instanceof AbstractTSCard) {
-                ((AbstractTSCard) this.backCard).onInitializeBackCard(this);
             }
+
+            switch (AbstractDungeon.rollRarity()) {
+                case COMMON:
+                    index = AbstractDungeon.cardRng.random(22);
+                    break;
+                case UNCOMMON:
+                    index = AbstractDungeon.cardRng.random(23, 53);
+                    break;
+                case RARE:
+                    index = AbstractDungeon.cardRng.random(54, 70);
+                    break;
+            }
+
+            setBackCardFromID(this, TheShadowMod.shadowCardPool.get(index).cardID, 0, TheShadowMod.shadowCardPool.get(index).misc);
         }
     }
 
-    public void onInitializeBackCard(AbstractCard thisCard) {
+    public static boolean noLoop = false;
 
-    }
+    public void setBackCardFromID(AbstractCard card, String id, int upgrades, int misc) {
+        if (!noLoop) {
+            noLoop = true;
+            AbstractCard c = CardLibrary.getCopy(id, upgrades, misc);
+            if (c instanceof AbstractTSCard) {
+                setBackCardBackground((AbstractTSCard) c, true);
+            }
 
-
-    public void setBackCardFromIndex(int index) {
-        try {
-            backCard = TheShadowMod.shadowCardPool.get(index).getClass().newInstance();
-            setBackCardBackground((AbstractTSCard) backCard, true);
-
-        } catch (IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
+            BackCardManager.setCardToBackCard(c, card, true);
+            noLoop = false;
         }
     }
 
@@ -406,7 +497,6 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                 e.printStackTrace();
             }
 
-            c.backCardIndex = backCardIndex;
             AbstractTSCard card = (AbstractTSCard) c.backCard;
 
             for (int i = 0; i < backCard.timesUpgraded; i++) {
@@ -443,74 +533,58 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
         return c;
     }
 
-    @Override
-    public Integer onSave() {
-        if (backCard == null) {
-            initializeBackCard();
-        }
-
-        if (backCardIndex < 0) return backCard.timesUpgraded * 100;
-
-        return backCard.timesUpgraded * 100 + backCardIndex;
-    }
-
-    @Override
-    public void onLoad(Integer integer) {
-        if (backCard == null) {
-            initializeBackCard();
-        }
-
-        if (this.rarity == CardRarity.BASIC || this.rarity == CardRarity.SPECIAL) {
-            backCard = this;
-            return;
-        }
-
-        backCardIndex = integer % 100;
-        backCard = TheShadowMod.shadowCardPool.get(backCardIndex).makeCopy();
-
-        if (integer / 100 > 0) {
-            for (int i = 0; i < integer / 100; i++) {
-                backCard.upgrade();
-            }
-        }
-    }
-
-    @Override
-    public Type savedType() {
-        return Integer.class;
-    }
-
 
     @SpireOverride
     protected void renderCard(SpriteBatch sb, boolean hovered, boolean selected) {
-        if (ifChangeToBackSide() && (this.backCard != this)) {
-            if (!Settings.hideCards) {
-                if (this.current_y >= -200.0F * Settings.scale && this.current_y <= (float) Settings.HEIGHT + 200.0F * Settings.scale) {
-                    this.backCard.current_x = this.current_x;
-                    this.backCard.current_y = this.current_y;
-                    this.backCard.targetDrawScale = this.targetDrawScale;
-                    this.backCard.drawScale = this.drawScale;
+        if (!Settings.hideCards) {
+            if (ifChangeToBackSide()) {
+                if (this.backCard != null && !this.backCard.cardID.equals(this.cardID)) {
+                    if (this.current_y >= -200.0F * Settings.scale && this.current_y <= (float) Settings.HEIGHT + 200.0F * Settings.scale) {
+                        this.backCard.current_x = this.current_x;
+                        this.backCard.current_y = this.current_y;
+                        this.backCard.targetDrawScale = this.targetDrawScale;
+                        this.backCard.drawScale = this.drawScale;
 
-                    this.backCard.targetAngle = this.targetAngle;
-                    this.backCard.angle = this.angle;
+                        this.backCard.targetAngle = this.targetAngle;
+                        this.backCard.angle = this.angle;
 
-                    this.backCard.render(sb);
+                        this.backCard.render(sb);
+                        return;
+                    }
+                }
+            } else {
+                if (this.thisCopy != null && this.thisCopy != this) {
+                    if (this.current_y >= -200.0F * Settings.scale && this.current_y <= (float) Settings.HEIGHT + 200.0F * Settings.scale) {
+                        this.thisCopy.current_x = this.current_x;
+                        this.thisCopy.current_y = this.current_y;
+                        this.thisCopy.targetDrawScale = this.targetDrawScale;
+                        this.thisCopy.drawScale = this.drawScale;
+
+                        this.thisCopy.targetAngle = this.targetAngle;
+                        this.thisCopy.angle = this.angle;
+
+                        this.thisCopy.render(sb);
+                        return;
+                    }
                 }
             }
-        } else {
-            SpireSuper.call(sb, hovered, selected);
         }
+
+
+        SpireSuper.call(sb, hovered, selected);
     }
 
     @Override
     public void renderCardTip(SpriteBatch sb) {
-        super.renderCardTip(sb);
-
-
-        if (!Settings.hideCards && (boolean) ReflectionHacks.getPrivate(this, AbstractCard.class, "renderTip"))
+        if (!Settings.hideCards && (boolean) ReflectionHacks.getPrivate(this, AbstractCard.class, "renderTip")) {
             if (this.backCard != null && this.backCard != this) {
                 renderCardPreviewBack(sb);
             }
+        }
+
+        if (!ifChangeToBackSide())
+            super.renderCardTip(sb);
+
     }
 
     public void renderCardPreviewBack(SpriteBatch sb) {
@@ -519,26 +593,34 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
             return;
 
         if (!ifChangeToBackSide()) {
-            if (this.current_x > Settings.WIDTH * 0.75F) {
-                this.backCard.current_x = this.current_x + (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
-            } else {
-                this.backCard.current_x = this.current_x - (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
-            }
-
-            if (this.cardsToPreview == null) {
-                this.backCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
-            } else {
-                if (this.current_y < Settings.HEIGHT * 0.5F) {
-                    this.backCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F + IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
+            if (this.backCard != null && !this.backCard.cardID.equals(this.cardID)) {
+                if (this.current_x > Settings.WIDTH * 0.75F) {
+                    this.backCard.current_x = this.current_x + (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
                 } else {
-                    this.backCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT * 1.5F * 0.8F) * this.drawScale;
+                    this.backCard.current_x = this.current_x - (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * this.drawScale;
                 }
+
+                if (this.cardsToPreview == null) {
+                    this.backCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
+                } else {
+                    if (this.current_y < Settings.HEIGHT * 0.5F) {
+                        this.backCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F + IMG_HEIGHT / 2.0F * 0.8F) * this.drawScale;
+                    } else {
+                        this.backCard.current_y = this.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT * 1.5F * 0.8F) * this.drawScale;
+                    }
+                }
+
+                this.backCard.drawScale = this.drawScale * 0.8F;
+                this.backCard.setAngle(0.0f, true);
+
+                this.backCard.hb.move(this.backCard.current_x, this.backCard.current_y);
+                this.backCard.hb.resize(
+                        (float) ReflectionHacks.getPrivate(this.backCard, AbstractCard.class, "HB_W") * this.backCard.drawScale,
+                        (float) ReflectionHacks.getPrivate(this.backCard, AbstractCard.class, "HB_H") * this.backCard.drawScale
+                );
+
+                this.backCard.render(sb);
             }
-
-            this.backCard.drawScale = this.drawScale * 0.8F;
-            this.backCard.setAngle(0.0f, true);
-
-            this.backCard.render(sb);
 
         } else {
             if (this.thisCopy != null) {
@@ -564,9 +646,14 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
                     }
                 }
 
+                this.thisCopy.hb.move(this.thisCopy.current_x, this.thisCopy.current_y);
+                this.thisCopy.hb.resize(
+                        (float) ReflectionHacks.getPrivate(this.thisCopy, AbstractCard.class, "HB_W") * this.thisCopy.drawScale,
+                        (float) ReflectionHacks.getPrivate(this.thisCopy, AbstractCard.class, "HB_H") * this.thisCopy.drawScale
+                );
+
+
                 renderCard.render(sb);
-
-
             }
         }
     }
@@ -574,34 +661,22 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     public void renderCardPreviewBackInSingleView(SpriteBatch sb) {
         sb.setColor(Color.WHITE);
         if (!ViewFlipButton.isViewingFlip) {
-            this.backCard.current_x = Settings.WIDTH - 1435.0F * Settings.scale;
-            this.backCard.current_y = Settings.HEIGHT - 795.0F * Settings.scale;
-            this.backCard.drawScale = 0.8F;
-            this.backCard.render(sb);
+            if (this.backCard != null && !this.backCard.cardID.equals(this.cardID)) {
+                this.backCard.current_x = Settings.WIDTH - 1435.0F * Settings.scale;
+                this.backCard.current_y = Settings.HEIGHT - 795.0F * Settings.scale;
+                this.backCard.drawScale = 0.8F;
+                this.backCard.render(sb);
+            }
         } else {
-            this.thisCopy.current_x = Settings.WIDTH - 1435.0F * Settings.scale;
-            this.thisCopy.current_y = Settings.HEIGHT - 795.0F * Settings.scale;
-            this.thisCopy.drawScale = 0.8F;
-            this.thisCopy.render(sb);
-        }
-    }
-
-    @SpirePatch(
-            clz = CardGroup.class,
-            method = "initializeDeck"
-    )
-    public static class InitializeDeckPatch {
-        @SpireInsertPatch(rloc = 1036 - 1029, localvars = {"c", "placeOnTop"})
-        public static void Insert(CardGroup _instance, CardGroup masterDeck,
-                                  AbstractCard c, ArrayList<AbstractCard> placeOnTop) {
-            if (c instanceof AbstractTSCard) {
-                AbstractTSCard tsc = (AbstractTSCard) c;
-                if (tsc.backCard != null && tsc.backCard.isInnate) {
-                    placeOnTop.add(tsc);
-                }
+            if (this.thisCopy != null && this.backCard != null && !this.thisCopy.cardID.equals(this.backCard.cardID)) {
+                this.thisCopy.current_x = Settings.WIDTH - 1435.0F * Settings.scale;
+                this.thisCopy.current_y = Settings.HEIGHT - 795.0F * Settings.scale;
+                this.thisCopy.drawScale = 0.8F;
+                this.thisCopy.render(sb);
             }
         }
     }
+
 
     @SpirePatch(
             clz = SingleCardViewPopup.class,
@@ -625,22 +700,29 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
 
 
     @Override
-    public void tookDamage() {
-        if (this.isFlip && this.backCard != null) {
-            this.backCard.tookDamage();
-        }
-    }
-
-    @Override
     public void upgrade() {
         if (!isFlip) {
-            thisUpgrade();
+            if (this.thisCopy != null) {
+                if (this.thisCopy instanceof AbstractTSCard) {
+                    ((AbstractTSCard) this.thisCopy).thisUpgrade();
+
+                } else {
+                    this.backCard.upgrade();
+                }
+
+                if (this.thisCopy != this) {
+                    BackCardManager.cloneFieldToCard(this, this.thisCopy);
+                }
+            }
         } else {
             if (this.backCard != null) {
                 if (this.backCard instanceof AbstractTSCard) {
                     ((AbstractTSCard) this.backCard).thisUpgrade();
                 } else {
                     this.backCard.upgrade();
+                }
+                if (this.backCard != this) {
+                    BackCardManager.cloneFieldToCard(this, this.backCard);
                 }
             }
         }
@@ -654,11 +736,88 @@ public abstract class AbstractTSCard extends AbstractShadowModCard implements Cu
     public void update() {
         super.update();
 
-        if (this.backCard instanceof AbstractTSCard) {
-            ((AbstractTSCard) this.backCard).betterUpdate(this);
+        if (this.thisCopy != null && this.thisCopy != this) {
+            this.thisCopy.update();
+            if (this.thisCopy instanceof AbstractTSCard)
+                ((AbstractTSCard) this.thisCopy).betterUpdate(this);
+        }
+
+
+        if (this.backCard != null && this.backCard != this) {
+            this.backCard.update();
+            if (this.backCard instanceof AbstractTSCard)
+                ((AbstractTSCard) this.backCard).betterUpdate(this);
         }
     }
 
     public void betterUpdate(AbstractCard thisCard) {
     }
+
+    public void cloneFieldCommon(AbstractCard ori) {
+    }
+
+    @Override
+    public void updateCost(int amt) {
+        super.updateCost(amt);
+
+        if (this.thisCopy != null && this.thisCopy != this) {
+            this.thisCopy.updateCost(amt);
+        }
+
+        if (this.backCard != null && this.backCard != this) {
+            this.backCard.updateCost(amt);
+        }
+
+    }
+
+    @Override
+    public void setCostForTurn(int amt) {
+        super.setCostForTurn(amt);
+
+        if (this.thisCopy != null && this.thisCopy != this) {
+            this.thisCopy.setCostForTurn(amt);
+        }
+
+        if (this.backCard != null && this.backCard != this) {
+            this.backCard.setCostForTurn(amt);
+        }
+
+    }
+
+    @Override
+    public void modifyCostForCombat(int amt) {
+        super.setCostForTurn(amt);
+
+        if (this.thisCopy != null && this.thisCopy != this) {
+            this.thisCopy.modifyCostForCombat(amt);
+        }
+
+        if (this.backCard != null && this.backCard != this) {
+            this.backCard.modifyCostForCombat(amt);
+        }
+
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "resetAttributes"
+    )
+    public static class ResetAttributesPatch {
+        @SpirePostfixPatch
+        public static void Postfix(AbstractCard _instance) {
+            if (_instance instanceof AbstractTSCard) {
+                AbstractTSCard card = (AbstractTSCard) _instance;
+                if (card.thisCopy != null && card.thisCopy != card) {
+                    card.thisCopy.resetAttributes();
+                }
+
+                if (card.backCard != null && card.backCard != card) {
+                    card.backCard.resetAttributes();
+                }
+            }
+        }
+    }
+
+
 }

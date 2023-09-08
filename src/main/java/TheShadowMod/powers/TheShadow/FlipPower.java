@@ -44,6 +44,7 @@ public class FlipPower extends AbstractShadowModPower {
     public void onPlayCard(AbstractCard usedCard, AbstractMonster m) {
         this.amount--;
     }
+
     @Override
     public void onAfterCardPlayed(AbstractCard usedCard) {
         if (this.amount <= 0) {

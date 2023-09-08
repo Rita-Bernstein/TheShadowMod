@@ -1,6 +1,7 @@
 package TheShadowMod.actions.TheShadow;
 
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
@@ -30,37 +31,41 @@ public class FlipCardAction extends AbstractGameAction {
             return;
         }
 
-        if(this.group != null) {
+        if (this.group != null) {
             for (AbstractCard c : this.group.group) {
                 if (c instanceof AbstractTSCard) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
+                    ((AbstractTSCard) c).onFlipView();
+                    BackCardManager.onFlip((AbstractTSCard) c);
                     if (this.group == AbstractDungeon.player.hand) {
-                        ((AbstractTSCard) c).onFlip();
-                        ((AbstractTSCard) c).onFlipInHand(false);
+                        BackCardManager.onFlipInHand(((AbstractTSCard) c));
                     }
                 }
             }
-        }else {
+        } else {
 
             for (AbstractCard c : AbstractDungeon.player.hand.group) {
                 if (c == this.card) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
-                    ((AbstractTSCard) c).onFlip();
-                    ((AbstractTSCard) c).onFlipInHand(false);
+                    ((AbstractTSCard) c).onFlipView();
+                    BackCardManager.onFlip((AbstractTSCard) c);
+                    BackCardManager.onFlipInHand(((AbstractTSCard) c));
                 }
             }
 
             for (AbstractCard c : AbstractDungeon.player.drawPile.group) {
                 if (c == this.card) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
-                    ((AbstractTSCard) c).onFlip();
+                    ((AbstractTSCard) c).onFlipView();
+                    BackCardManager.onFlip((AbstractTSCard) c);
                 }
             }
 
             for (AbstractCard c : AbstractDungeon.player.discardPile.group) {
                 if (c == this.card) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
-                    ((AbstractTSCard) c).onFlip();
+                    ((AbstractTSCard) c).onFlipView();
+                    BackCardManager.onFlip((AbstractTSCard) c);
                 }
             }
 

@@ -21,6 +21,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.EventRoom;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
+import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import com.megacrit.cardcrawl.vfx.combat.LightFlareParticleEffect;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
@@ -198,41 +199,41 @@ public class ViewFlipButton {
     public static void flipViewAllCards(boolean isViewingFlip) {
         if (AbstractDungeon.player.cardInUse instanceof AbstractTSCard) {
             ((AbstractTSCard) AbstractDungeon.player.cardInUse).isViewingFlip = isViewingFlip;
-            ((AbstractTSCard) AbstractDungeon.player.cardInUse).onViewingFlip();
+            ((AbstractTSCard) AbstractDungeon.player.cardInUse).onFlipView();
         }
 
         for (AbstractCard c : AbstractDungeon.player.hand.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
-                ((AbstractTSCard) c).onViewingFlip();
+                ((AbstractTSCard) c).onFlipView();
             }
         }
 
         for (AbstractCard c : AbstractDungeon.player.drawPile.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
-                ((AbstractTSCard) c).onViewingFlip();
+                ((AbstractTSCard) c).onFlipView();
             }
         }
 
         for (AbstractCard c : AbstractDungeon.player.discardPile.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
-                ((AbstractTSCard) c).onViewingFlip();
+                ((AbstractTSCard) c).onFlipView();
             }
         }
 
         for (AbstractCard c : AbstractDungeon.player.exhaustPile.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
-                ((AbstractTSCard) c).onViewingFlip();
+                ((AbstractTSCard) c).onFlipView();
             }
         }
 
         for (AbstractCard c : AbstractDungeon.player.limbo.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isViewingFlip = isViewingFlip;
-                ((AbstractTSCard) c).onViewingFlip();
+                ((AbstractTSCard) c).onFlipView();
             }
         }
 
@@ -240,7 +241,7 @@ public class ViewFlipButton {
         for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
             if (c instanceof AbstractTSCard) {
                 ((AbstractTSCard) c).isFlip = isViewingFlip;
-                ((AbstractTSCard) c).onViewingFlip();
+                ((AbstractTSCard) c).onFlipView();
             }
         }
 
@@ -262,7 +263,6 @@ public class ViewFlipButton {
                 }
             }
         }
-
 
 
     }
@@ -433,11 +433,6 @@ public class ViewFlipButton {
     public static Texture portraitToSave = null;
 
 
-    public static void changePortrait(AbstractCard card) {
-
-    }
-
-
     @SpirePatch(
             clz = SingleCardViewPopup.class,
             method = "render"
@@ -472,12 +467,51 @@ public class ViewFlipButton {
         }
     }
 
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = SpirePatch.CLASS
+    )
+    public static class SpireFieldPortraitImgBack {
+        public static SpireField<Texture> portraitImgBack = new SpireField<>(() -> null);
+    }
+
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "loadPortraitImg"
+    )
+    public static class RenderSingleBackCardPatch3 {
+        @SpirePostfixPatch
+        public static void Postfix(SingleCardViewPopup _instance) {
+            AbstractCard card = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
+            if (card instanceof AbstractTSCard) {
+                AbstractTSCard c = (AbstractTSCard) card;
+                if (c.backCard != null) {
+                    if (c.backCard instanceof CustomCard) {
+                        SpireFieldPortraitImgBack.portraitImgBack.set(_instance, CustomCard.getPortraitImage((CustomCard) c.backCard));
+                    } else {
+                        if (Settings.PLAYTESTER_ART_MODE || UnlockTracker.betaCardPref.getBoolean(card.cardID, false)) {
+                            SpireFieldPortraitImgBack.portraitImgBack.set(_instance, ImageMaster.loadImage("images/1024PortraitsBeta/" + card.assetUrl + ".png"));
+                        } else {
+                            SpireFieldPortraitImgBack.portraitImgBack.set(_instance, ImageMaster.loadImage("images/1024Portraits/" + card.assetUrl + ".png"));
+                            if (SpireFieldPortraitImgBack.portraitImgBack.get(_instance) == null) {
+                                SpireFieldPortraitImgBack.portraitImgBack.set(_instance, ImageMaster.loadImage("images/1024PortraitsBeta/" + card.assetUrl + ".png"));
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+    }
+
 
     @SpirePatch(
             clz = SingleCardViewPopup.class,
             method = "render"
     )
-    public static class RenderSingleBackCardPatch3 {
+    public static class RenderSingleBackCardPatch4 {
         @SpireInsertPatch(rloc = 11)
         public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb) {
             if (ViewFlipButton.isViewingFlip) {
@@ -485,7 +519,7 @@ public class ViewFlipButton {
                 AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
                 if (c instanceof CustomCard) {
                     ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "portraitImg",
-                            CustomCard.getPortraitImage((CustomCard) c));
+                            SpireFieldPortraitImgBack.portraitImgBack.get(_instance));
                 }
             }
 
@@ -497,7 +531,7 @@ public class ViewFlipButton {
             clz = SingleCardViewPopup.class,
             method = "render"
     )
-    public static class RenderSingleBackCardPatch4 {
+    public static class RenderSingleBackCardPatch5 {
         @SpireInsertPatch(rloc = 12)
         public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb) {
             if (ViewFlipButton.isViewingFlip) {

@@ -30,12 +30,12 @@ public class ShadowStrike extends AbstractTSCard {
     }
 
     @Override
-    public void onFlipInHand(boolean isBack) {
-        this.baseDamage += this.magicNumber;
-        if (this.thisCopy != null) {
+    public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
+        upgradeDamage(this.magicNumber);
+        if (this.thisCopy != null && !flipThisSide) {
             this.thisCopy.baseDamage += this.magicNumber;
+            this.thisCopy.isDamageModified = true;
         }
-        super.onFlipInHand(isBack);
     }
 
     public void thisUpgrade() {

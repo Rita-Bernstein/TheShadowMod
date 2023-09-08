@@ -2,6 +2,7 @@ package TheShadowMod.relics.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.helpers.BackCardManager;
 import TheShadowMod.relics.AbstractShadowModRelic;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -30,8 +31,7 @@ public class Empties extends AbstractShadowModRelic {
     public void onEquip() {
         CardGroup tmp = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
         for (AbstractCard c : CardGroup.getGroupWithoutBottledCards(AbstractDungeon.player.masterDeck).group) {
-            if (c instanceof AbstractTSCard)
-                tmp.addToTop(c);
+            tmp.addToTop(c);
         }
 
         if (tmp.size() < 2)
@@ -58,12 +58,15 @@ public class Empties extends AbstractShadowModRelic {
 
         if (!cardSelected && AbstractDungeon.gridSelectScreen.selectedCards.size() >= 2) {
             cardSelected = true;
-            AbstractTSCard card0 = (AbstractTSCard) AbstractDungeon.gridSelectScreen.selectedCards.get(0);
-            AbstractTSCard card1 = (AbstractTSCard) AbstractDungeon.gridSelectScreen.selectedCards.get(1);
+            AbstractCard card0 = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
+            AbstractCard card1 = AbstractDungeon.gridSelectScreen.selectedCards.get(1);
 
-            if (card0.backCard != null) {
-                card1.backCard = card0.backCard;
-                card1.backCardIndex = card0.backCardIndex;
+            if (card0 instanceof AbstractTSCard) {
+                AbstractDungeon.player.masterDeck.group.set(AbstractDungeon.player.masterDeck.group.indexOf(card1),
+                        BackCardManager.setCardToBackCard(card0, card1, ((AbstractTSCard) card0).isFlip));
+            } else {
+                AbstractDungeon.player.masterDeck.group.set(AbstractDungeon.player.masterDeck.group.indexOf(card1),
+                        BackCardManager.setCardToBackCard(card0, card1, false));
             }
 
             AbstractDungeon.player.masterDeck.removeCard(card0);

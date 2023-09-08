@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 public class Incline extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(Incline.class.getSimpleName());
@@ -31,20 +32,39 @@ public class Incline extends AbstractTSCard {
     }
 
     @Override
-    public void update() {
-        super.update();
-        if (AbstractDungeon.player != null && this.costForTurn >= 0) {
-            if (this.upgraded)
-                this.cost = this.costForTurn = (GameActionManager.turn + 2) % 3;
-            else
-                this.cost = this.costForTurn = GameActionManager.turn % 3;
+    public void betterUpdate(AbstractCard thisCard) {
+        if (AbstractDungeon.currMapNode == null || (AbstractDungeon.getCurrRoom()).phase != AbstractRoom.RoomPhase.COMBAT) {
+            return;
         }
+
+
+        int finalCost = 1;
+
+        if (thisCard instanceof AbstractTSCard) {
+            AbstractCard fCard = ((AbstractTSCard) thisCard).thisCopy;
+            AbstractCard bCard = ((AbstractTSCard) thisCard).backCard;
+
+
+            if (AbstractDungeon.player != null)
+                if (this.upgraded
+                        || (fCard != null && fCard.cardID.equals(cardID) && fCard.upgraded)
+                        || (bCard != null && bCard.cardID.equals(cardID) && bCard.upgraded))
+                    finalCost = (GameActionManager.turn + 2) % 3;
+                else {
+                    finalCost = GameActionManager.turn % 3;
+                }
+
+
+            if (fCard != null) {
+                fCard.setCostForTurn(finalCost);
+            }
+            if (bCard != null) {
+                bCard.setCostForTurn(finalCost);
+            }
+        }
+        thisCard.setCostForTurn(finalCost);
     }
 
-    @Override
-    public void betterUpdate(AbstractCard thisCard) {
-        thisCard.costForTurn = this.cost;
-    }
 
     public void thisUpgrade() {
         if (!this.upgraded) {

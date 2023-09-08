@@ -22,7 +22,7 @@ public class Reconfiguration extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 99;
         this.exhaust = true;
-        this.exhaustOriginal = true;
+
     }
 
 

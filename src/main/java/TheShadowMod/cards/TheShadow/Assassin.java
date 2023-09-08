@@ -22,7 +22,7 @@ public class Assassin extends AbstractTSCard {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseDamage = 0;
         this.exhaust = true;
-        this.exhaustOriginal = true;
+
     }
 
 
@@ -65,7 +65,7 @@ public class Assassin extends AbstractTSCard {
         if (!this.upgraded) {
             upgradeName();
             this.exhaust = false;
-            this.exhaustOriginal = false;
+
             this.rawDescription = UPGRADE_DESCRIPTION;
             initializeDescription();
         }

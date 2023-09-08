@@ -203,7 +203,7 @@
   },
   "TheShadowMod:BlackBoxes": {
     "NAME": "暗箱操作",
-    "DESCRIPTION": "用抽牌堆中的一张牌覆盖手牌中一张牌的另一面。"
+    "DESCRIPTION": "用抽牌堆中的一张牌的当前面覆盖手牌中一张牌的另一面。"
   },
   "TheShadowMod:BloodyPath": {
     "NAME": "血路",
@@ -211,7 +211,7 @@
   },
   "TheShadowMod:FloodTide": {
     "NAME": "涨潮",
-    "DESCRIPTION": "下回合开始时抽满手牌。 NL 消耗。",
+    "DESCRIPTION": "下回合开始时抽满手牌。 NL 消耗 。",
     "UPGRADE_DESCRIPTION": "下回合开始时抽满手牌。"
   },
   "TheShadowMod:SonicBoom": {
@@ -340,5 +340,10 @@
     "NAME": "夜幕",
     "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数50%的 格挡 。",
     "UPGRADE_DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数的 格挡 。"
+  },
+  "TheShadowMod:PlaceHolderCard": {
+    "NAME": "占位",
+    "DESCRIPTION": "在游戏中看到这个请联系模组作者",
+    "UPGRADE_DESCRIPTION": "在游戏中看到这个请联系模组作者"
   }
 }

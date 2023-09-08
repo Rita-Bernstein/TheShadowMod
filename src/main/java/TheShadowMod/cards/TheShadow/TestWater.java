@@ -22,7 +22,6 @@ public class TestWater extends AbstractTSCard {
 
         this.magicNumber = this.baseMagicNumber = 2;
         this.exhaust = true;
-        this.exhaustOriginal = true;
         this.isInnate = true;
 
     }

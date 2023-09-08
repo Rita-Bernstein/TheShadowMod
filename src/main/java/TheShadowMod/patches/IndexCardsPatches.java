@@ -39,7 +39,7 @@ public class IndexCardsPatches {
     public static class OnVictoryPatch {
         @SpireInsertPatch(rloc = 0)
         public static SpireReturn<Void> Insert(AbstractPlayer _instance) {
-            SaveHelper.saveCardIndex();
+            SaveHelper.saveCardOrderIndex();
             return SpireReturn.Continue();
         }
     }
@@ -51,7 +51,7 @@ public class IndexCardsPatches {
     public static class PatchLoadPlayer {
         @SpireInsertPatch(rloc = 68)
         public static SpireReturn<Void> Insert(CardCrawlGame _instance, AbstractPlayer p) {
-            SaveHelper.loadCardIndex(p);
+            SaveHelper.loadCardOrderIndex(p);
 
             return SpireReturn.Continue();
         }

@@ -30,7 +30,7 @@ public class Fluctuate extends AbstractTSCard {
             for (AbstractCard c : cards) {
                 if(c instanceof  AbstractTSCard) {
                     ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
-                    ((AbstractTSCard) c).onFlip();
+                    ((AbstractTSCard) c).onFlipView();
                     AbstractTSCard tsc = (AbstractTSCard) c;
                     c.freeToPlayOnce = true;
                     if (tsc.thisCopy != null) {
