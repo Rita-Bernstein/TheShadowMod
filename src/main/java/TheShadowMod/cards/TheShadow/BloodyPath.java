@@ -23,13 +23,13 @@ public class BloodyPath extends AbstractTSCard {
         this.secondaryM = this.baseSecondaryM = 1;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DrawCardAction(this.magicNumber));
         addToBot(new ApplyPowerAction(p,p,new BloodyPathPower(p,this.secondaryM)));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

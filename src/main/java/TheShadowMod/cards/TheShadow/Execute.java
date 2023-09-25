@@ -19,23 +19,23 @@ public class Execute extends AbstractShadowModCard {
 
     public Execute() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseDamage = 1;
+        this.baseDamage = 3;
+        this.magicNumber = this.baseMagicNumber = 2;
         this.color = CardColor.COLORLESS;
         this.exhaust = true;
     }
 
     @Override
     public void use(AbstractPlayer p, AbstractMonster m) {
-        for (int i = 0; i < 3; i++)
-            addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn),
-                    AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        for (int i = 0; i < this.magicNumber; i++)
+            addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
     }
 
     @Override
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeDamage(1);
+            upgradeMagicNumber(1);
         }
     }
 }

@@ -24,14 +24,14 @@ public class SpiralStaircase extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new LoseHPAction(p, p, this.magicNumber));
         addToBot(new GainEnergyAction(upgraded ? 2 : 1));
         addToBot(new GainFlipPowerAction(this.secondaryM));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeSecondM(1);

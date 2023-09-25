@@ -31,15 +31,15 @@ public class Shroud extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new SFXAction("ATTACK_HEAVY"));
         addToBot(new VFXAction(p, new CleaveEffect(), 0.0F));
         addToBot(new DamageAllEnemiesAction(p, this.multiDamage, this.damageType, AbstractGameAction.AttackEffect.NONE, true));
 
-        addToBot(new ApplyPowerToAllEnemyAction((mo) ->addToTop(new ApplyPealPowerAction(mo,this.magicNumber))));
+        addToBot(new ApplyPowerToAllEnemyAction((mo) -> addToTop(new ApplyPealPowerAction(mo, this.magicNumber))));
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(2);

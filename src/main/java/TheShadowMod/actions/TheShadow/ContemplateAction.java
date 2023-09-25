@@ -81,7 +81,7 @@ public class ContemplateAction extends AbstractGameAction {
 
                 if (AbstractDungeon.player.drawPile.group.size() == 1) {
 
-                    AbstractTSCard t = BackCardManager.setCardToBackCard(saveSourceCard, AbstractDungeon.player.drawPile.group.get(0), true);
+                    AbstractCard t = BackCardManager.setCardToBackCard(saveSourceCard, AbstractDungeon.player.drawPile.group.get(0), true);
 
                     AbstractDungeon.player.drawPile.group.set(0, t);
 

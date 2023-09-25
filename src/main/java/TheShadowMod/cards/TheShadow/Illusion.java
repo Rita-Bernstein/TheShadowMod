@@ -32,7 +32,7 @@ public class Illusion extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         ArrayList<AbstractCard> stanceChoices = new ArrayList<AbstractCard>();
         stanceChoices.add(new IllusionVul());
         stanceChoices.add(new IllusionWeak());
@@ -44,7 +44,7 @@ public class Illusion extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

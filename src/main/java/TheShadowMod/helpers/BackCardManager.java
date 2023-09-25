@@ -1,162 +1,894 @@
 package TheShadowMod.helpers;
 
+import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
-import TheShadowMod.cards.TheShadow.PlaceHolderCard;
+import TheShadowMod.powers.TheShadow.AnnihilatePower;
+import TheShadowMod.powers.TheShadow.RealityFormPower;
 import basemod.ReflectionHacks;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import basemod.abstracts.CustomCard;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.utility.ShowCardAction;
+import com.megacrit.cardcrawl.actions.utility.UseCardAction;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
+import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
+import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
 
+import static com.megacrit.cardcrawl.cards.AbstractCard.IMG_HEIGHT;
+import static com.megacrit.cardcrawl.cards.AbstractCard.IMG_WIDTH;
+
 public class BackCardManager {
 
-    //    输入卡牌本体进来！！！！！！！！ 正反面外面判断吧
-    public static AbstractTSCard setCardToFrontCard(AbstractCard fromCard, AbstractCard toCard, boolean currentSide) {
-        if (fromCard instanceof AbstractTSCard) {
-            if (!currentSide) {
-                if (((AbstractTSCard) fromCard).backCard instanceof AbstractTSCard) {
-                    AbstractTSCard t = (AbstractTSCard) ((AbstractTSCard) fromCard).backCard;
-                    t.thisCopy = t;
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = SpirePatch.CLASS
+    )
+    public static class AddFields {
+        public static SpireField<Boolean> isBack = new SpireField<>(() -> false);
+        public static SpireField<Boolean> flipOnUseOnce = new SpireField<>(() -> false);
+        public static SpireField<Boolean> doubleOnUseOnce = new SpireField<>(() -> false);
 
-                    if (((AbstractTSCard) fromCard).thisCopy == null || ((AbstractTSCard) fromCard).thisCopy == fromCard) {
-                        t.backCard = fromCard;
-                    } else {
-                        t.backCard = ((AbstractTSCard) fromCard).thisCopy;
-                    }
-                }
-
-            }
-            if (toCard instanceof AbstractTSCard) {
-
-                ((AbstractTSCard) fromCard).backCard = ((AbstractTSCard) toCard).backCard;
-            } else {
-                ((AbstractTSCard) fromCard).backCard = toCard;
-            }
-
-            return (AbstractTSCard) fromCard;
-        } else {
-            AbstractTSCard card = new PlaceHolderCard();
-
-            cloneFieldToCard(card, fromCard);
-
-            card.thisCopy = fromCard;
-            if (toCard instanceof AbstractTSCard) {
-                card.backCard = ((AbstractTSCard) toCard).backCard;
-            } else {
-                card.backCard = toCard;
-            }
-            return card;
-        }
+        public static SpireField<AbstractCard> backCard = new SpireField<>(() -> null);
     }
 
 
-    //    输入卡牌本体进来！！！！！！！！ 正反面外面判断吧
-    public static AbstractTSCard setCardToBackCard(AbstractCard fromCard, AbstractCard toCard, boolean currentSide) {
-        if (toCard instanceof AbstractTSCard) {
-            if (fromCard instanceof AbstractTSCard) {
-                if (currentSide == ((AbstractTSCard) fromCard).isFlip) {
-                    ((AbstractTSCard) toCard).backCard = ((AbstractTSCard) fromCard).backCard;
-                } else {
-                    if (((AbstractTSCard) fromCard).thisCopy == null || ((AbstractTSCard) fromCard).thisCopy == fromCard) {
-                        ((AbstractTSCard) toCard).backCard = fromCard;
-                    } else {
-                        ((AbstractTSCard) toCard).backCard = ((AbstractTSCard) fromCard).thisCopy;
-                    }
-                }
-            } else {
-                ((AbstractTSCard) toCard).backCard = toCard;
-            }
-
-            return (AbstractTSCard) toCard;
-        } else {
-
-            AbstractTSCard card = new PlaceHolderCard();
-
-
-            cloneFieldToCard(card, toCard);
-            card.thisCopy = toCard;
-
-            if (fromCard instanceof AbstractTSCard) {
-                if (currentSide == ((AbstractTSCard) fromCard).isFlip) {
-                    card.backCard = ((AbstractTSCard) fromCard).backCard;
-                } else {
-                    if (((AbstractTSCard) fromCard).thisCopy == null || ((AbstractTSCard) fromCard).thisCopy == fromCard)
-                        card.backCard = fromCard;
-                    else
-                        card.backCard = ((AbstractTSCard) fromCard).thisCopy;
-                }
-            } else {
-                card.backCard = fromCard;
-            }
-            return card;
+    public static void flipSameSideBackgroundView(AbstractCard card) {
+        if (AddFields.backCard.get(card) instanceof AbstractTSCard && AddFields.backCard.get(card) == card) {
+            AddFields.isBack.set(card, !AddFields.isBack.get(card));
+            setBackCardBackground((AbstractTSCard) card, AddFields.isBack.get(card));
         }
     }
 
-    public static void cloneFieldToCard(AbstractCard ori, AbstractCard c) {
-        ori.type = c.type;
-        ori.rarity = c.rarity;
-        ori.target = c.target;
-        ReflectionHacks.setPrivate(ori, AbstractCard.class, "isMultiDamage", ReflectionHacks.getPrivate(c, AbstractCard.class, "isMultiDamage"));
+    public static AbstractCard flipCard(AbstractCard card) {
+        if (AddFields.backCard.get(card) != null) {
+            AbstractCard back = AddFields.backCard.get(card);
 
-        ori.isInnate = c.isInnate;
-        ori.selfRetain = c.selfRetain;
-        ori.isEthereal = c.isEthereal;
-        ori.exhaust = c.exhaust;
+            back.target_x = card.target_x;
+            back.target_y = card.target_y;
+            back.current_x = card.current_x;
+            back.current_y = card.current_y;
 
-        ori.costForTurn = c.costForTurn;
-        ori.cost = c.cost;
-        ori.isCostModified = c.isCostModified;
-        ori.isCostModifiedForTurn = c.isCostModifiedForTurn;
+            back.drawScale = card.drawScale;
+            back.targetDrawScale = card.targetDrawScale;
+            back.angle = card.angle;
+            back.targetAngle = card.targetAngle;
 
-        ori.freeToPlayOnce = c.freeToPlayOnce;
-        ori.timesUpgraded = c.timesUpgraded;
 
-        if (ori instanceof AbstractTSCard) {
-            if (((AbstractTSCard) ori).thisCopy instanceof AbstractTSCard) {
-                ((AbstractTSCard) ((AbstractTSCard) ori).thisCopy).cloneFieldCommon(ori);
-            }
+            back.hb.move(back.current_x, back.current_y);
+            back.hb.resize(
+                    (float) ReflectionHacks.getPrivate(back, AbstractCard.class, "HB_W") * back.drawScale,
+                    (float) ReflectionHacks.getPrivate(back, AbstractCard.class, "HB_H") * back.drawScale
+            );
 
-            if (((AbstractTSCard) ori).backCard instanceof AbstractTSCard) {
-                ((AbstractTSCard) ((AbstractTSCard) ori).backCard).cloneFieldCommon(ori);
-            }
+            return back;
         }
 
+        return card;
     }
+
 
     public static void onFlip(AbstractTSCard card) {
-//        触发时为翻转后
-        if (card.isFlip) {
-            if (card.thisCopy instanceof AbstractTSCard)
-                ((AbstractTSCard) card.thisCopy).onFlip(card, false);
-        } else {
-            card.onFlipInHand(card, true);
+        card.onFlip(card, true);
+
+        if (AddFields.backCard.get(card) instanceof AbstractTSCard) {
+            ((AbstractTSCard) AddFields.backCard.get(card)).onFlip(card, false);
         }
-
-        if (card.backCard instanceof AbstractTSCard)
-            ((AbstractTSCard) card.backCard).onFlip(card, card.isFlip);
-
     }
 
     public static void onFlipInHand(AbstractTSCard card) {
-//        触发时为翻转后
-        if (card.isFlip) {
-            if (card.thisCopy instanceof AbstractTSCard)
-                ((AbstractTSCard) card.thisCopy).onFlipInHand(card, false);
-        } else {
-            card.onFlipInHand(card, true);
+        card.onFlipInHand(card, true);
+
+        if (AddFields.backCard.get(card) instanceof AbstractTSCard) {
+            ((AbstractTSCard) AddFields.backCard.get(card)).onFlipInHand(card, false);
+        }
+    }
+
+
+    public static void useFlipCard(AbstractCard card, AbstractPlayer p, AbstractMonster m) {
+        if (m == null) {
+            m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.cardRandomRng);
         }
 
-        if (card.backCard instanceof AbstractTSCard)
-            ((AbstractTSCard) card.backCard).onFlipInHand(card, card.isFlip);
+
+        if (AddFields.backCard.get(card) != null) {
+            AddFields.backCard.get(card).freeToPlayOnce = card.freeToPlayOnce;
+            AddFields.backCard.get(card).energyOnUse = card.energyOnUse;
+        }
+
+        if (card instanceof AbstractTSCard) {
+            ((AbstractTSCard) card).useCommon(p, m);
+        }
+
+        if (AddFields.backCard.get(card) instanceof AbstractTSCard) {
+            ((AbstractTSCard) AddFields.backCard.get(card)).useCommon(p, m);
+        }
+
+
+        if (canDoubleTrigger(card) && AddFields.backCard.get(card) != null) {
+            AddFields.doubleOnUseOnce.set(card, false);
+            AddFields.doubleOnUseOnce.set(AddFields.backCard.get(card), false);
+
+
+            if (card instanceof AbstractTSCard) {
+                ((AbstractTSCard) card).useCommon(p, m);
+            }
+
+            if (AddFields.backCard.get(card) instanceof AbstractTSCard) {
+                ((AbstractTSCard) AddFields.backCard.get(card)).useCommon(p, m);
+            }
+
+            AddFields.backCard.get(card).freeToPlayOnce = true;
+
+            card.use(p, m);
+
+            AddFields.backCard.get(card).use(p, m);
+
+            return;
+        }
+
+        card.use(p, m);
+    }
+
+
+    public static boolean canDoubleTrigger(AbstractCard card) {
+        if (AddFields.doubleOnUseOnce.get(card))
+            return true;
+
+        if (AddFields.backCard.get(card) != null && AddFields.doubleOnUseOnce.get(card))
+            return true;
+
+        if (AbstractDungeon.player.hasPower(AnnihilatePower.POWER_ID)) {
+            return true;
+        }
+
+        if (AbstractDungeon.player.hasPower(RealityFormPower.POWER_ID) && !card.purgeOnUse) {
+            RealityFormPower p = (RealityFormPower) AbstractDungeon.player.getPower(RealityFormPower.POWER_ID);
+            if (AbstractDungeon.actionManager.cardsPlayedThisTurn.size() <= p.amount) {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+
+    @SpirePatch(
+            clz = AbstractPlayer.class,
+            method = "useCard",
+            paramtypez = {AbstractCard.class, AbstractMonster.class, int.class}
+    )
+    public static class PlayFlipCardPatch {
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getClassName().equals(AbstractCard.class.getName()) && m.getMethodName().equals("use")) {
+                        m.replace(BackCardManager.class.getName() + ".useFlipCard($0,$1,$2);"
+                        );
+                    }
+                }
+            };
+        }
+    }
+
+
+    public static void setBackCardBackground(AbstractTSCard c, boolean isViewingBack) {
+        if (isViewingBack) {
+            switch (c.type) {
+                case ATTACK:
+                    c.setBackgroundTexture("TheShadowMod/img/cardui/TheShadow/512/bg_attack_lime2.png",
+                            "TheShadowMod/img/cardui/TheShadow/1024/bg_attack_lime2.png");
+                    break;
+                case POWER:
+                    c.setBackgroundTexture("TheShadowMod/img/cardui/TheShadow/512/bg_power_lime2.png",
+                            "TheShadowMod/img/cardui/TheShadow/1024/bg_power_lime2.png");
+                    break;
+                default:
+                    c.setBackgroundTexture("TheShadowMod/img/cardui/TheShadow/512/bg_skill_lime2.png",
+                            "TheShadowMod/img/cardui/TheShadow/1024/bg_skill_lime2.png");
+                    break;
+            }
+        } else {
+            switch (c.type) {
+                case ATTACK:
+                    c.setBackgroundTexture("TheShadowMod/img/cardui/TheShadow/512/bg_attack_lime.png",
+                            "TheShadowMod/img/cardui/TheShadow/1024/bg_attack_lime.png");
+                    break;
+                case POWER:
+                    c.setBackgroundTexture("TheShadowMod/img/cardui/TheShadow/512/bg_power_lime.png",
+                            "TheShadowMod/img/cardui/TheShadow/1024/bg_power_lime.png");
+                    break;
+                default:
+                    c.setBackgroundTexture("TheShadowMod/img/cardui/TheShadow/512/bg_skill_lime.png",
+                            "TheShadowMod/img/cardui/TheShadow/1024/bg_skill_lime.png");
+                    break;
+            }
+        }
+    }
+
+
+    @SpirePatch(
+            clz = UseCardAction.class,
+            method = "update"
+    )
+    public static class BackPowerCardPowerPatch {
+        @SpireInsertPatch(rloc = 108-84)
+        public static SpireReturn<Void> Insert(UseCardAction _instance) {
+            AbstractCard targetCard = ReflectionHacks.getPrivate(_instance, UseCardAction.class, "targetCard");
+
+            if (canDoubleTrigger(targetCard))
+                if (AddFields.backCard.get(targetCard) != null && AddFields.backCard.get(targetCard).type == AbstractCard.CardType.POWER) {
+
+                    AbstractDungeon.actionManager.addToTop(new ShowCardAction(targetCard));
+                    if (Settings.FAST_MODE) {
+                        AbstractDungeon.actionManager.addToTop(new WaitAction(0.1F));
+                    } else {
+                        AbstractDungeon.actionManager.addToTop(new WaitAction(0.7F));
+                    }
+                    AbstractDungeon.player.hand.empower(targetCard);
+                    _instance.isDone = true;
+                    AbstractDungeon.player.hand.applyPowers();
+                    AbstractDungeon.player.hand.glowCheck();
+                    AbstractDungeon.player.cardInUse = null;
+
+                    return SpireReturn.Return();
+                }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = UseCardAction.class,
+            method = SpirePatch.CONSTRUCTOR,
+            paramtypez = {AbstractCard.class, AbstractCreature.class}
+    )
+    public static class BackPowerCardExhaustPatch {
+        @SpireInsertPatch(rloc = 25)
+        public static SpireReturn<Void> Insert(UseCardAction _instance, AbstractCard card, AbstractCreature target) {
+            if (canDoubleTrigger(card)) {
+                if (AddFields.backCard.get(card) != null) {
+                    if (AddFields.backCard.get(card).exhaust || AddFields.backCard.get(card).exhaustOnUseOnce) {
+                        _instance.exhaustCard = true;
+                    }
+                }
+            }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    public static boolean noLoopLock = false;
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "applyPowers"
+    )
+    public static class ApplyPowersPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).applyPowers();
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "update"
+    )
+    public static class UpdatePatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).update();
+                    noLoopLock = false;
+                }
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "calculateCardDamage",
+            paramtypez = {AbstractMonster.class}
+    )
+    public static class CalculateCardDamagePatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance, AbstractMonster mo) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).calculateCardDamage(mo);
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "canUse",
+            paramtypez = {AbstractPlayer.class, AbstractMonster.class}
+    )
+    public static class CanUsePatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(AbstractCard _instance, AbstractPlayer p, AbstractMonster mo) {
+            if (ViewFlipButton.isViewingFlip) {
+                _instance.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:ViewingFlip").TEXT[0];
+                return SpireReturn.Return(false);
+            }
+
+            if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                if (canDoubleTrigger(_instance)) {
+                    if (!noLoopLock) {
+                        noLoopLock = true;
+
+                        boolean ftp = AddFields.backCard.get(_instance).freeToPlayOnce;
+
+                        AddFields.backCard.get(_instance).freeToPlayOnce = true;
+                        if (!AddFields.backCard.get(_instance).canUse(p, mo)) {
+                            noLoopLock = false;
+                            AddFields.backCard.get(_instance).freeToPlayOnce = ftp;
+                            return SpireReturn.Return(false);
+                        }
+                        AddFields.backCard.get(_instance).freeToPlayOnce = ftp;
+                    }
+
+                    noLoopLock = false;
+                }
+            }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "canPlay"
+    )
+    public static class CanPlayPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(AbstractCard _instance) {
+            if (ViewFlipButton.isViewingFlip) {
+                _instance.cantUseMessage = CardCrawlGame.languagePack.getUIString("TheShadowMod:ViewingFlip").TEXT[0];
+                return SpireReturn.Return(false);
+            }
+
+            if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                if (canDoubleTrigger(_instance)) {
+                    if (!noLoopLock) {
+                        noLoopLock = true;
+                        if (!AddFields.backCard.get(_instance).canPlay(AddFields.backCard.get(_instance))) {
+                            noLoopLock = false;
+                            return SpireReturn.Return(false);
+                        }
+                    }
+
+                    noLoopLock = false;
+                }
+            }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "canUpgrade"
+    )
+    public static class CanUpgradePatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Boolean> Prefix(AbstractCard _instance) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+
+                    if (AddFields.backCard.get(_instance).canUpgrade()) {
+                        noLoopLock = false;
+                        return SpireReturn.Return(true);
+                    }
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "updateCost"
+    )
+    public static class UpdateCostPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance, int amt) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).updateCost(amt);
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "setCostForTurn"
+    )
+    public static class SetCostForTurnPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance, int amt) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).setCostForTurn(amt);
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "modifyCostForCombat"
+    )
+    public static class ModifyCostForCombatPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance, int amt) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).modifyCostForCombat(amt);
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "resetAttributes"
+    )
+    public static class ResetAttributesPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance) {
+            if (!noLoopLock)
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    noLoopLock = true;
+                    AddFields.backCard.get(_instance).resetAttributes();
+                    noLoopLock = false;
+                }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    public static void initializeBackCard(AbstractCard card) {
+        if (card instanceof AbstractTSCard) {
+            if (AddFields.backCard.get(card) == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
+                if (card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL) {
+                    int index = 0;
+
+                    switch (AbstractDungeon.rollRarity()) {
+                        case COMMON:
+                            index = AbstractDungeon.cardRng.random(22);
+                            break;
+                        case UNCOMMON:
+                            index = AbstractDungeon.cardRng.random(23, 53);
+                            break;
+                        case RARE:
+                            index = AbstractDungeon.cardRng.random(54, 70);
+                            break;
+                    }
+
+
+                    if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT
+                            && !AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+//            战斗中不印Healing
+                        while (TheShadowMod.shadowCardPool.get(index).hasTag(AbstractCard.CardTags.HEALING)) {
+                            switch (AbstractDungeon.rollRarity()) {
+                                case COMMON:
+                                    index = AbstractDungeon.cardRng.random(22);
+                                    break;
+                                case UNCOMMON:
+                                    index = AbstractDungeon.cardRng.random(23, 53);
+                                    break;
+                                case RARE:
+                                    index = AbstractDungeon.cardRng.random(54, 70);
+                                    break;
+                            }
+                        }
+                    }
+                    setBackCardFromIndex(card, TheShadowMod.shadowCardPool.get(index).cardID, 0);
+                    return;
+                }
+            }
+        }
+
+        AddFields.backCard.set(card, card);
+    }
+
+
+    public static boolean noNewBackCardLoop = false;
+    public static boolean makeCopyOnlyCard = false;
+
+    public static void setBackCardFromIndex(AbstractCard card, String id, int upgrades) {
+        noNewBackCardLoop = true;
+        AbstractCard c = CardLibrary.getCard(id).makeCopy();
+        noNewBackCardLoop = false;
+
+        if (upgrades > 0) {
+            for (int i = 0; i < upgrades; i++)
+                c.upgrade();
+        }
+
+
+        setCardToBackCard(c, card, true);
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = SpirePatch.CONSTRUCTOR,
+            paramtypez = {String.class, String.class, String.class, int.class, String.class, AbstractCard.CardType.class, AbstractCard.CardColor.class,
+                    AbstractCard.CardRarity.class, AbstractCard.CardTarget.class, DamageInfo.DamageType.class}
+    )
+    public static class MakeCopyPatch {
+        @SpirePostfixPatch
+        public static void Postfix(AbstractCard _instance, String id, String name, String imgUrl, int cost, String rawDescription,
+                                   AbstractCard.CardType type, AbstractCard.CardColor color,
+                                   AbstractCard.CardRarity rarity, AbstractCard.CardTarget target, DamageInfo.DamageType dType) {
+            if (!noNewBackCardLoop && !makeCopyOnlyCard) {
+                initializeBackCard(_instance);
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "makeSameInstanceOf"
+    )
+    public static class MakeSameInstanceOfPatch {
+        @SpireInsertPatch(rloc = 1, localvars = {"card"})
+        public static SpireReturn<AbstractCard> Insert(AbstractCard _instance, @ByRef AbstractCard[] card) {
+            if (AddFields.backCard.get(card[0]) != null) {
+                AddFields.backCard.get(card[0]).uuid = _instance.uuid;
+            }
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "makeStatEquivalentCopy"
+    )
+    public static class MakeStatEquivalentCopyPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<AbstractCard> Prefix(AbstractCard _instance) {
+            makeCopyOnlyCard = true;
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "makeStatEquivalentCopy"
+    )
+    public static class MakeStatEquivalentCopyPatch2 {
+        @SpireInsertPatch(rloc = 1002 - 978, localvars = {"card"})
+        public static SpireReturn<AbstractCard> Insert(AbstractCard _instance, @ByRef AbstractCard[] card) {
+            AbstractCard bCardBuffer = null;
+
+            AddFields.isBack.set(card[0], AddFields.isBack.get(_instance));
+
+            if (AddFields.backCard.get(_instance) != null) {
+                if (AddFields.backCard.get(_instance) == _instance) {
+                    bCardBuffer = card[0];
+                } else {
+                    AddFields.backCard.set(AddFields.backCard.get(_instance), null);
+                    bCardBuffer = AddFields.backCard.get(_instance).makeStatEquivalentCopy();
+                    AddFields.backCard.set(AddFields.backCard.get(_instance), _instance);
+                }
+            } else if (_instance instanceof AbstractTSCard) {
+                initializeBackCard(_instance);
+
+            }
+
+            makeCopyOnlyCard = false;
+
+            if (bCardBuffer != null) {
+                AddFields.backCard.set(card[0], bCardBuffer);
+                AddFields.backCard.set(bCardBuffer, card[0]);
+            }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    public static boolean noBackCardPreviewLoop = false;
+
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "renderCardTip"
+    )
+    public static class RenderBackCardPatch {
+        @SpireInsertPatch(rloc = 2975-2946)
+        public static SpireReturn<Void> Insert(AbstractCard _instance, SpriteBatch sb) {
+            if (!noBackCardPreviewLoop) {
+                noBackCardPreviewLoop = true;
+
+                if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                    sb.setColor(Color.WHITE);
+
+                    AbstractCard backCard = AddFields.backCard.get(_instance);
+
+                    if (_instance.current_x > Settings.WIDTH * 0.75F) {
+                        backCard.current_x = _instance.current_x + (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * _instance.drawScale;
+                    } else {
+                        backCard.current_x = _instance.current_x - (IMG_WIDTH / 2.0F + IMG_WIDTH / 2.0F * 0.8F + 16.0F) * _instance.drawScale;
+                    }
+
+                    if (_instance.cardsToPreview == null) {
+                        backCard.current_y = _instance.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT / 2.0F * 0.8F) * _instance.drawScale;
+                    } else {
+                        if (_instance.current_y < Settings.HEIGHT * 0.5F) {
+                            backCard.current_y = _instance.current_y + (IMG_HEIGHT / 2.0F + IMG_HEIGHT / 2.0F * 0.8F) * _instance.drawScale;
+                        } else {
+                            backCard.current_y = _instance.current_y + (IMG_HEIGHT / 2.0F - IMG_HEIGHT * 1.5F * 0.8F) * _instance.drawScale;
+                        }
+                    }
+
+                    backCard.drawScale = _instance.drawScale * 0.8F;
+                    backCard.setAngle(0.0f, true);
+
+                    backCard.hb.move(backCard.current_x, backCard.current_y);
+                    backCard.hb.resize(
+                            (float) ReflectionHacks.getPrivate(backCard, AbstractCard.class, "HB_W") * backCard.drawScale,
+                            (float) ReflectionHacks.getPrivate(backCard, AbstractCard.class, "HB_H") * backCard.drawScale
+                    );
+
+                    backCard.render(sb);
+                }
+
+                noBackCardPreviewLoop = false;
+            }
+
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "renderTips"
+    )
+    public static class RenderCardPreviewBackInSingleView {
+        @SpirePostfixPatch
+        public static void Postfix(SingleCardViewPopup _instance, SpriteBatch sb) {
+            AbstractCard card = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
+
+            if (AddFields.backCard.get(card) != null && !AddFields.backCard.get(card).cardID.equals(card.cardID)) {
+
+
+                renderCardPreviewBackInSingleView(AddFields.backCard.get(card), sb);
+            }
+        }
+
+    }
+
+    public static void renderCardPreviewBackInSingleView(AbstractCard card, SpriteBatch sb) {
+        sb.setColor(Color.WHITE);
+        card.current_x = Settings.WIDTH - 1435.0F * Settings.scale;
+        card.current_y = Settings.HEIGHT - 795.0F * Settings.scale;
+        card.drawScale = 0.8F;
+        card.render(sb);
+    }
+
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = SpirePatch.CLASS
+    )
+    public static class SpireFieldPortraitImgBack {
+        public static SpireField<Texture> portraitImgBack = new SpireField<>(() -> null);
+    }
+
+
+    public static Texture portraitToSave = null;
+
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "render"
+    )
+    public static class RenderSingleBackCardPatch {
+        @SpireInsertPatch(rloc = 1, localvars = {"copy"})
+        public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb, AbstractCard ___copy) {
+            if (ViewFlipButton.isViewingFlip) {
+                AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
+                ___copy = c.makeStatEquivalentCopy();
+
+                if (AddFields.backCard.get(c) != null && AddFields.backCard.get(c) != c) {
+                    ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "card", AddFields.backCard.get(c));
+
+                }
+            }
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "loadPortraitImg"
+    )
+    public static class RenderSingleBackCardImagePatch {
+        @SpirePostfixPatch
+        public static void Postfix(SingleCardViewPopup _instance) {
+            AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
+            if (BackCardManager.AddFields.backCard.get(c) != null && BackCardManager.AddFields.backCard.get(c) != c) {
+                AbstractCard card = BackCardManager.AddFields.backCard.get(c);
+                if (card instanceof CustomCard) {
+                    SpireFieldPortraitImgBack.portraitImgBack.set(_instance, CustomCard.getPortraitImage((CustomCard) card));
+                } else {
+                    if (Settings.PLAYTESTER_ART_MODE || UnlockTracker.betaCardPref.getBoolean(card.cardID, false)) {
+                        SpireFieldPortraitImgBack.portraitImgBack.set(_instance, ImageMaster.loadImage("images/1024PortraitsBeta/" + card.assetUrl + ".png"));
+                    } else {
+                        SpireFieldPortraitImgBack.portraitImgBack.set(_instance, ImageMaster.loadImage("images/1024Portraits/" + card.assetUrl + ".png"));
+                        if (SpireFieldPortraitImgBack.portraitImgBack.get(_instance) == null) {
+                            SpireFieldPortraitImgBack.portraitImgBack.set(_instance, ImageMaster.loadImage("images/1024PortraitsBeta/" + card.assetUrl + ".png"));
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "render"
+    )
+    public static class RenderSingleBackCardImagePatch2 {
+        @SpireInsertPatch(rloc = 11)
+        public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb) {
+            if (ViewFlipButton.isViewingFlip) {
+                portraitToSave = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "portraitImg");
+                AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
+                if (c instanceof CustomCard) {
+                    ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "portraitImg",
+                            SpireFieldPortraitImgBack.portraitImgBack.get(_instance));
+                }
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = SingleCardViewPopup.class,
+            method = "render"
+    )
+    public static class RenderSingleBackCardImagePatch3 {
+        @SpireInsertPatch(rloc = 12)
+        public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb) {
+            if (ViewFlipButton.isViewingFlip) {
+                ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "portraitImg", portraitToSave);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    //    输入卡牌本体进来！！！！！！！！ 正反面外面判断吧
+    public static AbstractCard setCardToFrontCard(AbstractCard fromCard, AbstractCard toCard, boolean currentSide) {
+        AbstractCard finalCard;
+        if (fromCard instanceof AbstractTSCard) {
+            if (!currentSide)
+                finalCard = AddFields.backCard.get(fromCard);
+            else
+                finalCard = fromCard;
+        } else {
+            finalCard = fromCard;
+        }
+
+        AddFields.backCard.set(finalCard, AddFields.backCard.get(toCard));
+        AddFields.backCard.set(AddFields.backCard.get(toCard), finalCard);
+
+        AddFields.isBack.set(toCard, true);
+        AddFields.isBack.set(finalCard, false);
+
+        if (finalCard instanceof AbstractTSCard)
+            setBackCardBackground((AbstractTSCard) finalCard, false);
+
+        if (AddFields.backCard.get(finalCard) instanceof AbstractTSCard && AddFields.backCard.get(finalCard) != finalCard) {
+            setBackCardBackground((AbstractTSCard) AddFields.backCard.get(finalCard), true);
+        }
+
+
+        return finalCard;
+    }
+
+
+    //    输入卡牌本体进来！！！！！！！！ 正反面外面判断吧
+    public static AbstractCard setCardToBackCard(AbstractCard fromCard, AbstractCard toCard, boolean currentSide) {
+        AbstractCard finalCard;
+        if (fromCard instanceof AbstractTSCard) {
+            if (!currentSide)
+                finalCard = AddFields.backCard.get(fromCard);
+            else
+                finalCard = fromCard;
+        } else {
+            finalCard = fromCard;
+        }
+
+        AddFields.backCard.set(toCard, finalCard);
+        AddFields.backCard.set(finalCard, toCard);
+
+        AddFields.isBack.set(toCard, false);
+        AddFields.isBack.set(finalCard, true);
+
+        if (toCard instanceof AbstractTSCard)
+            setBackCardBackground((AbstractTSCard) toCard, false);
+
+        if (AddFields.backCard.get(toCard) instanceof AbstractTSCard && AddFields.backCard.get(toCard) != toCard) {
+            setBackCardBackground((AbstractTSCard) AddFields.backCard.get(toCard), true);
+        }
+
+        return toCard;
+    }
+
+    public static void cloneFieldToCard(AbstractCard ori, AbstractCard c) {
 
     }
 
@@ -184,20 +916,11 @@ public class BackCardManager {
         if (hoverCard instanceof AbstractTSCard) {
             AbstractTSCard card = (AbstractTSCard) hoverCard;
 
-            if (card.canDoubleTrigger()) {
-                if (card.backCard == null) {
-                    if (card.thisCopy != null && card.thisCopy.target == AbstractCard.CardTarget.ENEMY)
+            if (canDoubleTrigger(card)) {
+                if (AddFields.backCard.get(card) != null) {
+                    if (AddFields.backCard.get(card).target == AbstractCard.CardTarget.ENEMY)
                         return hoverCard.target;
                 }
-
-                if (card.thisCopy == null) {
-                    if (card.backCard != null && card.backCard.target == AbstractCard.CardTarget.ENEMY)
-                        return hoverCard.target;
-                }
-
-                if (card.backCard != null && card.thisCopy != null)
-                    if (card.thisCopy.target == AbstractCard.CardTarget.ENEMY || card.backCard.target == AbstractCard.CardTarget.ENEMY)
-                        return hoverCard.target;
             }
         }
 
@@ -230,42 +953,24 @@ public class BackCardManager {
         }
     }
 
-
     @SpirePatch(
-            clz = AbstractPlayer.class,
-            method = "updateCardsOnDamage"
+            clz = UseCardAction.class,
+            method = "update"
     )
-    public static class TookDamagePatch {
-        public static ExprEditor Instrument() {
-            return new ExprEditor() {
-                @Override
-                public void edit(MethodCall m) throws CannotCompileException {
-                    if (m.getClassName().equals(AbstractCard.class.getName()) && m.getMethodName().equals("tookDamage")) {
-                        m.replace(BackCardManager.class.getName() + ".onTookDamage(c);"
-                        );
-                    }
-                }
-            };
-        }
-    }
+    public static class FlipCardOnceUsePatch {
+        @SpireInsertPatch(rloc = 126 - 84)
+        public static SpireReturn<Void> Insert(UseCardAction _instance) {
+            AbstractCard targetCard = ReflectionHacks.getPrivate(_instance, UseCardAction.class, "targetCard");
 
-    public static void onTookDamage(AbstractCard card) {
-        if (card instanceof AbstractTSCard) {
-            AbstractTSCard c = (AbstractTSCard) card;
+            if (AddFields.flipOnUseOnce.get(targetCard)) {
+                AddFields.flipOnUseOnce.set(targetCard, false);
 
-            if (c.isFlip) {
-                if (c.backCard != null && c.backCard != c) {
-                    c.backCard.tookDamage();
-                }
-            } else {
-                if (c.thisCopy != null && c.thisCopy != c) {
-                    c.thisCopy.tookDamage();
-                }
+                if (AddFields.backCard.get(targetCard) != null && AddFields.backCard.get(targetCard) != targetCard)
+
+                    ReflectionHacks.setPrivate(_instance, UseCardAction.class, "targetCard", AddFields.backCard.get(targetCard));
             }
 
-            c.tookDamage();
+            return SpireReturn.Continue();
         }
-
     }
-
 }

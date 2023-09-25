@@ -21,7 +21,7 @@ public class Hidden extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Hidden extends AbstractTSCard {
         addToBot(new DrawCardAction(this.magicNumber));
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

@@ -2,6 +2,7 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.Common.SelectHandCardAction;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardQueueItem;
@@ -15,7 +16,7 @@ public class Fluctuate extends AbstractTSCard {
     private static final int COST = 2;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
-    private static final CardTarget TARGET = CardTarget.ENEMY;
+    private static final CardTarget TARGET = CardTarget.NONE;
 
     public Fluctuate() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
@@ -24,29 +25,23 @@ public class Fluctuate extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p,p,this.block));
-        addToBot(new SelectHandCardAction(EXTENDED_DESCRIPTION[0], 1, card -> card instanceof  AbstractTSCard,cards -> {
+    public void use(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new GainBlockAction(p, p, this.block));
+        addToBot(new SelectHandCardAction(EXTENDED_DESCRIPTION[0], 1, cards -> {
             for (AbstractCard c : cards) {
-                if(c instanceof  AbstractTSCard) {
-                    ((AbstractTSCard) c).isFlip = !((AbstractTSCard) c).isFlip;
-                    ((AbstractTSCard) c).onFlipView();
-                    AbstractTSCard tsc = (AbstractTSCard) c;
-                    c.freeToPlayOnce = true;
-                    if (tsc.thisCopy != null) {
-                        tsc.thisCopy.freeToPlayOnce = true;
-                    }
-                    if (tsc.backCard != null) {
-                        tsc.backCard.freeToPlayOnce = true;
-                    }
-                    AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
+                AbstractCard back = BackCardManager.AddFields.backCard.get(c);
+                if (back != null && back != c) {
+                    BackCardManager.AddFields.flipOnUseOnce.set(back, true);
+                    AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(back, m,back.energyOnUse,true,true));
+                }else {
+                    AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m,c.energyOnUse,true,true));
                 }
             }
         }));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(4);

@@ -1,7 +1,6 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
-import TheShadowMod.actions.TheShadow.FlipCombatCardsAction;
 import TheShadowMod.powers.AbstractShadowModPower;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;

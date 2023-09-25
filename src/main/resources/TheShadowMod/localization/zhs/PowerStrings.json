@@ -76,8 +76,7 @@
   "TheShadowMod:SeparationPower": {
     "NAME": "分身",
     "DESCRIPTIONS": [
-      "本回合你获得的 格挡 翻倍。",
-      "下 #b%d 个回合你获得的 格挡 翻倍"
+      "切换表里世界时，获得 #b%d 点 #y格挡 。"
     ]
   },
   "TheShadowMod:EchoPower": {
@@ -131,7 +130,7 @@
   "TheShadowMod:MourningPower": {
     "NAME": "哀恸",
     "DESCRIPTIONS": [
-      "里世界时的 #y沉重 亦生效。"
+      "每回合开始时，若你处于里世界， #y升级 你的所有手牌。"
     ]
   },
   "TheShadowMod:PeelPower": {
@@ -143,13 +142,27 @@
   "TheShadowMod:GatheringDarknessPower": {
     "NAME": "夜幕",
     "DESCRIPTIONS": [
-      "成功给予 #y鸣响 后，获得给予层数 #b%d%% 的 #y格挡 。"
+      "在里世界给予敌人 the_shadow_mod:鸣响 后，获得给予层数 #b%d%% 的 #y格挡 。"
     ]
   },
   "TheShadowMod:ContemplatePower": {
     "NAME": "思忖",
     "DESCRIPTIONS": [
       "每回合开始时，至多用一张手牌的当前面覆盖抽牌堆一张牌的另一面并抽一张牌。"
+    ]
+  },
+  "TheShadowMod:SinkIntoDarkPower": {
+    "NAME": "遁入黑暗",
+    "DESCRIPTIONS": [
+      "本回合结束时，如果处于里世界，获得 #b%d 点临时最大生命。",
+      "在 #b%d 个回合结束时，如果处于里世界，获得 #b%d 点临时最大生命。"
+    ]
+  },
+  "TheShadowMod:SinkIntoDarkPower2": {
+    "NAME": "遁入黑暗+",
+    "DESCRIPTIONS": [
+      "本回合结束时，如果处于里世界，获得 #b%d 点临时最大生命。",
+      "在 #b%d 个回合结束时，如果处于里世界，获得 #b%d 点临时最大生命。"
     ]
   }
 }

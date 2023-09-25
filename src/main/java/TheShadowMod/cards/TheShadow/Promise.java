@@ -33,7 +33,7 @@ public class Promise extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
         addToBot(new ApplyPealPowerAction(m, this.magicNumber));
         SaveHelper.noPotion = true;
@@ -58,7 +58,7 @@ public class Promise extends AbstractTSCard {
         }
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);

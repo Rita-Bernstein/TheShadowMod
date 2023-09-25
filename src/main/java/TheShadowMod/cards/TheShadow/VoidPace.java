@@ -20,14 +20,14 @@ public class VoidPace extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 2;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new GainBlockAction(p, p, this.block));
         addToBot(new GainBlockAction(p, p, this.block));
         addToBot(new DrawCardAction(this.magicNumber));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(1);

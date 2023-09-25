@@ -26,7 +26,7 @@ public class FightToDeath extends AbstractTSCard {
         this.secondaryM = this.baseSecondaryM = 2;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPowerAction(p,p,new HeavyPower(p,this.magicNumber)));
 
         for (AbstractMonster mo : (AbstractDungeon.getCurrRoom()).monsters.monsters) {
@@ -37,7 +37,7 @@ public class FightToDeath extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

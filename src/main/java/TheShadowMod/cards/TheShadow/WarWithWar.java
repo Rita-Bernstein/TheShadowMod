@@ -25,13 +25,13 @@ public class WarWithWar extends AbstractTSCard {
         this.tags.add(CardTags.HEALING);
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new LoseHPAction(p,p,this.magicNumber));
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
         addToBot(new TempIncreaseMaxHPAction(p,this.magicNumber));
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(2);

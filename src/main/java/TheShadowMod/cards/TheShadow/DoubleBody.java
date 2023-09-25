@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -26,7 +27,7 @@ public class DoubleBody extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
     }
 
     @Override
@@ -37,64 +38,32 @@ public class DoubleBody extends AbstractTSCard {
 
     @Override
     public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
-        if(!flipThisSide)
+        if (!flipThisSide)
             return;
 
-        ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
-        list.removeIf(card -> card == this ||
-                (card instanceof AbstractTSCard && ((AbstractTSCard) card).backCard == this));
+        addToTop(new AbstractGameAction() {
+                     @Override
+                     public void update() {
+                         ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
+                         list.removeIf(card -> card == DoubleBody.this || (card == BackCardManager.AddFields.backCard.get(DoubleBody.this)));
 
-        if(list.size()>1){
-            addToTop(new AbstractGameAction() {
-                         @Override
-                         public void update() {
-                             AbstractCard c = list.get(AbstractDungeon.cardRandomRng.random(list.size()-1));
-                             if (c instanceof AbstractTSCard) {
-                                 AbstractTSCard tsc = (AbstractTSCard) c;
-                                 c.freeToPlayOnce = true;
-                                 if (tsc.thisCopy != null) {
-                                     tsc.thisCopy.freeToPlayOnce = true;
-                                 }
-                                 if (tsc.backCard != null) {
-                                     tsc.backCard.freeToPlayOnce = true;
-                                 }
-                             } else {
-                                 c.freeToPlayOnce = true;
-                             }
-                             AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
-                             AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
-                             isDone = true;
-                         }
-                     }
-            );
+                         AbstractCard c;
+                         if (list.size() > 1)
+                             c = list.get(AbstractDungeon.cardRandomRng.random(list.size() - 1));
+                         else
+                             c = list.get(0);
 
-        }else if(list.size()==1){
-            addToTop(new AbstractGameAction() {
-                         @Override
-                         public void update() {
-                             AbstractCard c = list.get(0);
-                             if (c instanceof AbstractTSCard) {
-                                 AbstractTSCard tsc = (AbstractTSCard) c;
-                                 c.freeToPlayOnce = true;
-                                 if (tsc.thisCopy != null) {
-                                     tsc.thisCopy.freeToPlayOnce = true;
-                                 }
-                                 if (tsc.backCard != null) {
-                                     tsc.backCard.freeToPlayOnce = true;
-                                 }
-                             } else {
-                                 c.freeToPlayOnce = true;
-                             }
-                             AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
-                             AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
-                             isDone = true;
-                         }
+                         c.freeToPlayOnce = true;
+                         AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
+                         AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
+                         isDone = true;
                      }
-            );
-        }
+                 }
+        );
+
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.isEthereal = false;

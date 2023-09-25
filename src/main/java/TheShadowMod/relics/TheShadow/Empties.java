@@ -61,13 +61,9 @@ public class Empties extends AbstractShadowModRelic {
             AbstractCard card0 = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
             AbstractCard card1 = AbstractDungeon.gridSelectScreen.selectedCards.get(1);
 
-            if (card0 instanceof AbstractTSCard) {
-                AbstractDungeon.player.masterDeck.group.set(AbstractDungeon.player.masterDeck.group.indexOf(card1),
-                        BackCardManager.setCardToBackCard(card0, card1, ((AbstractTSCard) card0).isFlip));
-            } else {
-                AbstractDungeon.player.masterDeck.group.set(AbstractDungeon.player.masterDeck.group.indexOf(card1),
-                        BackCardManager.setCardToBackCard(card0, card1, false));
-            }
+            AbstractDungeon.player.masterDeck.group.set(AbstractDungeon.player.masterDeck.group.indexOf(card1),
+                    BackCardManager.setCardToBackCard(card0, card1, false));
+
 
             AbstractDungeon.player.masterDeck.removeCard(card0);
 

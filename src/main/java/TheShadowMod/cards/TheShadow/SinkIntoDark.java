@@ -2,6 +2,9 @@ package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.TheShadow.TempIncreaseMaxHPAction;
+import TheShadowMod.powers.TheShadow.SinkIntoDarkPower;
+import TheShadowMod.powers.TheShadow.SinkIntoDarkPower2;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -16,20 +19,25 @@ public class SinkIntoDark extends AbstractTSCard {
 
     public SinkIntoDark() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 12;
+        this.magicNumber = this.baseMagicNumber = 4;
+        this.secondaryM = this.baseSecondaryM = 2;
         this.tags.add(CardTags.HEALING);
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new TempIncreaseMaxHPAction(p,this.magicNumber));
+    public void use(AbstractPlayer p, AbstractMonster m) {
+        if(!this.upgraded){
+            addToBot(new ApplyPowerAction(p,p,new SinkIntoDarkPower2(p,this.secondaryM,this.magicNumber)));
+        }else {
+            addToBot(new ApplyPowerAction(p,p,new SinkIntoDarkPower(p,this.secondaryM,this.magicNumber)));
+        }
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(4);
+            upgradeMagicNumber(2);
         }
     }
 }

@@ -15,8 +15,9 @@ import java.util.function.Consumer;
 public class ShionMaskHelper {
     public static FrameBuffer buffer;
     public static FrameBuffer maskBuffer;
-    private static final ShaderProgram alphaMaskShader;
-    private static final ShaderProgram alphaShader;
+    public static final ShaderProgram alphaMaskShader;
+    public static final ShaderProgram alphaShader;
+    public static final ShaderProgram flipShader;
 
 
 
@@ -31,6 +32,10 @@ public class ShionMaskHelper {
         alphaShader = new ShaderProgram(
                 Gdx.files.internal("TheShadowMod/shader/alphaMask.vs").readString(),
                 Gdx.files.internal("TheShadowMod/shader/alpha.fs").readString());
+
+        flipShader = new ShaderProgram(
+                Gdx.files.internal("TheShadowMod/shader/alphaMask.vs").readString(),
+                Gdx.files.internal("TheShadowMod/shader/flipMask.fs").readString());
 
 
         if (!alphaMaskShader.isCompiled()) {
@@ -178,6 +183,36 @@ public class ShionMaskHelper {
         sb.end();
         sb.setShader(null);
         sb.begin();
+    }
+
+    public static Texture getScreenFlipTexture(SpriteBatch sb, Color oriColor, Consumer<SpriteBatch> textureToDraw) {
+        Texture textureFinal = null;
+
+        if (textureToDraw != null) {
+            sb.end();
+            buffer.begin();
+
+            Gdx.gl.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            Gdx.gl.glColorMask(true, true, true, true);
+
+            sb.setShader(flipShader);
+            sb.begin();
+            sb.setColor(Color.WHITE);
+
+            textureToDraw.accept(sb);
+            sb.flush();
+            sb.end();
+            buffer.end();
+            sb.setShader(null);
+
+            textureFinal = buffer.getColorBufferTexture();
+            sb.begin();
+        }
+
+        sb.setColor(oriColor);
+
+        return textureFinal;
     }
 
 }

@@ -19,12 +19,12 @@ public class VisceralDestruction extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 32;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPealPowerAction(m,this.magicNumber));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(10);

@@ -26,7 +26,7 @@ public class Assassin extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new LoseHPAction(p, p, p.currentHealth / 2));
 
         this.baseDamage = p.currentHealth / 2;
@@ -61,7 +61,7 @@ public class Assassin extends AbstractTSCard {
         initializeDescription();
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.exhaust = false;

@@ -20,12 +20,12 @@ public class Twins extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 4;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPowerAction(p,p,new TwinsPower(p,this.magicNumber)));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(2);

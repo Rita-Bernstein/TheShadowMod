@@ -24,7 +24,7 @@ public class DesperateAttempt extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new XActionAction(effect -> {
             addToTop(new ApplyPealPowerAction(m, effect * this.magicNumber));
 
@@ -32,7 +32,7 @@ public class DesperateAttempt extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(3);

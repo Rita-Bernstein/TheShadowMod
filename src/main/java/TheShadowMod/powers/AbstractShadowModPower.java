@@ -18,4 +18,7 @@ public class AbstractShadowModPower extends TwoAmountPower {
 
     public void onNotDeath() {
     }
+
+    public void onSwitchWorld(){}
+
 }

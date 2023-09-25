@@ -22,7 +22,7 @@ public class UltimateReaction extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         boolean isMultiDmg = ReflectionHacks.getPrivate(m,AbstractMonster.class,"isMultiDmg");
 
         if(isMultiDmg){
@@ -39,7 +39,7 @@ public class UltimateReaction extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

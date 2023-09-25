@@ -1,46 +1,50 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
-import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.actions.TheShadow.TempIncreaseMaxHPAction;
+import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.AbstractShadowModPower;
-import basemod.BaseMod;
-import basemod.ReflectionHacks;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
-import com.megacrit.cardcrawl.actions.unique.ExpertiseAction;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.rooms.EventRoom;
 
-public class SeparationPower extends AbstractShadowModPower {
-    public static final String POWER_ID = TheShadowMod.makeID(SeparationPower.class.getSimpleName());
+public class SinkIntoDarkPower extends AbstractShadowModPower {
+    public static final String POWER_ID = TheShadowMod.makeID(SinkIntoDarkPower.class.getSimpleName());
     private static final PowerStrings powerStrings = CardCrawlGame.languagePack.getPowerStrings(POWER_ID);
     public static final String NAME = powerStrings.NAME;
     public static final String[] DESCRIPTIONS = powerStrings.DESCRIPTIONS;
 
 
-    public SeparationPower(AbstractCreature owner, int amount) {
+    public SinkIntoDarkPower(AbstractCreature owner, int amount, int amount2) {
         this.name = NAME;
         this.ID = POWER_ID;
         this.amount = amount;
+        this.amount2 = amount2;
         this.owner = owner;
         updateDescription();
 
         loadShadowRegion("SeparationPower");
     }
 
+
     @Override
-    public void onSwitchWorld() {
-        flash();
-        addToBot(new GainBlockAction(this.owner,this.owner,this.amount));
+    public void atEndOfTurnPreEndTurnCards(boolean isPlayer) {
+        if (isPlayer) {
+            if (GameStatsPatch.blackWorld) {
+                flash();
+                addToBot(new TempIncreaseMaxHPAction(AbstractDungeon.player, this.amount2));
+            }
+            addToBot(new ReducePowerAction(this.owner, this.owner, POWER_ID, 1));
+        }
     }
 
     @Override
     public void updateDescription() {
-        this.description =  String.format(DESCRIPTIONS[0], this.amount);
+        this.description = this.amount > 1 ? String.format(DESCRIPTIONS[1], this.amount, this.amount2) : String.format(DESCRIPTIONS[0], this.amount2);
     }
 }

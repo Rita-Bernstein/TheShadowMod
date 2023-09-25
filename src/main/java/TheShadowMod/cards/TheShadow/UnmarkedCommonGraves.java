@@ -27,7 +27,7 @@ public class UnmarkedCommonGraves extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 7;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         int d = damage;
         DamageInfo.DamageType dt = damageTypeForTurn;
         for (int i = 0; i < this.magicNumber; i++) {
@@ -50,7 +50,7 @@ public class UnmarkedCommonGraves extends AbstractTSCard {
         }
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(1);

@@ -23,7 +23,7 @@ public class HiddenDoor extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new GainBlockAction(p, p, this.block));
         addToBot(new MakeTempCardInHandAction(new Wallcovering()));
     }
@@ -33,7 +33,7 @@ public class HiddenDoor extends AbstractTSCard {
         ori.selfRetain = true;
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(3);

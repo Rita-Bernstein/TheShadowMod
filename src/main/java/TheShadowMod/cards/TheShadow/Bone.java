@@ -32,7 +32,7 @@ public class Bone extends AbstractTSCard {
         initializeDescription();
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new GainBlockAction(p, p, this.block));
         addToBot(new BetterIncreaseMiscAction(this.uuid, -this.magicNumber, card -> {
             card.baseBlock = card.misc;
@@ -42,7 +42,7 @@ public class Bone extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             if (AbstractDungeon.player != null) {

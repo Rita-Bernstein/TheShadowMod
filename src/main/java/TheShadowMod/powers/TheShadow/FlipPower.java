@@ -1,10 +1,9 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
-import TheShadowMod.actions.TheShadow.FlipCombatCardsAction;
+import TheShadowMod.actions.TheShadow.SwitchWorldAction;
 import TheShadowMod.powers.AbstractShadowModPower;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
-import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -36,7 +35,7 @@ public class FlipPower extends AbstractShadowModPower {
 
     @Override
     public void onRemove() {
-        addToBot(new FlipCombatCardsAction());
+        addToBot(new SwitchWorldAction());
     }
 
 

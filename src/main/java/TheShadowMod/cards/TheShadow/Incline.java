@@ -4,6 +4,7 @@ import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.Common.SelectHandCardAction;
 import TheShadowMod.actions.TheShadow.GainFlipPowerAction;
 import TheShadowMod.actions.TheShadow.InclineAction;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
@@ -32,7 +33,14 @@ public class Incline extends AbstractTSCard {
     }
 
     @Override
-    public void betterUpdate(AbstractCard thisCard) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
+
+    }
+
+    @Override
+    public void update() {
+        super.update();
+
         if (AbstractDungeon.currMapNode == null || (AbstractDungeon.getCurrRoom()).phase != AbstractRoom.RoomPhase.COMBAT) {
             return;
         }
@@ -40,33 +48,26 @@ public class Incline extends AbstractTSCard {
 
         int finalCost = 1;
 
-        if (thisCard instanceof AbstractTSCard) {
-            AbstractCard fCard = ((AbstractTSCard) thisCard).thisCopy;
-            AbstractCard bCard = ((AbstractTSCard) thisCard).backCard;
+
+        AbstractCard bCard = BackCardManager.AddFields.backCard.get(this);
 
 
-            if (AbstractDungeon.player != null)
-                if (this.upgraded
-                        || (fCard != null && fCard.cardID.equals(cardID) && fCard.upgraded)
-                        || (bCard != null && bCard.cardID.equals(cardID) && bCard.upgraded))
-                    finalCost = (GameActionManager.turn + 2) % 3;
-                else {
-                    finalCost = GameActionManager.turn % 3;
-                }
-
-
-            if (fCard != null) {
-                fCard.setCostForTurn(finalCost);
+        if (AbstractDungeon.player != null)
+            if (this.upgraded || (bCard != null && bCard.cardID.equals(cardID) && bCard.upgraded))
+                finalCost = (GameActionManager.turn + 2) % 3;
+            else {
+                finalCost = GameActionManager.turn % 3;
             }
-            if (bCard != null) {
-                bCard.setCostForTurn(finalCost);
-            }
+
+        if (bCard != null) {
+            bCard.setCostForTurn(finalCost);
         }
-        thisCard.setCostForTurn(finalCost);
+
+        setCostForTurn(finalCost);
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

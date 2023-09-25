@@ -14,40 +14,41 @@ import java.util.ArrayList;
 public class PerfectImitation extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(PerfectImitation.class.getSimpleName());
     public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/PerfectImitation.png");
-    private static final int COST = 2;
+    private static final int COST = 1;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardRarity RARITY = CardRarity.RARE;
-    private static final CardTarget TARGET = CardTarget.NONE;
+    private static final CardTarget TARGET = CardTarget.ENEMY;
 
     public PerfectImitation() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
         this.exhaust = true;
-        this.isEthereal = true;
         this.tags.add(CardTags.HEALING);
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         ArrayList<AbstractPotion> potions = new ArrayList<>();
         for (AbstractPotion potion : p.potions) {
             if (!(potion instanceof PotionSlot)) {
                 potions.add(potion);
             }
         }
+
+
         if (potions.size() > 1) {
-            addToBot(new ObtainPotionAction(potions.get(AbstractDungeon.cardRandomRng.random(potions.size() - 1)).makeCopy()));
+            potions.get(AbstractDungeon.cardRandomRng.random(potions.size() - 1)).use(m);
         } else if (potions.size() == 1) {
-            addToBot(new ObtainPotionAction(potions.get(0).makeCopy()));
+            potions.get(0).use(m);
         }
 
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeBaseCost(1);
+            upgradeBaseCost(0);
         }
     }
 }

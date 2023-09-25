@@ -97,30 +97,14 @@ public class SaveHelper {
                 for (int i = 0; i < AbstractDungeon.player.masterDeck.group.size(); i++) {
                     AbstractCard card = AbstractDungeon.player.masterDeck.group.get(i);
 
-                    if (card instanceof AbstractTSCard) {
-                        AbstractTSCard c = (AbstractTSCard) card;
-
-                        if (c.thisCopy == null || card.cardID.equals(c.thisCopy.cardID)) {
-                            config.setString(CardCrawlGame.saveSlot + "frontCardID" + i, Madness.ID);
-                            config.setInt(CardCrawlGame.saveSlot + "frontCardUpgrades" + i, -1);
-                            config.setInt(CardCrawlGame.saveSlot + "frontCardMisc" + i, 0);
-                        } else {
-                            config.setString(CardCrawlGame.saveSlot + "frontCardID" + i, c.thisCopy.cardID);
-                            config.setInt(CardCrawlGame.saveSlot + "frontCardUpgrades" + i, c.thisCopy.timesUpgraded);
-                            config.setInt(CardCrawlGame.saveSlot + "frontCardMisc" + i, c.thisCopy.misc);
-                        }
-
-
-                        if (c.backCard == null || card.cardID.equals(c.backCard.cardID)) {
-                            config.setString(CardCrawlGame.saveSlot + "backCardID" + i, Madness.ID);
-                            config.setInt(CardCrawlGame.saveSlot + "backCardUpgrades" + i, -1);
-                            config.setInt(CardCrawlGame.saveSlot + "backCardMisc" + i, 0);
-                        } else {
-                            config.setString(CardCrawlGame.saveSlot + "backCardID" + i, c.backCard.cardID);
-                            config.setInt(CardCrawlGame.saveSlot + "backCardUpgrades" + i, c.backCard.timesUpgraded);
-                            config.setInt(CardCrawlGame.saveSlot + "backCardMisc" + i, c.backCard.misc);
-                        }
-
+                    if (BackCardManager.AddFields.backCard.get(card) != null) {
+                        config.setString(CardCrawlGame.saveSlot + "backCardID" + i, BackCardManager.AddFields.backCard.get(card).cardID);
+                        config.setInt(CardCrawlGame.saveSlot + "backCardUpgrades" + i, BackCardManager.AddFields.backCard.get(card).timesUpgraded);
+                        config.setInt(CardCrawlGame.saveSlot + "backCardMisc" + i, BackCardManager.AddFields.backCard.get(card).misc);
+                    } else {
+                        config.setString(CardCrawlGame.saveSlot + "backCardID" + i, card.cardID);
+                        config.setInt(CardCrawlGame.saveSlot + "backCardUpgrades" + i, card.timesUpgraded);
+                        config.setInt(CardCrawlGame.saveSlot + "backCardMisc" + i, card.misc);
                     }
                 }
             }
@@ -140,46 +124,16 @@ public class SaveHelper {
                 for (int i = 0; i < AbstractDungeon.player.masterDeck.group.size(); i++) {
                     AbstractCard card = AbstractDungeon.player.masterDeck.group.get(i);
 
-                    if (card instanceof AbstractTSCard) {
-                        AbstractTSCard c = (AbstractTSCard) card;
-
-                        int frontUpgrades = config.getInt(CardCrawlGame.saveSlot + "frontCardUpgrades" + i);
-                        int frontMisc = config.getInt(CardCrawlGame.saveSlot + "frontCardMisc" + i);
-                        String frontCardID = config.getString(CardCrawlGame.saveSlot + "frontCardID" + i);
-
-                        int backCardUpgrades = config.getInt(CardCrawlGame.saveSlot + "backCardUpgrades" + i);
-                        int backCardMisc = config.getInt(CardCrawlGame.saveSlot + "backCardMisc" + i);
-                        String backCardID = config.getString(CardCrawlGame.saveSlot + "backCardID" + i);
+                    int backCardUpgrades = config.getInt(CardCrawlGame.saveSlot + "backCardUpgrades" + i);
+                    int backCardMisc = config.getInt(CardCrawlGame.saveSlot + "backCardMisc" + i);
+                    String backCardID = config.getString(CardCrawlGame.saveSlot + "backCardID" + i);
 
 
-                        System.out.println("===============" + card.name);
-                        System.out.println("backCardID ====" + backCardID);
-                        System.out.println("backCardMisc ====" + backCardMisc);
-                        System.out.println("backCardUpgrades ====" + backCardUpgrades);
-                        System.out.println("card.cardID.equals(backCardID) ====" + (card.cardID.equals(backCardID)));
-
-                        if (frontUpgrades >= 0) {
-                            if (frontCardID != null && !card.cardID.equals(frontCardID)) {
-                                BackCardManager.setCardToFrontCard(CardLibrary.getCopy(frontCardID, frontUpgrades, frontMisc), card, true);
-                            }else {
-                                c.thisCopy = c;
-                            }
-                        } else {
-                            c.thisCopy = c;
-                        }
-
-                        if (backCardUpgrades >= 0) {
-                            if (backCardID != null && !card.cardID.equals(backCardID)) {
-                                c.setBackCardFromID(card, backCardID, backCardUpgrades, backCardMisc);
-                            }else {
-                                c.initializeBackCard();
-                            }
-                        } else {
-                            c.initializeBackCard();
-                        }
+                    if (backCardID.equals(card.cardID)) {
+                        BackCardManager.AddFields.backCard.set(card,card);
+                    } else {
+                        BackCardManager.setCardToBackCard(CardLibrary.getCopy(backCardID, backCardUpgrades, backCardMisc), card, true);
                     }
-
-
                 }
             }
 
@@ -237,14 +191,13 @@ public class SaveHelper {
 
 
             for (int i = 0; i < cards.size(); i++) {
-                if (cards.get(i) instanceof AbstractTSCard) {
-                    AbstractTSCard c = (AbstractTSCard) cards.get(i);
-                    if (c.backCard != null) {
-                        config.setInt(CardCrawlGame.saveSlot + "RewardBackCardUpgrades" + i, c.backCard.timesUpgraded);
-                        config.setInt(CardCrawlGame.saveSlot + "RewardBackCardMisc" + i, c.backCard.misc);
-                        config.setString(CardCrawlGame.saveSlot + "RewardBackCardID" + i, c.backCard.cardID);
-                    }
+                AbstractTSCard c = (AbstractTSCard) cards.get(i);
+                if (BackCardManager.AddFields.backCard.get(c) != null) {
+                    config.setInt(CardCrawlGame.saveSlot + "RewardBackCardUpgrades" + i, BackCardManager.AddFields.backCard.get(c).timesUpgraded);
+                    config.setInt(CardCrawlGame.saveSlot + "RewardBackCardMisc" + i, BackCardManager.AddFields.backCard.get(c).misc);
+                    config.setString(CardCrawlGame.saveSlot + "RewardBackCardID" + i, BackCardManager.AddFields.backCard.get(c).cardID);
                 }
+
             }
 
 
@@ -280,23 +233,18 @@ public class SaveHelper {
                 cards.add(CardLibrary.getCopy(config.getString(CardCrawlGame.saveSlot + "RewardCard" + i)));
 
             for (int i = 0; i < 3; i++) {
-                if (cards.get(i) instanceof AbstractTSCard) {
-                    AbstractTSCard c = (AbstractTSCard) cards.get(i);
-                    if (c.backCard != null) {
-                        int backCardUpgrades = config.getInt(CardCrawlGame.saveSlot + "RewardBackCardUpgrades" + i);
-                        int backCardMisc = config.getInt(CardCrawlGame.saveSlot + "RewardBackCardMisc" + i);
-                        String backCardID = config.getString(CardCrawlGame.saveSlot + "RewardBackCardID" + i);
+                AbstractTSCard c = (AbstractTSCard) cards.get(i);
 
+                int backCardUpgrades = config.getInt(CardCrawlGame.saveSlot + "RewardBackCardUpgrades" + i);
+                int backCardMisc = config.getInt(CardCrawlGame.saveSlot + "RewardBackCardMisc" + i);
+                String backCardID = config.getString(CardCrawlGame.saveSlot + "RewardBackCardID" + i);
 
-                        if (backCardUpgrades < 0) {
-                            c.backCard = c.makeSameInstanceOf();
-                            continue;
-                        }
-
-
-                        c.setBackCardFromID(cards.get(i), backCardID, backCardUpgrades, backCardMisc);
-                    }
+                if(c.cardID.equals(backCardID)) {
+                    BackCardManager.AddFields.backCard.set(c,c);
+                }else {
+                    BackCardManager.setCardToBackCard(CardLibrary.getCopy(backCardID,backCardUpgrades,backCardMisc),c,true);
                 }
+
             }
 
         } catch (Exception e) {

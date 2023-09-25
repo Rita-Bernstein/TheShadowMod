@@ -2,6 +2,7 @@ package TheShadowMod.actions.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -86,11 +87,7 @@ public class InclineAction extends AbstractGameAction {
 
                 if (AbstractDungeon.player.hand.group.size() == 1) {
                     AbstractTSCard t = (AbstractTSCard) AbstractDungeon.player.hand.group.get(0);
-                    t.backCard = saveSourceCard.makeStatEquivalentCopy();
-                    if (t.backCard instanceof AbstractTSCard) {
-                        ((AbstractTSCard) t.backCard).backCard = null;
-                    }
-
+                    BackCardManager.setCardToBackCard(saveSourceCard,t,true);
 
                     t.superFlash();
 
@@ -108,10 +105,8 @@ public class InclineAction extends AbstractGameAction {
             if (!AbstractDungeon.handCardSelectScreen.wereCardsRetrieved) {
 
                 AbstractTSCard t = (AbstractTSCard) AbstractDungeon.handCardSelectScreen.selectedCards.group.get(0);
-                t.backCard = saveSourceCard.makeStatEquivalentCopy();
-                if (t.backCard instanceof AbstractTSCard) {
-                    ((AbstractTSCard) t.backCard).backCard = null;
-                }
+                BackCardManager.setCardToBackCard(saveSourceCard,t,true);
+
                 t.superFlash();
                 AbstractDungeon.player.hand.addToTop(t);
 

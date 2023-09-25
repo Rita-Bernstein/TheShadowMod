@@ -7,6 +7,7 @@ import TheShadowMod.helpers.SecondaryMagicVariable;
 import TheShadowMod.helpers.ViewFlipButton;
 import TheShadowMod.patches.AbstractPlayerEnum;
 import TheShadowMod.patches.CardColorEnum;
+import TheShadowMod.patches.FlipCardEffectPatches;
 import TheShadowMod.potions.TheShadow.*;
 import TheShadowMod.relics.TheShadow.*;
 import basemod.BaseMod;
@@ -135,6 +136,8 @@ public class TheShadowMod implements
 
     @Override
     public void receiveStartGame() {
+        ViewFlipButton.isViewingFlip = false;
+        FlipCardEffectPatches.flipBgOffset = -1.0f;
     }
 
     @Override

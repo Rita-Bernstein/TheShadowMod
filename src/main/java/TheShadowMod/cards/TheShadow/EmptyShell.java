@@ -23,13 +23,13 @@ public class EmptyShell extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new GainBlockAction(p, p, this.block));
         addToBot(new ApplyPowerAction(m,p,new NextTurnPealPower(m,this.magicNumber)));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(3);

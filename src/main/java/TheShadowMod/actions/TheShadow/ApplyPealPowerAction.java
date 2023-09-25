@@ -1,5 +1,6 @@
 package TheShadowMod.actions.TheShadow;
 
+import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.TheShadow.*;
 import TheShadowMod.relics.TheShadow.Knell;
 import TheShadowMod.relics.TheShadow.VocalCords;
@@ -42,8 +43,8 @@ public class ApplyPealPowerAction extends AbstractGameAction {
             }
         }
         if (PealPower.getPealCounter(this.target) >= getMaxPealAmount()) {
-            if (this.target.hasPower(PealPower.POWER_ID) &&
-                    this.target.getPower(PealPower.POWER_ID).amount > 0) {
+            if (this.target.hasPower(PealPower.POWER_ID) && this.target.getPower(PealPower.POWER_ID).amount > 0) {
+
                 addToBot(new DamageAction(this.target, new DamageInfo(AbstractDungeon.player,
                         this.target.getPower(PealPower.POWER_ID).amount, DamageInfo.DamageType.THORNS)));
             }
@@ -76,13 +77,19 @@ public class ApplyPealPowerAction extends AbstractGameAction {
             PealPower.addPealCounter(this.target, 1);
 
 
-            if (AbstractDungeon.player.hasPower(GatheringDarknessPower.POWER_ID))
-                if (AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2 > 0)
-
-                    addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player,
-                            AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2));
+//            if (AbstractDungeon.player.hasPower(GatheringDarknessPower.POWER_ID))
+//                if (AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2 > 0)
+//
+//                    addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player,
+//                            AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2));
         }
 
+        if (AbstractDungeon.player.hasPower(GatheringDarknessPower.POWER_ID) && GameStatsPatch.blackWorld) {
+            if (AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2 > 0)
+
+                addToTop(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player,
+                        AbstractDungeon.player.getPower(GatheringDarknessPower.POWER_ID).amount * this.amount / 2));
+        }
 
         ifFatalPealDamage(this.target);
         addToTop(new ApplyPowerAction(this.target, AbstractDungeon.player, new PealPower(target, this.amount)));

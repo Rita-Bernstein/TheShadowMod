@@ -28,7 +28,7 @@ public class CrossExamine extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 1;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(p, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 
         addToBot(new SFXAction("ATTACK_HEAVY"));
@@ -38,7 +38,7 @@ public class CrossExamine extends AbstractTSCard {
         addToBot(new ApplyPowerAction(p,p,new HeavyPower(p,this.magicNumber)));
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

@@ -1,13 +1,10 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
-import TheShadowMod.actions.TheShadow.FlipCombatCardsAction;
 import TheShadowMod.actions.TheShadow.GainFlipPowerAction;
 import TheShadowMod.powers.AbstractShadowModPower;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 
 public class JumpOutPower extends AbstractShadowModPower {

@@ -19,13 +19,17 @@ public class Contact extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 1;
     }
 
+    @Override
+    public void use(AbstractPlayer p, AbstractMonster m) {
+
+    }
 
     public void useCommon(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DrawCardAction(this.magicNumber));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

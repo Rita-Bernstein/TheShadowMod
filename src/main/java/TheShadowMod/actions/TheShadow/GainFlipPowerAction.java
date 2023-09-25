@@ -1,13 +1,9 @@
 package TheShadowMod.actions.TheShadow;
 
 import TheShadowMod.powers.TheShadow.FlipPower;
-import TheShadowMod.powers.TheShadow.PeelPower;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 
 public class GainFlipPowerAction extends AbstractGameAction {
     public GainFlipPowerAction(int amount) {
@@ -18,7 +14,7 @@ public class GainFlipPowerAction extends AbstractGameAction {
     @Override
     public void update() {
         addToTop(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new FlipPower(AbstractDungeon.player, this.amount), this.amount));
-        addToTop(new FlipCombatCardsAction());
+        addToTop(new SwitchWorldAction());
 
         isDone = true;
 

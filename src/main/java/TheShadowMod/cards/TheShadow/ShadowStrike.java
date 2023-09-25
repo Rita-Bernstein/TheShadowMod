@@ -25,20 +25,16 @@ public class ShadowStrike extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
     }
 
     @Override
     public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
         upgradeDamage(this.magicNumber);
-        if (this.thisCopy != null && !flipThisSide) {
-            this.thisCopy.baseDamage += this.magicNumber;
-            this.thisCopy.isDamageModified = true;
-        }
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(4);

@@ -1,7 +1,9 @@
 package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.AbstractShadowModPower;
+import com.megacrit.cardcrawl.actions.unique.ArmamentsAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -25,6 +27,13 @@ public class MourningPower extends AbstractShadowModPower {
     }
 
 
+    @Override
+    public void atStartOfTurnPostDraw() {
+        if(GameStatsPatch.blackWorld){
+            flash();
+            addToBot(new ArmamentsAction(true));
+        }
+    }
 
     @Override
     public void updateDescription() {

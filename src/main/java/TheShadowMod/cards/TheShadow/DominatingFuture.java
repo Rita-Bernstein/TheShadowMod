@@ -41,7 +41,7 @@ public class DominatingFuture extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new SelectCardToHandAction(getRewardCards(), false, false));
     }
 
@@ -99,7 +99,7 @@ public class DominatingFuture extends AbstractTSCard {
         }
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

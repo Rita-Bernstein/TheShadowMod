@@ -11,26 +11,26 @@ public class Separation extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(Separation.class.getSimpleName());
     public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/Separation.png");
     private static final int COST = 1;
-    private static final CardType TYPE = CardType.SKILL;
+    private static final CardType TYPE = CardType.POWER;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public Separation() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.exhaust = true;
+        this.magicNumber = this.baseMagicNumber = 3;
 
     }
 
-
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPowerAction(p, p, new SeparationPower(p, 1)));
+    public void use(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new ApplyPowerAction(p, p, new SeparationPower(p, this.magicNumber)));
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeBaseCost(0);
+            upgradeMagicNumber(2);
         }
     }
 }

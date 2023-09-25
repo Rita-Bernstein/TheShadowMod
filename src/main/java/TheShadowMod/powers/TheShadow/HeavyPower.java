@@ -47,7 +47,7 @@ public class HeavyPower extends AbstractShadowModPower {
             method = "damage"
     )
     public static class DamagePatchPlayer {
-        @SpireInsertPatch(rloc = 60, localvars = {"damageAmount"})
+        @SpireInsertPatch(rloc = 1754 - 1725, localvars = {"damageAmount"})
         public static void Insert(AbstractPlayer _instance, DamageInfo info, @ByRef int[] damageAmount) {
             if (canHeavyTrigger() && AbstractDungeon.player.hasPower(HeavyPower.POWER_ID)) {
                 AbstractDungeon.player.getPower(HeavyPower.POWER_ID).flash();
@@ -63,7 +63,7 @@ public class HeavyPower extends AbstractShadowModPower {
             method = "damage"
     )
     public static class DamagePatchMonster {
-        @SpireInsertPatch(rloc = 58, localvars = {"damageAmount"})
+        @SpireInsertPatch(rloc = 773 - 739, localvars = {"damageAmount"})
         public static void Insert(AbstractMonster _instance, DamageInfo info, @ByRef int[] damageAmount) {
             if (canHeavyTrigger() && AbstractDungeon.player.hasPower(HeavyPower.POWER_ID)) {
                 AbstractDungeon.player.getPower(HeavyPower.POWER_ID).flash();
@@ -75,8 +75,7 @@ public class HeavyPower extends AbstractShadowModPower {
     }
 
     public static boolean canHeavyTrigger() {
-        // return (!GameStatsPatch.blackWorld || AbstractDungeon.player.hasPower(MourningPower.POWER_ID)) && !AbstractDungeon.actionManager.turnHasEnded;
-        return !AbstractDungeon.actionManager.turnHasEnded;
+        return !GameStatsPatch.blackWorld && !AbstractDungeon.actionManager.turnHasEnded;
     }
 
 

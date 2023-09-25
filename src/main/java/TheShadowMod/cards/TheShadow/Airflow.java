@@ -1,7 +1,12 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.actions.Common.SelectHandCardAction;
+import TheShadowMod.actions.TheShadow.FlipCardAction;
+import TheShadowMod.helpers.BackCardManager;
+import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -16,27 +21,36 @@ public class Airflow extends AbstractTSCard {
 
     public Airflow() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.baseBlock = 8;
-        this.magicNumber = this.baseMagicNumber = 4;
-        this.exhaust = true;
-
+        this.magicNumber = this.baseMagicNumber = 2;
+        this.secondaryM = this.baseSecondaryM = 1;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new GainBlockAction(p, p, this.block));
+    public void use(AbstractPlayer p, AbstractMonster m) {
+        addToBot(new DrawCardAction(this.magicNumber));
+        addToBot(new SelectHandCardAction(String.format(EXTENDED_DESCRIPTION[0], this.secondaryM), this.secondaryM, cards -> {
+
+            for (AbstractCard c : cards) {
+                BackCardManager.flipSameSideBackgroundView(c);
+                AbstractCard b = BackCardManager.flipCard(c);
+
+                AbstractDungeon.player.hand.addToTop(b);
+
+                if (c instanceof AbstractTSCard) {
+                    BackCardManager.onFlip((AbstractTSCard) c);
+                    BackCardManager.onFlipInHand((AbstractTSCard) c);
+                }
+
+            }
+
+        }));
     }
 
 
-    @Override
-    public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
-        addToTop(new GainBlockAction(AbstractDungeon.player,AbstractDungeon.player,this.magicNumber));
-    }
-
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeBlock(4);
-            upgradeMagicNumber(2);
+            upgradeMagicNumber(1);
+            upgradeSecondM(1);
         }
     }
 

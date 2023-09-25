@@ -2,6 +2,7 @@ package TheShadowMod.actions.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.utility.NewQueueCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -48,7 +49,7 @@ public class DoublePlayDrawPileAction extends AbstractGameAction {
                     (AbstractDungeon.getCurrRoom()).souls.remove(c);
 
                     if(c instanceof AbstractTSCard){
-                        ((AbstractTSCard) c).doubleOnUseOnce = true;
+                        BackCardManager.AddFields.doubleOnUseOnce.set(c,true);
                     }
 
                     addToBot(new NewQueueCardAction(c, true, false, true));

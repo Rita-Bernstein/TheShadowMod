@@ -19,12 +19,13 @@ public class AnnihilatePower extends AbstractShadowModPower {
     public static final String NAME = powerStrings.NAME;
     public static final String[] DESCRIPTIONS = powerStrings.DESCRIPTIONS;
 
+    private boolean dontTriggerOnUse = true;
 
-    public AnnihilatePower(AbstractCreature owner,int amount) {
+    public AnnihilatePower(AbstractCreature owner, int amount) {
         this.name = NAME;
         this.ID = POWER_ID;
         this.owner = owner;
-        this.amount= amount;
+        this.amount = amount;
 
         updateDescription();
 
@@ -32,12 +33,17 @@ public class AnnihilatePower extends AbstractShadowModPower {
     }
 
     @Override
-    public void onUseCard(AbstractCard card, UseCardAction action) {
-        addToTop(new ReducePowerAction(this.owner, this.owner, POWER_ID,1));
+    public void onAfterUseCard(AbstractCard card, UseCardAction action) {
+        if(dontTriggerOnUse) {
+            dontTriggerOnUse = false;
+            return;
+        }
+        addToTop(new ReducePowerAction(this.owner, this.owner, POWER_ID, 1));
     }
+
 
     @Override
     public void updateDescription() {
-        this.description =this.amount>1? String.format( DESCRIPTIONS[1],this.amount):DESCRIPTIONS[0];
+        this.description = this.amount > 1 ? String.format(DESCRIPTIONS[1], this.amount) : DESCRIPTIONS[0];
     }
 }

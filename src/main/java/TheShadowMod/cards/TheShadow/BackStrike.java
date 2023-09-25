@@ -24,7 +24,7 @@ public class BackStrike extends AbstractTSCard {
 
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
         addToBot(new ApplyPowerAction(m,p,new BackStrikePower(m)));
     }
@@ -35,7 +35,7 @@ public class BackStrike extends AbstractTSCard {
         this.damage *= 1.5f;
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeDamage(3);

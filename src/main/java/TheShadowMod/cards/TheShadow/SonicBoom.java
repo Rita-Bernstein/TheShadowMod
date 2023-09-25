@@ -29,7 +29,7 @@ public class SonicBoom extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPealPowerAction(m,this.magicNumber));
         int smn = this.secondaryM;
         addToBot(new AbstractGameAction() {
@@ -52,7 +52,7 @@ public class SonicBoom extends AbstractTSCard {
 //            this.magicNumber += AbstractDungeon.player.getPower(HeavyPower.POWER_ID).amount * (this.upgraded ? 3 : 2);
 //    }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(3);

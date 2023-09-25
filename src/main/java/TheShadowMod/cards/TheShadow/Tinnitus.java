@@ -30,7 +30,7 @@ public class Tinnitus extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPowerToAllEnemyAction((monster) -> {
             addToTop(new ApplyPealPowerAction(monster, this.magicNumber));
         }));
@@ -48,7 +48,7 @@ public class Tinnitus extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(3);

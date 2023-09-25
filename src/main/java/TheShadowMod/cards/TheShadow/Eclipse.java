@@ -25,7 +25,7 @@ public class Eclipse extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPowerAction(p,p,new InvinciblePower(p,this.magicNumber){
             @Override
             public void atEndOfRound() {
@@ -40,7 +40,7 @@ public class Eclipse extends AbstractTSCard {
         ori.isEthereal = true;
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.isEthereal = false;

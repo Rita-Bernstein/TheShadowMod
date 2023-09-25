@@ -13,26 +13,29 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 public class DeepDiving extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(DeepDiving.class.getSimpleName());
     public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/DeepDiving.png");
-    private static final int COST = 1;
+    private static final int COST = 0;
     private static final CardType TYPE = CardType.SKILL;
     private static final CardRarity RARITY = CardRarity.COMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
 
     public DeepDiving() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 2;
-        this.secondaryM = this.baseSecondaryM = 1;
+        this.magicNumber = this.baseMagicNumber = 0;
+        this.selfRetain = true;
+        this.exhaust = true;
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DrawCardAction(this.magicNumber));
-        addToBot(new GainFlipPowerAction(this.secondaryM));
-
     }
 
+    @Override
+    public void onFlip(AbstractTSCard thisCard, boolean flipThisSide) {
+        upgradeMagicNumber(1);
+    }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);

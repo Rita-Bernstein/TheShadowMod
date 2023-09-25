@@ -22,8 +22,8 @@ public class Hatred extends AbstractTSCard {
         this.baseDamage = 0;
     }
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
-        this.baseDamage = GameStatsPatch.trueDamageReceivedThisCombat;
+    public void use(AbstractPlayer p, AbstractMonster m) {
+        this.baseDamage = GameStatsPatch.trueDamageReceivedThisCombat / 2;
         calculateCardDamage(m);
 
         addToBot(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
@@ -34,7 +34,7 @@ public class Hatred extends AbstractTSCard {
 
     @Override
     public void applyPowers() {
-        this.baseDamage = GameStatsPatch.trueDamageReceivedThisCombat;
+        this.baseDamage = GameStatsPatch.trueDamageReceivedThisCombat / 2;
         super.applyPowers();
         this.rawDescription = DESCRIPTION;
         this.rawDescription += EXTENDED_DESCRIPTION[0];
@@ -55,7 +55,7 @@ public class Hatred extends AbstractTSCard {
         initializeDescription();
     }
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBaseCost(0);

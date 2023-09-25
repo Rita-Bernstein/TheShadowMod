@@ -31,11 +31,14 @@ public class GameStatsPatch {
 
     public static void combatBaseReset() {
         blackWorld = false;
+        FlipCardEffectPatches.flipBgOffset = -1.0f;
+
         notDeathCombatCounter = 0;
         trueDamageReceivedThisCombat = 0;
     }
 
     @SpirePatch(
+            
             clz = AbstractPlayer.class,
             method = "applyStartOfCombatLogic"
     )

@@ -340,10 +340,5 @@
     "NAME": "夜幕",
     "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数50%的 格挡 。",
     "UPGRADE_DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数的 格挡 。"
-  },
-  "TheShadowMod:PlaceHolderCard": {
-    "NAME": "占位",
-    "DESCRIPTION": "看到这个请联系模组作者",
-    "UPGRADE_DESCRIPTION": "看到这个请联系模组作者"
   }
 }

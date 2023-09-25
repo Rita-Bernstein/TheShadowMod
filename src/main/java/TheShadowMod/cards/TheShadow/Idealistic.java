@@ -25,7 +25,7 @@ public class Idealistic extends AbstractTSCard {
 
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             upgradeBlock(4);

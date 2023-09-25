@@ -23,7 +23,7 @@ public class RootSystem extends AbstractTSCard {
     }
 
 
-    public void useThisCard(AbstractPlayer p, AbstractMonster m) {
+    public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new ApplyPowerAction(p, p, new RootSystemPower(p, this.magicNumber)));
         if (this.upgraded) {
             addToBot(new ApplyPowerAction(p,p,new HeavyPower(p, 1)));
@@ -31,7 +31,7 @@ public class RootSystem extends AbstractTSCard {
     }
 
 
-    public void thisUpgrade() {
+    public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
             this.rawDescription = UPGRADE_DESCRIPTION;

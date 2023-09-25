@@ -69,7 +69,7 @@
   },
   "TheShadowMod:DeepDiving": {
     "NAME": "深潜",
-    "DESCRIPTION": "抽 !M! 张牌。 NL 获得 !TheShadowSM! 层 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": "保留 。 抽 !M! 张牌。 NL 本场战斗每当被翻面时，抽牌数+1。 NL 消耗 。"
   },
   "TheShadowMod:Incline": {
     "NAME": "倾斜",
@@ -94,7 +94,10 @@
   },
   "TheShadowMod:Airflow": {
     "NAME": "气流",
-    "DESCRIPTION": "获得 !B! 点 格挡 。 NL 消耗 。 手牌中翻面时，获得 !M! 点 格挡 。"
+    "DESCRIPTION": "抽 !M! 张牌。 NL 翻面 !TheShadowSM! 张手牌。",
+    "EXTENDED_DESCRIPTION": [
+      "翻眠%d张手牌"
+    ]
   },
   "TheShadowMod:SpiralStaircase": {
     "NAME": "螺旋阶梯",
@@ -221,7 +224,7 @@
   },
   "TheShadowMod:Separation": {
     "NAME": "分身",
-    "DESCRIPTION": "本回合你获得的 格挡 翻倍。 NL 消耗 。"
+    "DESCRIPTION": "切换表里世界时，获得 !M! 点 格挡 。"
   },
   "TheShadowMod:Reconfiguration": {
     "NAME": "重构",
@@ -234,11 +237,11 @@
   },
   "TheShadowMod:SinkIntoDark": {
     "NAME": "遁入黑暗",
-    "DESCRIPTION": "获得 !M! 点临时最大生命。"
+    "DESCRIPTION": "在 !TheShadowSM! 回合结束时，如果处于里世界，获得 !M! 点临时最大生命。"
   },
   "TheShadowMod:JumpOut": {
     "NAME": "跳出",
-    "DESCRIPTION": "每次失去生命时，获得 !M! 层 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": "本质：清除 the_shadow_mod:颠倒 ，进入表世界或里世界。"
   },
   "TheShadowMod:DejaVu": {
     "NAME": "既视感",
@@ -268,7 +271,7 @@
   },
   "TheShadowMod:Hatred": {
     "NAME": "仇恨",
-    "DESCRIPTION": "造成与你本场战斗中失去的生命等量的伤害。",
+    "DESCRIPTION": "造成与你本场战斗中失去的生命一半的伤害。",
     "EXTENDED_DESCRIPTION": [
       "（造成 !D! 点伤害）"
     ]
@@ -283,7 +286,7 @@
   },
   "TheShadowMod:PerfectImitation": {
     "NAME": "完美模仿",
-    "DESCRIPTION": "随机复制 !M! 瓶药水。 NL 消耗 。 NL  虚无 。"
+    "DESCRIPTION": "随机使用 !M! 瓶药水。 NL 消耗 。"
   },
   "TheShadowMod:DoubleBody": {
     "NAME": "二重身",
@@ -316,7 +319,7 @@
   },
   "TheShadowMod:Mourning": {
     "NAME": "哀恸",
-    "DESCRIPTION": "使里世界时的 the_shadow_mod:沉重 亦生效。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
+    "DESCRIPTION": "每回合开始时，若你处于里世界， 升级 你的所有手牌。"
   },
   "TheShadowMod:Contemplate": {
     "NAME": "思忖",
@@ -330,20 +333,16 @@
   },
   "TheShadowMod:Peel": {
     "NAME": "拷问",
-    "DESCRIPTION": "造成 !D! 点伤害，给予1层 易伤 。 NL 下回合开始时，获得 !M! 张 *行刑 。"
+    "DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *行刑 加入手牌。",
+    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *行刑+ 加入手牌。"
   },
   "TheShadowMod:Execute": {
     "NAME": "行刑",
-    "DESCRIPTION": "造成 !D! 点伤害3次。 NL  消耗 。"
+    "DESCRIPTION": "造成 !D! 点伤害 !M! 次。 NL  消耗 。"
   },
   "TheShadowMod:GatheringDarkness": {
     "NAME": "夜幕",
-    "DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数50%的 格挡 。",
-    "UPGRADE_DESCRIPTION": "成功给予 the_shadow_mod:鸣响 后，获得给予层数的 格挡 。"
-  },
-  "TheShadowMod:PlaceHolderCard": {
-    "NAME": "占位",
-    "DESCRIPTION": "在游戏中看到这个请联系模组作者",
-    "UPGRADE_DESCRIPTION": "在游戏中看到这个请联系模组作者"
+    "DESCRIPTION": "在里世界给予敌人 the_shadow_mod:鸣响 后，获得给予层数100%的 格挡 。",
+    "UPGRADE_DESCRIPTION": "在里世界给予敌人 the_shadow_mod:鸣响 后，获得给予层数150%的 格挡 。"
   }
 }
