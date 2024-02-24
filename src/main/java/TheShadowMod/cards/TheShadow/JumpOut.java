@@ -23,7 +23,6 @@ public class JumpOut extends AbstractTSCard {
     }
 
     public void use(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPowerAction(p,p,new JumpOutPower(p,this.magicNumber)));
     }
 
     @Override

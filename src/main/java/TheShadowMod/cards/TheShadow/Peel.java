@@ -10,13 +10,14 @@ import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.cards.tempCards.Shiv;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 
 public class Peel extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(Peel.class.getSimpleName());
-    public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/Peel.png");
+    public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/Execute.png");
     private static final int COST = 1;
     private static final CardType TYPE = CardType.ATTACK;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
@@ -37,7 +38,7 @@ public class Peel extends AbstractTSCard {
 
     @Override
     public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
-        AbstractCard c = new Execute();
+        AbstractCard c = new Shiv();
         if (this.upgraded)
             c.upgrade();
 

@@ -20,7 +20,6 @@ public class SinkIntoDark extends AbstractTSCard {
     public SinkIntoDark() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 4;
-        this.secondaryM = this.baseSecondaryM = 2;
         this.tags.add(CardTags.HEALING);
     }
 

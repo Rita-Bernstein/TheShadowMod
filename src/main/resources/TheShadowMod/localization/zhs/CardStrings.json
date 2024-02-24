@@ -237,7 +237,7 @@
   },
   "TheShadowMod:SinkIntoDark": {
     "NAME": "遁入黑暗",
-    "DESCRIPTION": "在 !TheShadowSM! 回合结束时，如果处于里世界，获得 !M! 点临时最大生命。"
+    "DESCRIPTION": "回合结束时，如果处于里世界，获得 !M! 点临时最大生命。"
   },
   "TheShadowMod:JumpOut": {
     "NAME": "跳出",
@@ -249,8 +249,7 @@
   },
   "TheShadowMod:Reborn": {
     "NAME": "重生",
-    "DESCRIPTION": "免死时，获得 [E] [E] 。",
-    "UPGRADE_DESCRIPTION": "免死时，获得 [E] [E] [E] 。"
+    "DESCRIPTION": "免死时，获得 [E] [E] 。"
   },
   "TheShadowMod:Timing": {
     "NAME": "时机",
@@ -333,8 +332,8 @@
   },
   "TheShadowMod:Peel": {
     "NAME": "拷问",
-    "DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *行刑 加入手牌。",
-    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *行刑+ 加入手牌。"
+    "DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *小刀 加入手牌。",
+    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *小刀+ 加入手牌。"
   },
   "TheShadowMod:Execute": {
     "NAME": "行刑",
