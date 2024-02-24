@@ -23,12 +23,13 @@ public class DejaVuPower extends AbstractShadowModPower {
         this.amount = amount;
         this.owner = owner;
         updateDescription();
+        this.priority = 20;
 
         loadShadowRegion("DejaVuPower");
     }
 
     @Override
-    public void atStartOfTurn() {
+    public void atStartOfTurnPostDraw() {
         flash();
         addToBot(new ApplyPowerAction(this.owner,this.owner,new HeavyPower(this.owner,this.amount)));
         addToBot(new GainFlipPowerAction(this.amount));

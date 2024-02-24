@@ -19,7 +19,6 @@ public class JumpOut extends AbstractTSCard {
 
     public JumpOut() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
-        this.magicNumber = this.baseMagicNumber = 1;
     }
 
     public void use(AbstractPlayer p, AbstractMonster m) {
@@ -33,7 +32,7 @@ public class JumpOut extends AbstractTSCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(1);
+            upgradeBaseCost(0);
         }
     }
 }
