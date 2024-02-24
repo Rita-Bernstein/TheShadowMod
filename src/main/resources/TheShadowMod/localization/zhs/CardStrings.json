@@ -245,7 +245,7 @@
   },
   "TheShadowMod:DejaVu": {
     "NAME": "既视感",
-    "DESCRIPTION": "每回合开始时，获得 !M! 层 the_shadow_mod:沉重 和 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": "回合结束时，获得 !M! 层 the_shadow_mod:沉重 和 the_shadow_mod:颠倒 。"
   },
   "TheShadowMod:Reborn": {
     "NAME": "重生",

@@ -32,7 +32,6 @@ public class MourningPower extends AbstractShadowModPower {
 
     @Override
     public void atStartOfTurnPostDraw() {
-        // 先既视感再哀恸也可以触发
         addToBot(new AbstractGameAction() {
             @Override
             public void update() {

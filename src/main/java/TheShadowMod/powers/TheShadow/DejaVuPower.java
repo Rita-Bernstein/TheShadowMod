@@ -29,10 +29,12 @@ public class DejaVuPower extends AbstractShadowModPower {
     }
 
     @Override
-    public void atStartOfTurnPostDraw() {
-        flash();
-        addToBot(new ApplyPowerAction(this.owner,this.owner,new HeavyPower(this.owner,this.amount)));
-        addToBot(new GainFlipPowerAction(this.amount));
+    public void atEndOfTurn(boolean isPlayer) {
+        if (isPlayer) {
+            flash();
+            addToBot(new ApplyPowerAction(this.owner,this.owner,new HeavyPower(this.owner,this.amount)));
+            addToBot(new GainFlipPowerAction(this.amount));
+        }
     }
 
     @Override
