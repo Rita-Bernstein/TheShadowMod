@@ -31,7 +31,7 @@ public class DeepDiving extends AbstractTSCard {
     }
 
     @Override
-    public void onFlip(AbstractTSCard thisCard, boolean flipThisSide) {
+    public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
         upgradeMagicNumber(1);
     }
 

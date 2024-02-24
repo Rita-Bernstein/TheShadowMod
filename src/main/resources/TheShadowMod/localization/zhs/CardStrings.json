@@ -261,7 +261,7 @@
   },
   "TheShadowMod:RootSystem": {
     "NAME": "根系",
-    "DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。"
+    "DESCRIPTION": "你的 the_shadow_mod:沉重 层数也会作用于你从卡牌中获得的 格挡 。"
   },
   "TheShadowMod:BothDestruction": {
     "NAME": "两败俱伤",
