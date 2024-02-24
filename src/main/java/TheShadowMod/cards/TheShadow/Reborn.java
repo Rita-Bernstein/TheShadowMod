@@ -29,7 +29,7 @@ public class Reborn extends AbstractTSCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeBaseCost(1);
+            upgradeBaseCost(0);
             initializeDescription();
         }
     }
