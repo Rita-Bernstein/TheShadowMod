@@ -44,8 +44,9 @@ public class DoubleBody extends AbstractTSCard {
         addToTop(new AbstractGameAction() {
                      @Override
                      public void update() {
+                         AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
                          ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
-                         list.removeIf(card -> card == DoubleBody.this || (card == BackCardManager.AddFields.backCard.get(DoubleBody.this)));
+                         list.removeIf(card -> card == DoubleBody.this || (card == BackCardManager.AddFields.backCard.get(DoubleBody.this) || card.canUse(AbstractDungeon.player,m)));
 
                          AbstractCard c;
                          if (list.size() > 1)
@@ -54,7 +55,6 @@ public class DoubleBody extends AbstractTSCard {
                              c = list.get(0);
 
                          c.freeToPlayOnce = true;
-                         AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
                          AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(c, m));
                          isDone = true;
                      }

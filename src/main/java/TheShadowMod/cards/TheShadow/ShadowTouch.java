@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.patches.CardTagsEnum;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -25,6 +26,7 @@ public class ShadowTouch extends AbstractTSCard {
         this.baseDamage = 8;
         this.magicNumber = this.baseMagicNumber = 2;
         this.isMultiDamage = true;
+        tags.add(CardTagsEnum.Essence);
     }
 
     public void use(AbstractPlayer p, AbstractMonster m) {

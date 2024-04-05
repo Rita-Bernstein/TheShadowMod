@@ -100,6 +100,7 @@ public class FlipCardEffectPatches {
     }
 
 
+
     public static float flipBgOffset = -1.0f;
 
     @SpirePatch(
@@ -107,6 +108,8 @@ public class FlipCardEffectPatches {
             method = "render"
     )
     public static class FlipCardEffectScreenPatches1 {
+//        private static FrameBuffer buffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, false);
+
         @SpireInsertPatch(rloc = 2670 - 2658)
         public static SpireReturn<Void> Insert(AbstractDungeon _instance, SpriteBatch sb) {
             if (AbstractDungeon.rs == AbstractDungeon.RenderScene.NORMAL) {
@@ -136,6 +139,67 @@ public class FlipCardEffectPatches {
                 sb.setColor(Color.WHITE);
                 ShionMaskHelper.alphaMaskShader.setUniformi("u_mask", 1);
 
+                sb.setColor(Color.WHITE);
+                sb.draw(oriImage,
+                        0,
+                        0,
+                        0.0F, 0.0f,
+                        Settings.WIDTH, Settings.HEIGHT,
+                        1.0f, 1.0f,
+                        0.0f,
+                        0, 0,
+                        Settings.WIDTH, Settings.HEIGHT,
+                        false, true);
+
+                sb.flush();
+                sb.end();
+                sb.setShader(null);
+                sb.begin();
+
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+
+    @SpirePatch(
+            clz = AbstractDungeon.class,
+            method = "render"
+    )
+    public static class FlipCardEffectScreenPatchesFg {
+//        private static FrameBuffer buffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, false);
+
+        @SpireInsertPatch(rloc = 2682 - 2658)
+        public static SpireReturn<Void> Insert(AbstractDungeon _instance, SpriteBatch sb) {
+            if (AbstractDungeon.rs == AbstractDungeon.RenderScene.NORMAL) {
+
+
+                Texture oriImage = ShionMaskHelper.getScreenFlipTexture(sb, sb.getColor(), sb1 -> {
+                    AbstractDungeon.scene.renderCombatRoomFg(sb);
+                });
+
+                Texture maskImage = ShionMaskHelper.getScreenMaskTexture(sb, sb2 -> {
+                    sb2.draw(ImageMaster.WHITE_SQUARE_IMG,
+                            Settings.WIDTH * flipBgOffset, 0.0f,
+                            0.0F, 0.0f,
+                            32.0f, 32.0f,
+                            Settings.WIDTH / 32.0f, Settings.HEIGHT / 32.0f,
+                            0.0f,
+                            0, 0,
+                            32, 32,
+                            false, false);
+                }, false);
+
+                sb.end();
+                sb.setShader(ShionMaskHelper.alphaMaskShader);
+                maskImage.bind(1);
+                oriImage.bind(0);
+                sb.begin();
+                sb.setColor(Color.WHITE);
+                ShionMaskHelper.alphaMaskShader.setUniformi("u_mask", 1);
+
+                sb.setColor(Color.WHITE);
                 sb.draw(oriImage,
                         0,
                         0,

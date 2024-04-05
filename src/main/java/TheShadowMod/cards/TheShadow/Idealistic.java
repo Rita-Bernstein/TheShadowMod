@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.patches.CardTagsEnum;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -16,6 +17,7 @@ public class Idealistic extends AbstractTSCard {
     public Idealistic() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.baseBlock = 6;
+        tags.add(CardTagsEnum.Essence);
     }
 
     @Override

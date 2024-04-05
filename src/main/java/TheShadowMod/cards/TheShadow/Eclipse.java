@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.patches.CardTagsEnum;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
@@ -22,6 +23,7 @@ public class Eclipse extends AbstractTSCard {
         this.magicNumber = this.baseMagicNumber = 20;
         this.isEthereal = true;
         this.isInnate = true;
+        tags.add(CardTagsEnum.Essence);
     }
 
 
@@ -36,8 +38,8 @@ public class Eclipse extends AbstractTSCard {
 
     @Override
     public void cloneFieldCommon(AbstractCard ori) {
-        ori.isInnate = true;
-        ori.isEthereal = true;
+        ori.isInnate = this.upgraded;
+        ori.isEthereal = this.upgraded;
     }
 
     public void upgrade() {

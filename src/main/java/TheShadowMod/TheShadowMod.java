@@ -131,6 +131,8 @@ public class TheShadowMod implements
         if (AbstractDungeon.floorNum == 0) {
             SaveHelper.increaseMaxHP = 0;
             SaveHelper.saveIncreaseMaxHP();
+            SaveHelper.nextCombatDamage = 0;
+            SaveHelper.saveNextCombatDamage();
         }
     }
 
@@ -139,6 +141,7 @@ public class TheShadowMod implements
         ViewFlipButton.isViewingFlip = false;
         FlipCardEffectPatches.flipBgOffset = -1.0f;
     }
+
 
     @Override
     public void receiveEditCharacters() {

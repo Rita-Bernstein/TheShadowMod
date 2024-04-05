@@ -27,8 +27,7 @@ public class Airflow extends AbstractTSCard {
 
     public void use(AbstractPlayer p, AbstractMonster m) {
         addToBot(new DrawCardAction(this.magicNumber));
-        addToBot(new SelectHandCardAction(String.format(EXTENDED_DESCRIPTION[0], this.secondaryM), this.secondaryM, cards -> {
-
+        addToBot(new SelectHandCardAction(true,String.format(EXTENDED_DESCRIPTION[0], this.secondaryM), this.secondaryM, cards -> {
             for (AbstractCard c : cards) {
                 BackCardManager.flipSameSideBackgroundView(c);
                 AbstractCard b = BackCardManager.flipCard(c);
@@ -39,7 +38,6 @@ public class Airflow extends AbstractTSCard {
                     BackCardManager.onFlip((AbstractTSCard) c);
                     BackCardManager.onFlipInHand((AbstractTSCard) c);
                 }
-
             }
 
         }));

@@ -1,5 +1,6 @@
 package TheShadowMod.actions.Common;
 
+import TheShadowMod.helpers.BackCardManager;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -19,6 +20,7 @@ public class SelectHandCardAction extends AbstractGameAction {
     private String name = "";
     private boolean anyNumber = false;
     private boolean canPickZero = false;
+    private boolean flipSelected = false;
 
     public SelectHandCardAction(String name, int amount, Predicate<AbstractCard> cardFilter, Consumer<ArrayList<AbstractCard>> actionConsumer, boolean anyNumber, boolean canPickZero) {
         this.actionConsumer = actionConsumer;
@@ -43,6 +45,11 @@ public class SelectHandCardAction extends AbstractGameAction {
 
     public SelectHandCardAction(String name, int amount, Consumer<ArrayList<AbstractCard>> actionConsumer) {
         this(name, amount, null, actionConsumer);
+    }
+
+    public SelectHandCardAction(boolean flipSelected, String name, int amount, Consumer<ArrayList<AbstractCard>> actionConsumer) {
+        this(name, amount, null, actionConsumer);
+        this.flipSelected = flipSelected;
     }
 
     public void update() {
@@ -78,6 +85,8 @@ public class SelectHandCardAction extends AbstractGameAction {
                 return;
             }
 
+            BackCardManager.selectScreenTempFlipViewing = true;
+
             //打开选牌窗口
             AbstractDungeon.handCardSelectScreen.open(this.name, amount, this.anyNumber, this.canPickZero);
             tickDuration();  // 进行一帧 duration 计算 并结束这次 update
@@ -92,6 +101,7 @@ public class SelectHandCardAction extends AbstractGameAction {
                 CardCrawlGame.dungeon.checkForPactAchievement(); // 如果这个action是消耗手牌一类，有成就需要检测
             }
 
+            BackCardManager.selectScreenTempFlipViewing = true;
             returnCards(); // 将不能被选卡牌返回手牌
             AbstractDungeon.handCardSelectScreen.wereCardsRetrieved = true; // 手牌已经返回
             AbstractDungeon.handCardSelectScreen.selectedCards.group.clear(); // 清空临时存储的 被选卡牌列表

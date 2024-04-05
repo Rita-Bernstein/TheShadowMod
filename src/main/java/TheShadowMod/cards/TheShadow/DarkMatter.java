@@ -1,6 +1,7 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.patches.CardTagsEnum;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -17,6 +18,7 @@ public class DarkMatter extends AbstractTSCard {
     public DarkMatter() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
+        tags.add( CardTagsEnum.Essence);
     }
 
     @Override

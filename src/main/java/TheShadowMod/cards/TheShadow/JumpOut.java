@@ -1,6 +1,8 @@
 package TheShadowMod.cards.TheShadow;
 
 import TheShadowMod.TheShadowMod;
+import TheShadowMod.actions.TheShadow.SwitchWorldAction;
+import TheShadowMod.patches.CardTagsEnum;
 import TheShadowMod.powers.TheShadow.FlipPower;
 import TheShadowMod.powers.TheShadow.JumpOutPower;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -20,15 +22,19 @@ public class JumpOut extends AbstractTSCard {
     public JumpOut() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
+        tags.add(CardTagsEnum.Essence);
     }
 
     public void use(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new ApplyPowerAction(p,p,new JumpOutPower(p,this.magicNumber)));
     }
 
     @Override
     public void useCommon(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new RemoveSpecificPowerAction(p,p, FlipPower.POWER_ID));
+        if (!p.hasPower(FlipPower.POWER_ID)) {
+            addToBot(new SwitchWorldAction());
+        } else {
+            addToBot(new RemoveSpecificPowerAction(p, p, FlipPower.POWER_ID));
+        }
     }
 
     public void upgrade() {

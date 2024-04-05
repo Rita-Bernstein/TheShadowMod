@@ -59,4 +59,11 @@ public class Bone extends AbstractTSCard {
             upgradeBlock(5);
         }
     }
+
+    @Override
+    public void onLoadedMisc() {
+        this.baseBlock = misc;
+        this.applyPowers();
+        this.initializeDescription();
+    }
 }

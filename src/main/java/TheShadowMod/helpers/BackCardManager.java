@@ -2,6 +2,10 @@ package TheShadowMod.helpers;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
+import TheShadowMod.cards.TheShadow.Defend_TS;
+import TheShadowMod.cards.TheShadow.Strike_TS;
+import TheShadowMod.patches.CardTagsEnum;
+import TheShadowMod.patches.FlipCardEffectPatches;
 import TheShadowMod.powers.TheShadow.AnnihilatePower;
 import TheShadowMod.powers.TheShadow.RealityFormPower;
 import basemod.ReflectionHacks;
@@ -9,6 +13,7 @@ import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.utility.ShowCardAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
@@ -24,15 +29,22 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.random.Random;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
+import com.megacrit.cardcrawl.scenes.AbstractScene;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
+import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.FieldAccess;
 import javassist.expr.MethodCall;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.megacrit.cardcrawl.cards.AbstractCard.IMG_HEIGHT;
 import static com.megacrit.cardcrawl.cards.AbstractCard.IMG_WIDTH;
@@ -51,6 +63,8 @@ public class BackCardManager {
         public static SpireField<AbstractCard> backCard = new SpireField<>(() -> null);
     }
 
+    public static boolean selectScreenTempFlipViewing = false;
+    public static boolean oriIsViewingFlip = false;
 
     public static void flipSameSideBackgroundView(AbstractCard card) {
         if (AddFields.backCard.get(card) instanceof AbstractTSCard && AddFields.backCard.get(card) == card) {
@@ -79,6 +93,9 @@ public class BackCardManager {
                     (float) ReflectionHacks.getPrivate(back, AbstractCard.class, "HB_W") * back.drawScale,
                     (float) ReflectionHacks.getPrivate(back, AbstractCard.class, "HB_H") * back.drawScale
             );
+
+            if (card instanceof AbstractTSCard)
+                ((AbstractTSCard) card).cloneFieldCommon(back);
 
             return back;
         }
@@ -233,7 +250,7 @@ public class BackCardManager {
             method = "update"
     )
     public static class BackPowerCardPowerPatch {
-        @SpireInsertPatch(rloc = 108-84)
+        @SpireInsertPatch(rloc = 108 - 84)
         public static SpireReturn<Void> Insert(UseCardAction _instance) {
             AbstractCard targetCard = ReflectionHacks.getPrivate(_instance, UseCardAction.class, "targetCard");
 
@@ -510,40 +527,101 @@ public class BackCardManager {
         if (card instanceof AbstractTSCard) {
             if (AddFields.backCard.get(card) == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
                 if (card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL) {
-                    int index = 0;
 
-                    switch (AbstractDungeon.rollRarity()) {
+                    AbstractCard.CardRarity rarity = AbstractDungeon.rollRarity();
+                    AbstractCard c;
+                    switch (rarity) {
                         case COMMON:
-                            index = AbstractDungeon.cardRng.random(22);
-                            break;
+                            AbstractDungeon.cardBlizzRandomizer -= AbstractDungeon.cardBlizzGrowth;
+                            if (AbstractDungeon.cardBlizzRandomizer <= AbstractDungeon.cardBlizzMaxOffset) {
+                                AbstractDungeon.cardBlizzRandomizer = AbstractDungeon.cardBlizzMaxOffset;
+                            }
                         case UNCOMMON:
-                            index = AbstractDungeon.cardRng.random(23, 53);
                             break;
                         case RARE:
-                            index = AbstractDungeon.cardRng.random(54, 70);
+                            AbstractDungeon.cardBlizzRandomizer = AbstractDungeon.cardBlizzStartOffset;
                             break;
                     }
 
 
-                    if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT
-                            && !AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
-//            战斗中不印Healing
-                        while (TheShadowMod.shadowCardPool.get(index).hasTag(AbstractCard.CardTags.HEALING)) {
-                            switch (AbstractDungeon.rollRarity()) {
-                                case COMMON:
-                                    index = AbstractDungeon.cardRng.random(22);
-                                    break;
-                                case UNCOMMON:
-                                    index = AbstractDungeon.cardRng.random(23, 53);
-                                    break;
-                                case RARE:
-                                    index = AbstractDungeon.cardRng.random(54, 70);
-                                    break;
-                            }
+                    AbstractCard tmp;
+
+
+                    do {
+                        if (AbstractDungeon.player.hasRelic("PrismaticShard")) {
+                            tmp = CardLibrary.getAnyColorCard(rarity);
+                        } else {
+                            tmp = AbstractDungeon.getCard(rarity);
                         }
+                    } while (!correctBackCard(tmp));
+
+
+                    noNewBackCardLoop = true;
+                    c = tmp.makeCopy();
+                    noNewBackCardLoop = false;
+
+                    if (c.rarity != AbstractCard.CardRarity.RARE && AbstractDungeon.cardRng.randomBoolean(ReflectionHacks.getPrivateStatic(AbstractDungeon.class, "cardUpgradedChance")) && c.canUpgrade()) {
+                        c.upgrade();
                     }
-                    setBackCardFromIndex(card, TheShadowMod.shadowCardPool.get(index).cardID, 0);
+
+                    for (AbstractRelic r : AbstractDungeon.player.relics) {
+                        r.onPreviewObtainCard(c);
+                    }
+
+                    setCardToBackCard(c, card, true);
                     return;
+
+//                    int index = 0;
+//
+//                    switch (AbstractDungeon.rollRarity()) {
+//                        case COMMON:
+//                            index = AbstractDungeon.cardRng.random(22);
+//                            break;
+//                        case UNCOMMON:
+//                            index = AbstractDungeon.cardRng.random(23, 53);
+//                            break;
+//                        case RARE:
+//                            index = AbstractDungeon.cardRng.random(54, 70);
+//                            break;
+//                    }
+//
+//
+//                    if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT
+//                            && !AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+////            战斗中不印Healing
+//                        while (TheShadowMod.shadowCardPool.get(index).hasTag(AbstractCard.CardTags.HEALING)) {
+//                            switch (AbstractDungeon.rollRarity()) {
+//                                case COMMON:
+//                                    index = AbstractDungeon.cardRng.random(22);
+//                                    break;
+//                                case UNCOMMON:
+//                                    index = AbstractDungeon.cardRng.random(23, 53);
+//                                    break;
+//                                case RARE:
+//                                    index = AbstractDungeon.cardRng.random(54, 70);
+//                                    break;
+//                            }
+//                        }
+//                    }
+//                    setBackCardFromIndex(card, TheShadowMod.shadowCardPool.get(index).cardID, 0);
+//                    return;
+                } else {
+                    if (card instanceof Strike_TS) {
+                        noNewBackCardLoop = true;
+                        AbstractCard newCard = new Defend_TS();
+                        noNewBackCardLoop = false;
+                        setCardToBackCard(newCard, card, true);
+                        return;
+                    }
+
+                    if (card instanceof Defend_TS) {
+                        noNewBackCardLoop = true;
+                        AbstractCard newCard = new Strike_TS();
+                        noNewBackCardLoop = false;
+                        setCardToBackCard(newCard, card, true);
+                        return;
+                    }
+
                 }
             }
         }
@@ -569,6 +647,14 @@ public class BackCardManager {
         setCardToBackCard(c, card, true);
     }
 
+    public static boolean correctBackCard(AbstractCard card) {
+        if (AbstractDungeon.currMapNode != null && (AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT
+                && !AbstractDungeon.getMonsters().areMonstersBasicallyDead()) {
+            return !card.hasTag(AbstractCard.CardTags.HEALING);
+        }
+
+        return true;
+    }
 
     @SpirePatch(
             clz = AbstractCard.class,
@@ -659,7 +745,7 @@ public class BackCardManager {
             method = "renderCardTip"
     )
     public static class RenderBackCardPatch {
-        @SpireInsertPatch(rloc = 2975-2946)
+        @SpireInsertPatch(rloc = 2975 - 2946)
         public static SpireReturn<Void> Insert(AbstractCard _instance, SpriteBatch sb) {
             if (!noBackCardPreviewLoop) {
                 noBackCardPreviewLoop = true;
@@ -751,10 +837,10 @@ public class BackCardManager {
     )
     public static class RenderSingleBackCardPatch {
         @SpireInsertPatch(rloc = 1, localvars = {"copy"})
-        public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb, AbstractCard ___copy) {
+        public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb, @ByRef AbstractCard[] copy) {
             if (ViewFlipButton.isViewingFlip) {
                 AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
-                ___copy = c.makeStatEquivalentCopy();
+                copy[0] = c.makeStatEquivalentCopy();
 
                 if (AddFields.backCard.get(c) != null && AddFields.backCard.get(c) != c) {
                     ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "card", AddFields.backCard.get(c));
@@ -764,6 +850,7 @@ public class BackCardManager {
             return SpireReturn.Continue();
         }
     }
+
 
     @SpirePatch(
             clz = SingleCardViewPopup.class,
@@ -973,4 +1060,195 @@ public class BackCardManager {
             return SpireReturn.Continue();
         }
     }
+
+//    @SpirePatch(
+//            clz = HandCardSelectScreen.class,
+//            method = "render"
+//    )
+//    public static class HandCardSelectTempFlipViewingPatch {
+//        @SpireInsertPatch(rloc = 673 - 651)
+//        public static SpireReturn<Void> Insert(HandCardSelectScreen _instance,SpriteBatch sb) {
+//                if(selectScreenTempFlipViewing){
+//                    oriIsViewingFlip = ViewFlipButton.isViewingFlip;
+//                    ViewFlipButton.isViewingFlip = true;
+//                }
+//
+//
+//            return SpireReturn.Continue();
+//        }
+//    }
+//    @SpirePatch(
+//            clz = HandCardSelectScreen.class,
+//            method = "render"
+//    )
+//    public static class HandCardSelectTempFlipViewingPatch2 {
+//        @SpireInsertPatch(rloc = 674 - 651)
+//        public static SpireReturn<Void> Insert(HandCardSelectScreen _instance,SpriteBatch sb) {
+//                if(selectScreenTempFlipViewing){
+//                    ViewFlipButton.isViewingFlip = oriIsViewingFlip;
+//                }
+//
+//
+//            return SpireReturn.Continue();
+//        }
+//    }
+
+
+    @SpirePatch(
+            clz = HandCardSelectScreen.class,
+            method = "render"
+    )
+    public static class HandCardSelectTempFlipViewingPatch {
+        private static int count = 0;
+
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                @Override
+                public void edit(MethodCall m) throws CannotCompileException {
+                    if (m.getClassName().equals(CardGroup.class.getName()) && m.getMethodName().equals("render")) {
+                        count++;
+                        if (count == 2)
+                            m.replace("if(" + BackCardManager.class.getName() + ".selectScreenTempFlipViewing){"
+                                    + BackCardManager.class.getName() + ".renderHandCardSelectTempFlip($1,this.selectedCards);"
+                                    + "}else{"
+                                    + "$proceed($$);"
+                                    + "}"
+                            );
+
+                    }
+                }
+            };
+        }
+    }
+
+    public static void renderHandCardSelectTempFlip(SpriteBatch sb, CardGroup group) {
+        for (AbstractCard _instance : group.group) {
+            if (AddFields.backCard.get(_instance) != null && AddFields.backCard.get(_instance) != _instance) {
+                sb.setColor(Color.WHITE);
+
+                AbstractCard backCard = AddFields.backCard.get(_instance);
+                backCard.current_x = _instance.current_x;
+                backCard.current_y = _instance.current_y;
+
+                backCard.drawScale = _instance.drawScale;
+                backCard.setAngle(0.0f, true);
+
+                backCard.hb.move(backCard.current_x, backCard.current_y);
+                backCard.hb.resize(
+                        (float) ReflectionHacks.getPrivate(backCard, AbstractCard.class, "HB_W") * backCard.drawScale,
+                        (float) ReflectionHacks.getPrivate(backCard, AbstractCard.class, "HB_H") * backCard.drawScale
+                );
+
+                backCard.render(sb);
+            } else {
+                _instance.render(sb);
+            }
+        }
+    }
+
+
+// =============    正面不生成本质
+
+    @SpirePatch(
+            clz = CardGroup.class,
+            method = "getRandomCard",
+            paramtypez = {Random.class}
+    )
+    public static class NoEssenceCardPatch {
+        @SpirePrefixPatch
+        public static SpireReturn<AbstractCard> Prefix(CardGroup _instance, Random rng) {
+            CardGroup group = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
+
+            for (AbstractCard c : _instance.group) {
+                if (!c.hasTag(CardTagsEnum.Essence)) {
+                    group.addToTop(c);
+                }
+            }
+
+            return SpireReturn.Return(group.group.get(rng.random(group.group.size() - 1)));
+        }
+    }
+
+    @SpirePatch(
+            clz = CardGroup.class,
+            method = "getRandomCard",
+            paramtypez = {boolean.class}
+    )
+    public static class NoEssenceCardPatch2 {
+        @SpirePrefixPatch
+        public static SpireReturn<AbstractCard> Prefix(CardGroup _instance, boolean useRng) {
+            CardGroup group = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
+
+            for (AbstractCard c : _instance.group) {
+                if (!c.hasTag(CardTagsEnum.Essence)) {
+                    group.addToTop(c);
+                }
+            }
+
+            if (useRng) {
+                return SpireReturn.Return(group.group.get(AbstractDungeon.cardRng.random(group.group.size() - 1)));
+            } else {
+                return SpireReturn.Return(group.group.get(MathUtils.random(group.group.size() - 1)));
+            }
+        }
+    }
+
+    @SpirePatch(
+            clz = CardGroup.class,
+            method = "getRandomCard",
+            paramtypez = {boolean.class, AbstractCard.CardRarity.class}
+    )
+    public static class NoEssenceCardPatch3 {
+        @SpireInsertPatch(rloc = 6, localvars = {"tmp"})
+        public static SpireReturn<AbstractCard> Insert(CardGroup _instance, boolean useRng, AbstractCard.CardRarity rarity, @ByRef ArrayList<AbstractCard>[] tmp) {
+            tmp[0].removeIf(card -> card.hasTag(CardTagsEnum.Essence));
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = CardGroup.class,
+            method = "getRandomCard",
+            paramtypez = {Random.class, AbstractCard.CardRarity.class}
+    )
+    public static class NoEssenceCardPatch4 {
+        @SpireInsertPatch(rloc = 6, localvars = {"tmp"})
+        public static SpireReturn<AbstractCard> Insert(CardGroup _instance, Random rng, AbstractCard.CardRarity rarity, @ByRef ArrayList<AbstractCard>[] tmp) {
+            tmp[0].removeIf(card -> card.hasTag(CardTagsEnum.Essence));
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(
+            clz = CardGroup.class,
+            method = "getRandomCard",
+            paramtypez = {AbstractCard.CardType.class, boolean.class}
+    )
+    public static class NoEssenceCardPatch5 {
+        @SpireInsertPatch(rloc = 6, localvars = {"tmp"})
+        public static SpireReturn<AbstractCard> Insert(CardGroup _instance, AbstractCard.CardType type, boolean useRng, @ByRef ArrayList<AbstractCard>[] tmp) {
+            tmp[0].removeIf(card -> card.hasTag(CardTagsEnum.Essence));
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    // =============    翻转中卡牌不能被选取
+
+    @SpirePatch(
+            clz = AbstractCard.class,
+            method = "updateHoverLogic"
+    )
+    public static class NotHoverLogic {
+        @SpirePrefixPatch
+        public static SpireReturn<Void> Prefix(AbstractCard _instance) {
+            if (FlipCardEffectPatches.cardScaleX < 1.0f)
+                return SpireReturn.Return();
+
+            return SpireReturn.Continue();
+        }
+    }
+
 }

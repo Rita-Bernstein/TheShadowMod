@@ -32,6 +32,7 @@ public class Hidden extends AbstractTSCard {
 
     @Override
     public void onFlipInHand(AbstractTSCard thisCard, boolean flipThisSide) {
+        if(flipThisSide)
         addToBot(new DrawCardAction(this.magicNumber));
     }
 

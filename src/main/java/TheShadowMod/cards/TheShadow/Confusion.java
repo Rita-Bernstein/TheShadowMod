@@ -3,6 +3,7 @@ package TheShadowMod.cards.TheShadow;
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.actions.TheShadow.FlipCardAction;
 import TheShadowMod.actions.TheShadow.GainFlipPowerAction;
+import TheShadowMod.patches.CardTagsEnum;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -19,6 +20,7 @@ public class Confusion extends AbstractTSCard {
     public Confusion() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.magicNumber = this.baseMagicNumber = 1;
+        this.tags.add(CardTagsEnum.Essence);
     }
 
 

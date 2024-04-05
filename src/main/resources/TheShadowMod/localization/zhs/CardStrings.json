@@ -96,7 +96,7 @@
     "NAME": "气流",
     "DESCRIPTION": "抽 !M! 张牌。 NL 翻面 !TheShadowSM! 张手牌。",
     "EXTENDED_DESCRIPTION": [
-      "翻眠%d张手牌"
+      "翻面%d张手牌"
     ]
   },
   "TheShadowMod:SpiralStaircase": {

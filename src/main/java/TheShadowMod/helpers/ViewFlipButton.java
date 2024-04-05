@@ -1,5 +1,6 @@
 package TheShadowMod.helpers;
 
+import TheShadowMod.TheShadowMod;
 import TheShadowMod.cards.TheShadow.AbstractTSCard;
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
@@ -15,7 +16,9 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.EventRoom;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
@@ -25,6 +28,7 @@ import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
 public class ViewFlipButton {
+    private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(TheShadowMod.makeID(ViewFlipButton.class.getSimpleName()));
     private static final Color HOVER_BLEND_COLOR = new Color(1.0F, 1.0F, 1.0F, 0.4F);
     private static final float SHOW_X = 140.0F * Settings.scale;
     private static final float DRAW_Y = Settings.HEIGHT * 0.75f;
@@ -123,6 +127,11 @@ public class ViewFlipButton {
             sb.setColor(HOVER_BLEND_COLOR);
             renderButton(sb);
             sb.setBlendFunction(770, 771);
+        }
+
+
+        if (this.hb.hovered && !this.isHidden) {
+            TipHelper.renderGenericTip(this.hb.cX, this.hb.cY - 120.0f * Settings.scale, uiStrings.TEXT[0], uiStrings.TEXT[1]);
         }
 
 
@@ -290,7 +299,6 @@ public class ViewFlipButton {
             return SpireReturn.Continue();
         }
     }
-
 
 
     @SpirePatch(
