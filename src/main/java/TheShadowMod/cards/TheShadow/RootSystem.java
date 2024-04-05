@@ -11,7 +11,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 public class RootSystem extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(RootSystem.class.getSimpleName());
     public static final String IMG = TheShadowMod.assetPath("img/cards/TheShadow/RootSystem.png");
-    private static final int COST = 1;
+    private static final int COST = 2;
     private static final CardType TYPE = CardType.POWER;
     private static final CardRarity RARITY = CardRarity.UNCOMMON;
     private static final CardTarget TARGET = CardTarget.NONE;
@@ -34,8 +34,7 @@ public class RootSystem extends AbstractTSCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            this.rawDescription = UPGRADE_DESCRIPTION;
-            initializeDescription();
+            upgradeBaseCost(1);
         }
     }
 }

@@ -30,7 +30,7 @@ public class Ultrasonic extends AbstractTSCard {
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();
-            upgradeMagicNumber(3);
+            upgradeMagicNumber(2);
         }
     }
 }

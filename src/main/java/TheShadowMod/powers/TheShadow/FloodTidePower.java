@@ -31,7 +31,7 @@ public class FloodTidePower extends AbstractShadowModPower {
     }
 
     @Override
-    public void atStartOfTurn() {
+    public void atStartOfTurnPostDraw() {
         flash();
         addToTop(new ReducePowerAction(this.owner, this.owner, POWER_ID, 1));
         addToTop(new ExpertiseAction(this.owner, BaseMod.MAX_HAND_SIZE));

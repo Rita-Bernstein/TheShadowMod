@@ -69,12 +69,12 @@
   },
   "TheShadowMod:DeepDiving": {
     "NAME": "深潜",
-    "DESCRIPTION": "保留 。 抽 !M! 张牌。 NL 本场战斗每当被翻面时，抽牌数+1。 NL 消耗 。"
+    "DESCRIPTION": "保留 。 抽 !M! 张牌。 NL the_shadow_mod:本质 ：本场战斗每当被翻面时，抽牌数+1。 NL 消耗 。"
   },
   "TheShadowMod:Incline": {
     "NAME": "倾斜",
-    "DESCRIPTION": " the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
-    "UPGRADE_DESCRIPTION": " the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
+    "DESCRIPTION": "the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数除以3的余数。",
+    "UPGRADE_DESCRIPTION": "the_shadow_mod:本质 ：获得1层颠倒。 NL the_shadow_mod:本质 ：这张牌的耗能为回合数-1除以3的余数。"
   },
   "TheShadowMod:DeadAngle": {
     "NAME": "死角",
@@ -114,7 +114,7 @@
   },
   "TheShadowMod:ShadowStrike": {
     "NAME": "影子打击",
-    "DESCRIPTION": "造成 !D! 点伤害。 NL 手牌中翻面时，在本场战斗中造成的伤害增加 !M! 。"
+    "DESCRIPTION": "造成 !D! 点伤害。 NL the_shadow_mod:本质 ：翻面时，在本场战斗中造成的伤害增加 !M! 。"
   },
   "TheShadowMod:TombstonePiledriver": {
     "NAME": "墓碑石钉头",
@@ -162,8 +162,8 @@
   },
   "TheShadowMod:Hidden": {
     "NAME": "隐藏",
-    "DESCRIPTION": "不能被打出 。 NL 手牌中从这一面翻面时， NL 抽一张牌。",
-    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 手牌中从这一面翻面时， NL 抽两张牌。"
+    "DESCRIPTION": "不能被打出 。 NL 从这一面翻面时， NL 抽一张牌。",
+    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 从这一面翻面时， NL 抽两张牌。"
   },
   "TheShadowMod:PolarNight": {
     "NAME": "极夜",
@@ -237,20 +237,19 @@
   },
   "TheShadowMod:SinkIntoDark": {
     "NAME": "遁入黑暗",
-    "DESCRIPTION": "在 !TheShadowSM! 回合结束时，如果处于里世界，获得 !M! 点临时最大生命。"
+    "DESCRIPTION": "回合结束时，如果处于里世界，获得 !M! 点临时最大生命。"
   },
   "TheShadowMod:JumpOut": {
     "NAME": "跳出",
-    "DESCRIPTION": "本质：清除 the_shadow_mod:颠倒 ，进入表世界或里世界。"
+    "DESCRIPTION": " the_shadow_mod:本质 ：清除 the_shadow_mod:颠倒 ，进入表世界或里世界。"
   },
   "TheShadowMod:DejaVu": {
     "NAME": "既视感",
-    "DESCRIPTION": "每回合开始时，获得 !M! 层 the_shadow_mod:沉重 和 the_shadow_mod:颠倒 。"
+    "DESCRIPTION": "回合结束时，获得 !M! 层 the_shadow_mod:沉重 和 the_shadow_mod:颠倒 。"
   },
   "TheShadowMod:Reborn": {
     "NAME": "重生",
-    "DESCRIPTION": "免死时，获得 [E] [E] 。",
-    "UPGRADE_DESCRIPTION": "免死时，获得 [E] [E] [E] 。"
+    "DESCRIPTION": "免死时，获得 [E] [E] 。"
   },
   "TheShadowMod:Timing": {
     "NAME": "时机",
@@ -262,8 +261,7 @@
   },
   "TheShadowMod:RootSystem": {
     "NAME": "根系",
-    "DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。",
-    "UPGRADE_DESCRIPTION": " the_shadow_mod:沉重 生效时，从卡牌中获得的 格挡 提高相应层数。 NL 获得1层 the_shadow_mod:沉重 。"
+    "DESCRIPTION": "你的 the_shadow_mod:沉重 层数也会作用于你从卡牌中获得的 格挡 。"
   },
   "TheShadowMod:BothDestruction": {
     "NAME": "两败俱伤",
@@ -286,12 +284,12 @@
   },
   "TheShadowMod:PerfectImitation": {
     "NAME": "完美模仿",
-    "DESCRIPTION": "随机使用 !M! 瓶药水。 NL 消耗 。"
+    "DESCRIPTION": "随机使用你携带的 !M! 瓶药水的效果。 NL 消耗 。"
   },
   "TheShadowMod:DoubleBody": {
     "NAME": "二重身",
-    "DESCRIPTION": "不能被打出 。 虚无 。 NL 手牌中从这一面翻面时，随机打出一张其他手牌。",
-    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 手牌中从这一面翻面时，随机打出一张其他手牌。"
+    "DESCRIPTION": "不能被打出 。 虚无 。 NL 从这一面翻面时，随机打出一张其他手牌。",
+    "UPGRADE_DESCRIPTION": "不能被打出 。 NL 从这一面翻面时，随机打出一张其他手牌。"
   },
   "TheShadowMod:VisceralDestruction": {
     "NAME": "内脏破坏",
@@ -319,7 +317,8 @@
   },
   "TheShadowMod:Mourning": {
     "NAME": "哀恸",
-    "DESCRIPTION": "每回合开始时，若你处于里世界， 升级 你的所有手牌。"
+    "DESCRIPTION": "每回合开始时，若你处于里世界， 升级 你的所有手牌。",
+    "UPGRADE_DESCRIPTION": "获得1层颠倒。 NL 每回合开始时，若你处于里世界， 升级 你的所有手牌。"
   },
   "TheShadowMod:Contemplate": {
     "NAME": "思忖",
@@ -333,8 +332,8 @@
   },
   "TheShadowMod:Peel": {
     "NAME": "拷问",
-    "DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *行刑 加入手牌。",
-    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL 在手牌中被翻面时，将 !M! 张 *行刑+ 加入手牌。"
+    "DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL the_shadow_mod:本质 ：被翻面时，将 !M! 张 *小刀 加入手牌。",
+    "UPGRADE_DESCRIPTION": "造成 !D! 点伤害， NL 给予1层 易伤 。 NL the_shadow_mod:本质 ：被翻面时，将 !M! 张 *小刀+ 加入手牌。"
   },
   "TheShadowMod:Execute": {
     "NAME": "行刑",

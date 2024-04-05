@@ -2,6 +2,7 @@ package TheShadowMod.powers.TheShadow;
 
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.powers.AbstractShadowModPower;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
@@ -45,5 +46,13 @@ public class AnnihilatePower extends AbstractShadowModPower {
     @Override
     public void updateDescription() {
         this.description = this.amount > 1 ? String.format(DESCRIPTIONS[1], this.amount) : DESCRIPTIONS[0];
+    }
+
+    @Override
+    public void atEndOfTurn(boolean isPlayer) {
+        if (isPlayer) {
+            flash();
+            addToBot(new RemoveSpecificPowerAction(this.owner, this.owner, POWER_ID));
+        }
     }
 }

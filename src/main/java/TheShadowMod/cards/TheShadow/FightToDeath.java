@@ -22,7 +22,7 @@ public class FightToDeath extends AbstractTSCard {
     public FightToDeath() {
         super(ID, IMG, COST, TYPE, RARITY, TARGET);
         this.exhaust = true;
-        this.magicNumber = this.baseMagicNumber = 3;
+        this.magicNumber = this.baseMagicNumber = 2;
         this.secondaryM = this.baseSecondaryM = 2;
     }
 
@@ -41,7 +41,6 @@ public class FightToDeath extends AbstractTSCard {
         if (!this.upgraded) {
             upgradeName();
             upgradeMagicNumber(1);
-            upgradeSecondM(-1);
         }
     }
 }

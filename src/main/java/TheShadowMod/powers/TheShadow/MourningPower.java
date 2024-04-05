@@ -3,6 +3,7 @@ package TheShadowMod.powers.TheShadow;
 import TheShadowMod.TheShadowMod;
 import TheShadowMod.patches.GameStatsPatch;
 import TheShadowMod.powers.AbstractShadowModPower;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.unique.ArmamentsAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -22,6 +23,8 @@ public class MourningPower extends AbstractShadowModPower {
         this.ID = POWER_ID;
         this.owner = owner;
         updateDescription();
+        // 先涨潮，再既视感，最后哀恸
+        this.priority = 100;
 
         loadShadowRegion("MourningPower");
     }
@@ -29,10 +32,16 @@ public class MourningPower extends AbstractShadowModPower {
 
     @Override
     public void atStartOfTurnPostDraw() {
-        if(GameStatsPatch.blackWorld){
-            flash();
-            addToBot(new ArmamentsAction(true));
-        }
+        addToBot(new AbstractGameAction() {
+            @Override
+            public void update() {
+                if(GameStatsPatch.blackWorld){
+                    flash();
+                    addToTop(new ArmamentsAction(true));
+                }
+                this.isDone = true;
+            }
+        });
     }
 
     @Override
