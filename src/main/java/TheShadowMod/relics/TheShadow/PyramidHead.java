@@ -29,8 +29,6 @@ public class PyramidHead extends AbstractShadowModRelic {
         flash();
         addToBot(new RelicAboveCreatureAction(AbstractDungeon.player,this));
         addToBot(new ApplyPowerAction(AbstractDungeon.player,AbstractDungeon.player,new HeavyPower(AbstractDungeon.player,1)));
-        addToBot(new ApplyPowerAction(AbstractDungeon.player,AbstractDungeon.player,new MetallicizePower(AbstractDungeon.player,1)));
-        addToBot(new ApplyPowerAction(AbstractDungeon.player,AbstractDungeon.player,new PlatedArmorPower(AbstractDungeon.player,1)));
 
     }
 }

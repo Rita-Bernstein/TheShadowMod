@@ -24,21 +24,21 @@
     "NAME": "丧钟",
     "FLAVOR": "丧钟为谁而鸣？",
     "DESCRIPTIONS": [
-      "给予 #y鸣响 时，抽 #b3 张牌。"
+      "成功给予 #y鸣响 时，抽 #b3 张牌。"
     ]
   },
   "TheShadowMod:PyramidHead": {
     "NAME": "三角铁头",
     "FLAVOR": "锋利，血腥又沉重。",
     "DESCRIPTIONS": [
-      "每场战斗开始时，获得 #b1 层 #y沉重 ， #b1 层 #y金属化 和 #b1 层 #y多层护甲 。"
+      "每场战斗开始时，获得 #b1 层 #y沉重 。"
     ]
   },
   "TheShadowMod:Waterphone": {
     "NAME": "水琴",
     "FLAVOR": "会发出很恐怖的声响。",
     "DESCRIPTIONS": [
-      "额外给予 #b3 层 #y鸣响 。"
+      "成功给予 #y鸣响 时额外给予 #b3 层。"
     ]
   },
   "TheShadowMod:Empties": {
@@ -67,7 +67,7 @@
     "NAME": "沉重砝码",
     "FLAVOR": "生命不能承受之重。",
     "DESCRIPTIONS": [
-      "每回合开始时，所有人中生命最高的造成 #b10 点伤害。"
+      "每回合开始时，对所有人中生命最高的目标造成 #b10 点伤害。"
     ]
   },
   "TheShadowMod:VocalCords": {
