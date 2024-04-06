@@ -26,10 +26,11 @@ public class CrossExamine extends AbstractTSCard {
         this.baseDamage = 9;
         this.isMultiDamage = true;
         this.magicNumber = this.baseMagicNumber = 1;
+        this.secondaryM = this.baseSecondaryM = this.baseDamage;
     }
 
     public void use(AbstractPlayer p, AbstractMonster m) {
-        addToBot(new DamageAction(p, new DamageInfo(p, this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
+        addToBot(new DamageAction(p, new DamageInfo(p, this.secondaryM, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_DIAGONAL));
 
         addToBot(new SFXAction("ATTACK_HEAVY"));
         addToBot(new VFXAction(p, new CleaveEffect(), 0.0F));

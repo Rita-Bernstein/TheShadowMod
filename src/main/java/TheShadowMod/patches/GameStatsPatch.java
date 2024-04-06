@@ -35,6 +35,7 @@ public class GameStatsPatch {
 
         notDeathCombatCounter = 0;
         trueDamageReceivedThisCombat = 0;
+
     }
 
     @SpirePatch(

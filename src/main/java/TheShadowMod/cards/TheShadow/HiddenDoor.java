@@ -28,11 +28,6 @@ public class HiddenDoor extends AbstractTSCard {
         addToBot(new MakeTempCardInHandAction(new Wallcovering()));
     }
 
-    @Override
-    public void cloneFieldCommon(AbstractCard ori) {
-        ori.selfRetain = true;
-    }
-
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();

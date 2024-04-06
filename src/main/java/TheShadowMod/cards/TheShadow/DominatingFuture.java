@@ -47,9 +47,7 @@ public class DominatingFuture extends AbstractTSCard {
 
     public ArrayList<AbstractCard> getRewardCards() {
         ArrayList<AbstractCard> retVal = SaveHelper.loadRewardCard();
-        if (SaveHelper.rewardNewAct) {
-            SaveHelper.rewardNewAct = false;
-            retVal.clear();
+        if (retVal.isEmpty()) {
             AbstractCard card = AbstractDungeon.getCard(CardRarity.RARE);
 
             int numCards = 3;
@@ -74,10 +72,8 @@ public class DominatingFuture extends AbstractTSCard {
             }
 
             SaveHelper.SaveRewardCard(retVal2);
-            return retVal2;
-        } else {
-            return retVal;
         }
+        return retVal;
     }
 
 

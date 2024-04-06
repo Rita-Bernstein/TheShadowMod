@@ -36,12 +36,6 @@ public class Eclipse extends AbstractTSCard {
         }));
     }
 
-    @Override
-    public void cloneFieldCommon(AbstractCard ori) {
-        ori.isInnate = this.upgraded;
-        ori.isEthereal = this.upgraded;
-    }
-
     public void upgrade() {
         if (!this.upgraded) {
             upgradeName();

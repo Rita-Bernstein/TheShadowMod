@@ -28,7 +28,7 @@ import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
 public class ViewFlipButton {
-    private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(TheShadowMod.makeID(ViewFlipButton.class.getSimpleName()));
+    public static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(TheShadowMod.makeID(ViewFlipButton.class.getSimpleName()));
     private static final Color HOVER_BLEND_COLOR = new Color(1.0F, 1.0F, 1.0F, 0.4F);
     private static final float SHOW_X = 140.0F * Settings.scale;
     private static final float DRAW_Y = Settings.HEIGHT * 0.75f;

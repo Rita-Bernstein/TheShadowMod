@@ -23,7 +23,9 @@ import com.google.gson.Gson;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ModHelper;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -125,8 +127,33 @@ public class TheShadowMod implements
 
     @Override
     public void receiveStartAct() {
-        SaveHelper.rewardNewAct = true;
-        SaveHelper.SaveRewardCard();
+        ArrayList<AbstractCard> retVal = new ArrayList<>();
+        AbstractCard card = AbstractDungeon.getCard(AbstractCard.CardRarity.RARE);
+
+        int numCards = 3;
+        for (AbstractRelic r : AbstractDungeon.player.relics) {
+            numCards = r.changeNumberOfCardsInReward(numCards);
+        }
+
+        if (ModHelper.isModEnabled("Binary")) {
+            numCards--;
+        }
+
+        for (int i = 0; i < numCards; i++) {
+            while (retVal.contains(card)) {
+                card = AbstractDungeon.getCard(AbstractCard.CardRarity.RARE);
+            }
+            retVal.add(card);
+        }
+
+        ArrayList<AbstractCard> retVal2 = new ArrayList<AbstractCard>();
+        for (AbstractCard c : retVal) {
+            retVal2.add(c.makeCopy());
+        }
+
+        SaveHelper.SaveRewardCard(retVal2);
+
+        //================提前产生关底boss里表
 
         if (AbstractDungeon.floorNum == 0) {
             SaveHelper.increaseMaxHP = 0;

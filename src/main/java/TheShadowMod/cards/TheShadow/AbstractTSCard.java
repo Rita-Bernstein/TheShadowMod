@@ -28,8 +28,4 @@ public abstract class AbstractTSCard extends AbstractShadowModCard {
 
     public void useCommon(AbstractPlayer p, AbstractMonster m) {
     }
-
-
-    public void cloneFieldCommon(AbstractCard ori) {
-    }
 }

@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
+import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,6 @@ public class SaveHelper {
     public static int increaseMaxHP = 0;
     // 进入这一层时，清除信息并保存
     public static int clearIncreaseMaxHPFloorNum = -1;
-    public static boolean rewardNewAct = true;
 
     public static void saveNoPotion() {
 
@@ -130,7 +130,7 @@ public class SaveHelper {
 
 
                     if (backCardID.equals(card.cardID)) {
-                        BackCardManager.AddFields.backCard.set(card,card);
+                        BackCardManager.AddFields.backCard.set(card, card);
                     } else {
                         BackCardManager.setCardToBackCard(CardLibrary.getCopy(backCardID, backCardUpgrades, backCardMisc), card, true);
                     }
@@ -184,7 +184,6 @@ public class SaveHelper {
     public static void SaveRewardCard(ArrayList<AbstractCard> cards) {
         try {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
-            config.setBool(CardCrawlGame.saveSlot + "rewardNewAct", SaveHelper.rewardNewAct);
 
             for (int i = 0; i < cards.size(); i++)
                 config.setString(CardCrawlGame.saveSlot + "RewardCard" + i, cards.get(i).cardID);
@@ -208,26 +207,11 @@ public class SaveHelper {
         }
     }
 
-    public static void SaveRewardCard() {
-        try {
-            SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
-            config.setBool(CardCrawlGame.saveSlot + "rewardNewAct", SaveHelper.rewardNewAct);
-
-            config.save();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public static ArrayList<AbstractCard> loadRewardCard() {
         ArrayList<AbstractCard> cards = new ArrayList<>();
         try {
             SaveConfig config = new SaveConfig(TheShadowMod.TheShadowModDefaults);
             config.load();
-
-            SaveHelper.rewardNewAct = config.getBool(CardCrawlGame.saveSlot + "rewardNewAct");
 
             for (int i = 0; i < 3; i++)
                 cards.add(CardLibrary.getCopy(config.getString(CardCrawlGame.saveSlot + "RewardCard" + i)));
@@ -239,10 +223,10 @@ public class SaveHelper {
                 int backCardMisc = config.getInt(CardCrawlGame.saveSlot + "RewardBackCardMisc" + i);
                 String backCardID = config.getString(CardCrawlGame.saveSlot + "RewardBackCardID" + i);
 
-                if(c.cardID.equals(backCardID)) {
-                    BackCardManager.AddFields.backCard.set(c,c);
-                }else {
-                    BackCardManager.setCardToBackCard(CardLibrary.getCopy(backCardID,backCardUpgrades,backCardMisc),c,true);
+                if (c.cardID.equals(backCardID)) {
+                    BackCardManager.AddFields.backCard.set(c, c);
+                } else {
+                    BackCardManager.setCardToBackCard(CardLibrary.getCopy(backCardID, backCardUpgrades, backCardMisc), c, true);
                 }
 
             }
@@ -252,6 +236,4 @@ public class SaveHelper {
         }
         return cards;
     }
-
-
 }
