@@ -8,8 +8,12 @@ import TheShadowMod.powers.TheShadow.JumpOutPower;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
+import com.megacrit.cardcrawl.actions.watcher.ChooseOneAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+
+import java.util.ArrayList;
 
 public class JumpOut extends AbstractTSCard {
     public static final String ID = TheShadowMod.makeID(JumpOut.class.getSimpleName());
@@ -30,11 +34,13 @@ public class JumpOut extends AbstractTSCard {
 
     @Override
     public void useCommon(AbstractPlayer p, AbstractMonster m) {
-        if (!p.hasPower(FlipPower.POWER_ID)) {
-            addToBot(new SwitchWorldAction());
-        } else {
-            addToBot(new RemoveSpecificPowerAction(p, p, FlipPower.POWER_ID));
-        }
+        addToBot(new RemoveSpecificPowerAction(p, p, FlipPower.POWER_ID));
+
+        ArrayList<AbstractCard> stanceChoices = new ArrayList<AbstractCard>();
+        stanceChoices.add(new JumpOutOut());
+        stanceChoices.add(new JumpOutIn());
+
+        addToBot(new ChooseOneAction(stanceChoices));
     }
 
     public void upgrade() {
