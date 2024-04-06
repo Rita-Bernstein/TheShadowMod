@@ -832,7 +832,7 @@ public class BackCardManager {
         public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb, @ByRef AbstractCard[] copy) {
             if (ViewFlipButton.isViewingFlip) {
                 AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
-                if(c instanceof AbstractTSCard) {
+                if(c instanceof AbstractTSCard && (AddFields.backCard.get(c) == null || AddFields.backCard.get(c) == c)) {
                     setBackCardBackground((AbstractTSCard) c, !AddFields.isBack.get(c));
                 }
 
