@@ -158,7 +158,7 @@
   "TheShadowMod:Instantiate": {
     "NAME": "实例化",
     "DESCRIPTION": "本回合你打出的下张牌会触发它的另一面。",
-    "UPGRADE_DESCRIPTION": "本回合你打出的下两张牌会触发它的另一面"
+    "UPGRADE_DESCRIPTION": "本回合你打出的下两张牌会触发它的另一面。"
   },
   "TheShadowMod:Hidden": {
     "NAME": "隐藏",
