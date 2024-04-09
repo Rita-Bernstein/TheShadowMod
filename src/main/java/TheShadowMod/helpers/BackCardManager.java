@@ -83,7 +83,6 @@ public class BackCardManager {
     public static AbstractCard flipCard(AbstractCard card) {
         if (AddFields.backCard.get(card) != null) {
             AbstractCard back = AddFields.backCard.get(card);
-
             back.target_x = card.target_x;
             back.target_y = card.target_y;
             back.current_x = card.current_x;
@@ -532,7 +531,7 @@ public class BackCardManager {
             if (AddFields.backCard.get(card) == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
                 if (card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL) {
 
-                    int roll = AbstractDungeon.cardRng.random(99);
+                    int roll = AbstractDungeon.cardRandomRng.random(99);
                     roll += AbstractDungeon.cardBlizzRandomizer;
                     AbstractCard.CardRarity rarity;
                     if (roll < 3) {
@@ -684,14 +683,19 @@ public class BackCardManager {
                 } else {
                     AddFields.backCard.set(AddFields.backCard.get(_instance), null);
                     bCardBuffer = AddFields.backCard.get(_instance).makeStatEquivalentCopy();
+                    AddFields.isBack.set(bCardBuffer, !AddFields.isBack.get(_instance));
+                    if (bCardBuffer instanceof AbstractTSCard) {
+                        setBackCardBackground((AbstractTSCard) bCardBuffer, AddFields.isBack.get(bCardBuffer));
+                    }
                     AddFields.backCard.set(AddFields.backCard.get(_instance), _instance);
                 }
-            } else if (_instance instanceof AbstractTSCard) {
-                initializeBackCard(_instance);
-
             }
 
             makeCopyOnlyCard = false;
+
+            if (card[0] instanceof AbstractTSCard) {
+                setBackCardBackground((AbstractTSCard) card[0], AddFields.isBack.get(card[0]));
+            }
 
             if (bCardBuffer != null) {
                 AddFields.backCard.set(card[0], bCardBuffer);
@@ -830,9 +834,12 @@ public class BackCardManager {
             if (ViewFlipButton.isViewingFlip) {
                 AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
                 if (c instanceof AbstractTSCard) {
-                    setBackCardBackground((AbstractTSCard) c, !AddFields.isBack.get(c));
+                    if (c == AddFields.backCard.get(c)) {
+                        setBackCardBackground((AbstractTSCard) c, !AddFields.isBack.get(c));
+                    } else {
+                        setBackCardBackground((AbstractTSCard) c, AddFields.isBack.get(c));
+                    }
                 }
-
             }
             return SpireReturn.Continue();
         }
@@ -959,9 +966,11 @@ public class BackCardManager {
             setBackCardBackground((AbstractTSCard) toCard, false);
 
         if (finalCard instanceof AbstractTSCard && finalCard != toCard) {
-            System.out.println("背景换色色！！！！！！！！！！" + fromCard.name);
             setBackCardBackground((AbstractTSCard) finalCard, true);
         }
+
+        System.out.println("我是 " + toCard.name + " 正反面 ：" + BackCardManager.AddFields.isBack.get(toCard));
+        System.out.println("我是 " + finalCard.name + " 正反面 ：" + BackCardManager.AddFields.isBack.get(finalCard));
 
         return toCard;
     }

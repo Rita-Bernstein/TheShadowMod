@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
@@ -21,6 +22,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.EventRoom;
+import com.megacrit.cardcrawl.screens.DrawPileViewScreen;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import com.megacrit.cardcrawl.vfx.combat.LightFlareParticleEffect;
 import javassist.CannotCompileException;
@@ -209,7 +211,6 @@ public class ViewFlipButton {
             AbstractDungeon.player.cardInUse = BackCardManager.flipCard(AbstractDungeon.player.cardInUse);
         }
 
-
         for (int i = 0; i < AbstractDungeon.player.hand.group.size(); i++) {
             BackCardManager.flipSameSideBackgroundView(AbstractDungeon.player.hand.group.get(i));
             AbstractDungeon.player.hand.group.set(i, BackCardManager.flipCard(AbstractDungeon.player.hand.group.get(i)));
@@ -218,6 +219,12 @@ public class ViewFlipButton {
         for (int i = 0; i < AbstractDungeon.player.drawPile.group.size(); i++) {
             BackCardManager.flipSameSideBackgroundView(AbstractDungeon.player.drawPile.group.get(i));
             AbstractDungeon.player.drawPile.group.set(i, BackCardManager.flipCard(AbstractDungeon.player.drawPile.group.get(i)));
+        }
+
+        CardGroup drawPileCopy = ReflectionHacks.getPrivate(AbstractDungeon.gameDeckViewScreen, DrawPileViewScreen.class,"drawPileCopy");
+        for (int i = 0; i < drawPileCopy.group.size(); i++) {
+//            BackCardManager.flipSameSideBackgroundView(drawPileCopy.group.get(i));    与抽牌堆继承关系会重复效果，故注释掉
+            drawPileCopy.group.set(i, BackCardManager.flipCard(drawPileCopy.group.get(i)));
         }
 
         for (int i = 0; i < AbstractDungeon.player.discardPile.group.size(); i++) {
