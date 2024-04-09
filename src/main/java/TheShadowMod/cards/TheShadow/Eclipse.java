@@ -24,6 +24,8 @@ public class Eclipse extends AbstractTSCard {
         this.isEthereal = true;
         this.isInnate = true;
         tags.add(CardTagsEnum.Essence);
+        tags.add(CardTagsEnum.DoubleInnate);
+        tags.add(CardTagsEnum.DoubleEthereal);
     }
 
 
@@ -41,6 +43,7 @@ public class Eclipse extends AbstractTSCard {
             upgradeName();
             this.isEthereal = false;
             this.isInnate = false;
+            this.tags.removeIf(t -> t == CardTagsEnum.DoubleInnate || t == CardTagsEnum.DoubleEthereal);
             this.rawDescription = UPGRADE_DESCRIPTION;
             initializeDescription();
         }

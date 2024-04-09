@@ -6,10 +6,7 @@ import TheShadowMod.actions.Common.SelectHandCardAction;
 import TheShadowMod.helpers.SaveHelper;
 import TheShadowMod.patches.GameStatsPatch;
 import basemod.patches.com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue.Save;
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -80,12 +77,12 @@ public class DominatingFuture extends AbstractTSCard {
     @SpirePatch(
             clz = RewardItem.class,
             method = SpirePatch.CONSTRUCTOR,
-            paramtypez = {CardColor.class}
+            paramtypez = {}
     )
     public static class BossCardRewardPatch {
-        @SpireInsertPatch(rloc = 11)
-        public static SpireReturn<Void> Insert(RewardItem _instance,CardColor colorType) {
-            if ((AbstractDungeon.getCurrRoom()) instanceof MonsterRoomBoss && colorType != CardColor.COLORLESS) {
+        @SpirePostfixPatch
+        public static SpireReturn<Void> Postfix(RewardItem _instance) {
+            if ((AbstractDungeon.getCurrRoom()) instanceof MonsterRoomBoss) {
                 ArrayList<AbstractCard> retVal = SaveHelper.loadRewardCard();
                 if (!retVal.isEmpty()) {
                     _instance.cards = retVal;

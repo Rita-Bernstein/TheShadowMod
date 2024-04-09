@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.potions.FairyPotion;
 import com.megacrit.cardcrawl.potions.PotionSlot;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class PerfectImitation extends AbstractTSCard {
     public void use(AbstractPlayer p, AbstractMonster m) {
         ArrayList<AbstractPotion> potions = new ArrayList<>();
         for (AbstractPotion potion : p.potions) {
-            if (!(potion instanceof PotionSlot)) {
+            if (!(potion instanceof PotionSlot || potion instanceof FairyPotion)) {
                 potions.add(potion);
             }
         }

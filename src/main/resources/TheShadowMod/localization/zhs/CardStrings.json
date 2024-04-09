@@ -9,7 +9,7 @@
   },
   "TheShadowMod:CrossExamine": {
     "NAME": "诘问",
-    "DESCRIPTION": "对你和所有敌人造成 !D! 点伤害。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
+    "DESCRIPTION": "对你造成 !TheShadowSM! 点伤害。 NL 所有敌人造成 !D! 点伤害。 NL 获得 !M! 层 the_shadow_mod:沉重 。"
   },
   "TheShadowMod:Merge": {
     "NAME": "融入",

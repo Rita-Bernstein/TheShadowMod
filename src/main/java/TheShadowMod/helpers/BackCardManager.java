@@ -74,7 +74,7 @@ public class BackCardManager {
             return;
         }
 
-        if(AddFields.backCard.get(card) == null){
+        if (AddFields.backCard.get(card) == null) {
             AddFields.isBack.set(card, !AddFields.isBack.get(card));
             setBackCardBackground((AbstractTSCard) card, AddFields.isBack.get(card));
         }
@@ -532,22 +532,16 @@ public class BackCardManager {
             if (AddFields.backCard.get(card) == null && AbstractDungeon.player != null && AbstractDungeon.cardRandomRng != null) {
                 if (card.rarity != AbstractCard.CardRarity.BASIC && card.rarity != AbstractCard.CardRarity.SPECIAL) {
 
-                    AbstractCard.CardRarity rarity = AbstractDungeon.rollRarity();
-                    AbstractCard c;
-                    switch (rarity) {
-                        case COMMON:
-                            AbstractDungeon.cardBlizzRandomizer -= AbstractDungeon.cardBlizzGrowth;
-                            if (AbstractDungeon.cardBlizzRandomizer <= AbstractDungeon.cardBlizzMaxOffset) {
-                                AbstractDungeon.cardBlizzRandomizer = AbstractDungeon.cardBlizzMaxOffset;
-                            }
-                        case UNCOMMON:
-                            break;
-                        case RARE:
-                            AbstractDungeon.cardBlizzRandomizer = AbstractDungeon.cardBlizzStartOffset;
-                            break;
+                    int roll = AbstractDungeon.cardRng.random(99);
+                    roll += AbstractDungeon.cardBlizzRandomizer;
+                    AbstractCard.CardRarity rarity;
+                    if (roll < 3) {
+                        rarity = AbstractCard.CardRarity.RARE;
+                    } else {
+                        rarity = roll < 40 ? AbstractCard.CardRarity.UNCOMMON : AbstractCard.CardRarity.COMMON;
                     }
 
-
+                    AbstractCard c;
                     AbstractCard tmp;
 
 
@@ -808,16 +802,11 @@ public class BackCardManager {
             method = "render"
     )
     public static class RenderSingleBackCardPatch {
-        @SpireInsertPatch(rloc = 1, localvars = {"copy"})
+        @SpireInsertPatch(rloc = 3, localvars = {"copy"})
         public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb, @ByRef AbstractCard[] copy) {
             if (ViewFlipButton.isViewingFlip) {
                 AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
-                copy[0] = c.makeStatEquivalentCopy();
-
-                if (AddFields.backCard.get(c) != null && AddFields.backCard.get(c) != c) {
-                    ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "card", AddFields.backCard.get(c));
-
-                }
+                ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "card", AddFields.backCard.get(c));
             }
             return SpireReturn.Continue();
         }
@@ -831,8 +820,16 @@ public class BackCardManager {
         @SpireInsertPatch(rloc = 6, localvars = {"copy"})
         public static SpireReturn<Void> Insert(SingleCardViewPopup _instance, SpriteBatch sb, @ByRef AbstractCard[] copy) {
             if (ViewFlipButton.isViewingFlip) {
+                if (!SingleCardViewPopup.isViewingUpgrade) {
+                    AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
+                    copy[0] = c.makeStatEquivalentCopy();
+                    ReflectionHacks.setPrivate(_instance, SingleCardViewPopup.class, "card", AddFields.backCard.get(c));
+                }
+            }
+
+            if (ViewFlipButton.isViewingFlip) {
                 AbstractCard c = ReflectionHacks.getPrivate(_instance, SingleCardViewPopup.class, "card");
-                if(c instanceof AbstractTSCard && (AddFields.backCard.get(c) == null || AddFields.backCard.get(c) == c)) {
+                if (c instanceof AbstractTSCard) {
                     setBackCardBackground((AbstractTSCard) c, !AddFields.isBack.get(c));
                 }
 
@@ -840,7 +837,6 @@ public class BackCardManager {
             return SpireReturn.Continue();
         }
     }
-
 
     @SpirePatch(
             clz = SingleCardViewPopup.class,
@@ -853,7 +849,7 @@ public class BackCardManager {
             AbstractCard card;
             if (BackCardManager.AddFields.backCard.get(c) != null && BackCardManager.AddFields.backCard.get(c) != c) {
                 card = BackCardManager.AddFields.backCard.get(c);
-            }else {
+            } else {
                 card = c;
             }
 
@@ -925,14 +921,15 @@ public class BackCardManager {
         AddFields.backCard.set(finalCard, AddFields.backCard.get(toCard));
         AddFields.backCard.set(AddFields.backCard.get(toCard), finalCard);
 
-        AddFields.isBack.set(toCard, true);
+
         AddFields.isBack.set(finalCard, false);
+        AddFields.isBack.set(AddFields.backCard.get(toCard), true);
 
         if (finalCard instanceof AbstractTSCard)
             setBackCardBackground((AbstractTSCard) finalCard, false);
 
-        if (AddFields.backCard.get(finalCard) instanceof AbstractTSCard && AddFields.backCard.get(finalCard) != finalCard) {
-            setBackCardBackground((AbstractTSCard) AddFields.backCard.get(finalCard), true);
+        if (AddFields.backCard.get(toCard) instanceof AbstractTSCard && finalCard != AddFields.backCard.get(toCard)) {
+            setBackCardBackground((AbstractTSCard) AddFields.backCard.get(toCard), true);
         }
 
 
@@ -961,8 +958,9 @@ public class BackCardManager {
         if (toCard instanceof AbstractTSCard)
             setBackCardBackground((AbstractTSCard) toCard, false);
 
-        if (AddFields.backCard.get(toCard) instanceof AbstractTSCard && AddFields.backCard.get(toCard) != toCard) {
-            setBackCardBackground((AbstractTSCard) AddFields.backCard.get(toCard), true);
+        if (finalCard instanceof AbstractTSCard && finalCard != toCard) {
+            System.out.println("背景换色色！！！！！！！！！！" + fromCard.name);
+            setBackCardBackground((AbstractTSCard) finalCard, true);
         }
 
         return toCard;

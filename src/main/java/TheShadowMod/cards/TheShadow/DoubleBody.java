@@ -46,7 +46,7 @@ public class DoubleBody extends AbstractTSCard {
                      public void update() {
                          AbstractMonster m = (AbstractDungeon.getCurrRoom()).monsters.getRandomMonster(null, true, AbstractDungeon.miscRng);
                          ArrayList<AbstractCard> list = new ArrayList<>(AbstractDungeon.player.hand.group);
-                         list.removeIf(card -> card == DoubleBody.this || (card == BackCardManager.AddFields.backCard.get(DoubleBody.this) || card.canUse(AbstractDungeon.player,m)));
+                         list.removeIf(card -> card == DoubleBody.this || (card == BackCardManager.AddFields.backCard.get(DoubleBody.this) || !card.canUse(AbstractDungeon.player,m)));
 
                          AbstractCard c;
                          if (list.size() > 1)
