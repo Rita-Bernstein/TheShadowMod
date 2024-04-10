@@ -2,6 +2,7 @@ package TheShadowMod.patches;
 
 import TheShadowMod.cards.TheShadow.Bone;
 import TheShadowMod.helpers.BackCardManager;
+import TheShadowMod.helpers.ViewFlipButton;
 import TheShadowMod.powers.AbstractShadowModPower;
 import TheShadowMod.powers.TheShadow.PealPower;
 import basemod.ReflectionHacks;

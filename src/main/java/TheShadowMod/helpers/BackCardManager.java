@@ -38,6 +38,7 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import com.megacrit.cardcrawl.scenes.AbstractScene;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
+import com.megacrit.cardcrawl.shop.ShopScreen;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
@@ -1261,18 +1262,17 @@ public class BackCardManager {
     }
 
 //    @SpirePatch(
-//            cls ="basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.BackgroundFix$BackgroundTexture",
-//            method = "Prefix"
+//            clz = ShopScreen.class,
+//            method = "setPrice"
 //    )
-//    public static class BaseCardSingleRenderPatch {
-//        @SpireInsertPatch(rlocs = {42-30,57-30,87-30})
-//        public static SpireReturn<AbstractCard> Insert(Object __obj_instance, Object sbObject) {
-//            if (ViewFlipButton.isViewingFlip) {
-//
-//                return SpireReturn.Return(null);
+//    public static class ShopCardPricePatch {
+//        @SpirePostfixPatch
+//        public static void Postfix(ShopScreen _instance, AbstractCard c) {
+//            if(AddFields.backCard.get(c) != null && AddFields.backCard.get(c) != c){
+//                AddFields.backCard.get(c).price = c.price;
 //            }
-//
-//            return SpireReturn.Continue();
 //        }
 //    }
+
+
 }

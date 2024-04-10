@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -265,12 +266,12 @@ public class ViewFlipButton {
         }
 
 
-        if (AbstractDungeon.shopScreen.coloredCards != null && AbstractDungeon.shopScreen.coloredCards.size() > 0) {
-            for (int i = 0; i < AbstractDungeon.shopScreen.coloredCards.size(); i++) {
-                BackCardManager.flipSameSideBackgroundView(AbstractDungeon.shopScreen.coloredCards.get(i));
-                AbstractDungeon.shopScreen.coloredCards.set(i, BackCardManager.flipCard(AbstractDungeon.shopScreen.coloredCards.get(i)));
-            }
-        }
+//        if (AbstractDungeon.shopScreen.coloredCards != null && AbstractDungeon.shopScreen.coloredCards.size() > 0) {
+//            for (int i = 0; i < AbstractDungeon.shopScreen.coloredCards.size(); i++) {
+//                BackCardManager.flipSameSideBackgroundView(AbstractDungeon.shopScreen.coloredCards.get(i));
+//                AbstractDungeon.shopScreen.coloredCards.set(i, BackCardManager.flipCard(AbstractDungeon.shopScreen.coloredCards.get(i)));
+//            }
+//        }
     }
 
 
@@ -415,5 +416,21 @@ public class ViewFlipButton {
                 return !ViewFlipButton.getButton().hb.hovered;
             }
         return true;
+    }
+
+
+    @SpirePatch(
+            clz = GameActionManager.class,
+            method = "callEndOfTurnActions"
+    )
+    public static class EndOfTurnDisableViewFlipPatch {
+        @SpirePrefixPatch
+        public static void Prefix(GameActionManager _instance) {
+            if(ViewFlipButton.isViewingFlip){
+                isViewingFlip = false;
+                if (AbstractDungeon.player != null)
+                    flipViewAllCards();
+            }
+        }
     }
 }
